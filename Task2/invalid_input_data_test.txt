@@ -1,0 +1,4 @@
+BelZhD,Economy,kuku,200
+BelZhD,Economy,150,230
+UkrZhD,Business,100,150
+UkrZhD,Business,90,150

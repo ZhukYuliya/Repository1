@@ -1,0 +1,3 @@
+BelZhD,Economy,150,200
+RusZhD,Luxury,70,150
+RusZhD,Business,100,150
