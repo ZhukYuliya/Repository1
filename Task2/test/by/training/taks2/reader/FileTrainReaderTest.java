@@ -26,6 +26,7 @@ public class FileTrainReaderTest {
 	public void invalideFileNameTest() throws IOException {
 		FileTrainReader fileTrainReader = new FileTrainReader("non_existing_file.txt");
 		fileTrainReader.readNextLine();
+		fileTrainReader.close();
 	}
 
 	@Test(expected = InvalidInputException.class)
