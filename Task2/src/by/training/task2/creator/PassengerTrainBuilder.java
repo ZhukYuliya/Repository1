@@ -25,7 +25,7 @@ public class PassengerTrainBuilder {
 				comfortLevel = ComfortLevel.valueOf(carriageData[1].toUpperCase());
 				passengerNumber = Integer.valueOf(carriageData[2]);
 				luggageNumber = Integer.valueOf(carriageData[3]);
-			} catch (NumberFormatException e) {
+			} catch ( IllegalArgumentException e) {
 				throw new InvalidInputException("Wrong input data");
 			}
 

@@ -10,23 +10,31 @@ import by.training.task2.entity.PassengerCarriage;
 import by.training.task2.entity.Train;
 import by.training.task2.entity.comparator.PassengerCarriageComparator;
 import by.training.task2.exception.InvalidInputException;
-import by.training.task2.exception.NoSuchTrainException;
+import by.training.task2.exception.UnknownTrainTypeException;
 import by.training.task2.factory.TrainFactory;
 import by.training.task2.factory.TrainType;
 import by.training.task2.reader.FileTrainReader;
 
-public class TrainImplementation {
-	private final static Logger logger = Logger.getLogger(TrainImplementation.class);
+public class Railway {
+	private final static Logger logger = Logger.getLogger(Railway.class);
 
 	public static void main(String[] args) {
 		Train expressTrain = null;
+		FileTrainReader reader = null;;
 		try {
+			reader = new FileTrainReader("passenger_carriage_data.txt");
 			expressTrain = TrainFactory.createTrain(TrainType.PASSENGER, "MoscowExpress",
-			        new FileTrainReader("passenger_carriage_data.txt"));
-		} catch (NumberFormatException | InvalidInputException | NoSuchTrainException
+			        reader);
+		} catch (NumberFormatException | InvalidInputException | UnknownTrainTypeException
 		        | IOException e) {
 			logger.error(e);
-			
+
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				logger.error(e);
+			}
 		}
 
 		int luggageNumber = PassengerTrainCalculation.calculateLuggage(expressTrain);
@@ -35,7 +43,7 @@ public class TrainImplementation {
 		expressTrain.sort(new PassengerCarriageComparator());
 
 		List<PassengerCarriage> between50and100 =
-		        PassengerTrainCalculation.inPassengerRange(expressTrain, 50, 100);
+		        PassengerTrainCalculation.filterByPassengersInRange(expressTrain, 50, 100);
 
 		System.out.println(luggageNumber);
 		System.out.println(passengerNumber);

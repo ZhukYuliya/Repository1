@@ -32,7 +32,7 @@ public class PassengerTrainCalculation {
 		}
 	}
 
-	public static List<PassengerCarriage> inPassengerRange(Train passengerTrain, int min, int max) {
+	public static List<PassengerCarriage> filterByPassengersInRange(Train passengerTrain, int min, int max) {
 		List<PassengerCarriage> carriagesInRange = new ArrayList<PassengerCarriage>();
 		for (int i = 0; i < passengerTrain.size(); i++) {
 			int passengerNumber = ((PassengerCarriage) passengerTrain.get(i)).getPassengerNumber();
