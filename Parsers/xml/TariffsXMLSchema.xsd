@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.training.by/TariffsXMLSchema"
+	targetNamespace="http://www.training.by/TariffsXMLSchema"
+	elementFormDefault="qualified">
+
+	<element name="Tariffs">
+		<complexType>
+			<sequence>
+				<element name="tariff" type="tns:Tariff" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="Tariff" abstract="true">
+		<sequence>
+			<element name="operatorName" type="string" />
+			<element name="payroll" type="double" />
+		</sequence>
+		<attribute name="id" type="ID" use="required" />
+		<attribute name="name" type="tns:name" use="optional" default="draftTariff" />
+	</complexType>
+
+	<simpleType name="name">
+        <restriction base="string">
+            <pattern value="[a-zA-Z0-9 ]+"/>
+        </restriction>
+    </simpleType>
+
+	<complexType name="MobileTariff">
+		<complexContent>
+			<extension base="tns:Tariff">
+				<sequence>
+					<element name="callPrices" type="tns:CallPrices" />
+					<element name="smsPrice" type="double" default="0" />
+					<element name="parameters" type="tns:Parameters" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="CallPrices">
+		<sequence>
+			<element name="internalPrice" type="double" />
+			<element name="externalPrice" type="double" />
+			<element name="fixedPhonePrice" type="double" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Parameters">
+		<sequence>
+			<element name="favouriteNumbers" type="tns:favouriteNumbers" />
+			<element name="addTariffFee" type="double" />
+			<element name="tarification" type="tns:tarification" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="favouriteNumbers">
+		<restriction base="int">
+			<minInclusive value="0" />
+			<maxInclusive value="10" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="tarification">
+		<restriction base="int">
+			<enumeration value="12"></enumeration>
+			<enumeration value="60"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="InternetTariff">
+		<complexContent>
+			<extension base="tns:Tariff">
+				<sequence>
+					<choice>
+						<element name="unlimitedTraffic" type="tns:void" />
+						<element name="limitedTrafficMb" type="int" />
+					</choice>
+					<element name="speed" type="int" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="void">
+		<sequence>
+		</sequence>
+	</complexType>
+
+</schema>

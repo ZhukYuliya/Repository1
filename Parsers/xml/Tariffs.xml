@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tariffs xmlns="http://www.training.by/TariffsXMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.training.by/TariffsXMLSchema TariffsXMLSchema.xsd ">
+	
+	<tariff id="id1" name="draftTariff" xsi:type="MobileTariff">
+		<operatorName>MTS</operatorName>
+		<payroll>10.0</payroll>
+		<callPrices>
+			<internalPrice>0.21</internalPrice>
+			<externalPrice>0.45</externalPrice>
+			<fixedPhonePrice>0.21</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.12</smsPrice>
+		<parameters>
+			<favouriteNumbers>5</favouriteNumbers>
+			<addTariffFee>0.1</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+
+	<tariff id="id2" name="Internet100500" xsi:type="InternetTariff">
+		<operatorName>MTS</operatorName>
+		<payroll>7.0</payroll>
+		<limitedTrafficMb>10000</limitedTrafficMb>
+		<speed>100</speed>
+	</tariff>
+	
+	<tariff id="id3" name="Infinity" xsi:type="InternetTariff">
+		<operatorName>VELCOM</operatorName>
+		<payroll>11.0</payroll>
+		<unlimitedTraffic></unlimitedTraffic>
+		<speed>150</speed>
+	</tariff>
+	
+	<tariff id="id4" name="Light" xsi:type="InternetTariff">
+		<operatorName>VELCOM2</operatorName>
+		<payroll>11.0</payroll>
+		<unlimitedTraffic />
+		<speed>150</speed>
+	</tariff>
+
+	<tariff id="id5" name="Family" xsi:type="MobileTariff">
+		<operatorName>MTS</operatorName>
+		<payroll>7.0</payroll>
+		<callPrices>
+			<internalPrice>0.26</internalPrice>
+			<externalPrice>0.56</externalPrice>
+			<fixedPhonePrice>0.01</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.10</smsPrice>
+		<parameters>
+			<favouriteNumbers>6</favouriteNumbers>
+			<addTariffFee>10.0</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+
+	<tariff id="id6" name="BigFamily" xsi:type="MobileTariff">
+		<operatorName>MTS</operatorName>
+		<payroll>9.0</payroll>
+		<callPrices>
+			<internalPrice>0.16</internalPrice>
+			<externalPrice>0.56</externalPrice>
+			<fixedPhonePrice>0.01</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.10</smsPrice>
+		<parameters>
+			<favouriteNumbers>10</favouriteNumbers>
+			<addTariffFee>10.0</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+
+	<tariff id="id7" name="Young" xsi:type="MobileTariff">
+		<operatorName>Life</operatorName>
+		<payroll>5.0</payroll>
+		<callPrices>
+			<internalPrice>0.16</internalPrice>
+			<externalPrice>0.16</externalPrice>
+			<fixedPhonePrice>0.16</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.03</smsPrice>
+		<parameters>
+			<favouriteNumbers>0</favouriteNumbers>
+			<addTariffFee>0.0</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+	
+	<tariff id="id8" name="Business" xsi:type="MobileTariff">
+		<operatorName>Life</operatorName>
+		<payroll>19.0</payroll>
+		<callPrices>
+			<internalPrice>0.90</internalPrice>
+			<externalPrice>0.90</externalPrice>
+			<fixedPhonePrice>0.90</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.10</smsPrice>
+		<parameters>
+			<favouriteNumbers>0</favouriteNumbers>
+			<addTariffFee>15.0</addTariffFee>
+			<tarification>60</tarification>
+		</parameters>
+	</tariff>
+	
+	<tariff id="id9" name="BusinessInternet" xsi:type="InternetTariff">
+		<operatorName>Life</operatorName>
+		<payroll>20.0</payroll>
+		<unlimitedTraffic></unlimitedTraffic>
+		<speed>1000</speed>
+	</tariff>
+	
+	<tariff id="id10" name="Big" xsi:type="InternetTariff">
+		<operatorName>VELCOM</operatorName>
+		<payroll>15.0</payroll>
+		<unlimitedTraffic></unlimitedTraffic>
+		<speed>500</speed>
+	</tariff>
+	
+	<tariff id="id11" name="Smart" xsi:type="InternetTariff">
+		<operatorName>VELCOM</operatorName>
+		<payroll>7.0</payroll>
+		<limitedTrafficMb>1000</limitedTrafficMb>
+		<speed>200</speed>
+	</tariff>
+	
+	<tariff id="id12" name="SmartPlus" xsi:type="InternetTariff">
+		<operatorName>VELCOM</operatorName>
+		<payroll>9.30</payroll>
+		<limitedTrafficMb>5000</limitedTrafficMb>
+		<speed>200</speed>
+	</tariff>
+	
+	<tariff id="id13" name="SmartBonus" xsi:type="InternetTariff">
+		<operatorName>VELCOM</operatorName>
+		<payroll>11.30</payroll>
+		<limitedTrafficMb>10000</limitedTrafficMb>
+		<speed>300</speed>
+	</tariff>
+	
+	<tariff id="id14" name="Friends" xsi:type="MobileTariff">
+		<operatorName>Life</operatorName>
+		<payroll>5.0</payroll>
+		<callPrices>
+			<internalPrice>0.16</internalPrice>
+			<externalPrice>0.56</externalPrice>
+			<fixedPhonePrice>0.31</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.10</smsPrice>
+		<parameters>
+			<favouriteNumbers>10</favouriteNumbers>
+			<addTariffFee>1.0</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+	
+	<tariff id="id15" name="Regional" xsi:type="MobileTariff">
+		<operatorName>Life</operatorName>
+		<payroll>4.0</payroll>
+		<callPrices>
+			<internalPrice>0.16</internalPrice>
+			<externalPrice>1.56</externalPrice>
+			<fixedPhonePrice>0.01</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.20</smsPrice>
+		<parameters>
+			<favouriteNumbers>2</favouriteNumbers>
+			<addTariffFee>1.0</addTariffFee>
+			<tarification>12</tarification>
+		</parameters>
+	</tariff>
+	
+	<tariff id="id16" name="Comfort" xsi:type="MobileTariff">
+		<operatorName>Life</operatorName>
+		<payroll>6.0</payroll>
+		<callPrices>
+			<internalPrice>0.26</internalPrice>
+			<externalPrice>0.56</externalPrice>
+			<fixedPhonePrice>0.41</fixedPhonePrice>
+		</callPrices>
+		<smsPrice>0.15</smsPrice>
+		<parameters>
+			<favouriteNumbers>3</favouriteNumbers>
+			<addTariffFee>2.0</addTariffFee>
+			<tarification>60</tarification>
+		</parameters>
+	</tariff>
+
+</Tariffs>
