@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.domain.Role;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -44,7 +45,11 @@ public class Authentication implements Command {
 		if (loggedUser != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute(USER, loggedUser);
+			if (loggedUser.getRole() == Role.CUSTOMER){
 			return PageNames.HOME;
+			} else {
+				return PageNames.ADMIN;
+			}
 		} else {
 			request.setAttribute(LOGIN_FAILED, true);
 			return PageNames.INDEX;

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,9 @@ import by.newnet.command.Command;
 import by.newnet.command.CommandHelper;
 import by.newnet.command.exception.CommandException;
 
+/*@WebServlet(name="Controller",
+urlPatterns={"/myurl"},
+initParams={ @InitParam(name="n1", value="v1"), @InitParam(name="n2", value="v2")})*/
 public class Controller extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 		

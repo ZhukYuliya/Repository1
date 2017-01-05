@@ -3,7 +3,7 @@
 
 <fmt:setLocale value="${sessionScope.locale}" />
 
-<div style="background-color: yellow">
+<div >
 <form action="controller" method="post">
 	<input type="hidden" name="command" value="change_locale" /> 
 	<input type="hidden" name="newLocale" value="ru" /> 
@@ -17,6 +17,7 @@
 </form>
 
 <c:if test="${not empty sessionScope.user}">
+	<p><fmt:message key="user_name" /> ${sessionScope.user.name} ${sessionScope.surname}</p>
 	<form action="controller" method="get">
 	<input type="hidden" name="command" value="log_out" /> 
 	<input type="submit" value='<fmt:message key="logOut"/> ' />
