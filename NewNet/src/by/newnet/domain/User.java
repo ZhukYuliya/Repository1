@@ -13,7 +13,23 @@ public class User implements Serializable{
 	private Account account;
 	private Role role;
 	private boolean banned;
+	private String address;
+	//phone int or String?
+	private String phone;
+
 	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public int getId() {
 		return id;
 	}

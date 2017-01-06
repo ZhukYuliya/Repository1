@@ -100,14 +100,14 @@
 		<div class="small">Наш специалист свяжется с вами в течение 5
 			минут для уточнения деталей</div>
 		<form method="post">
-			<input name="name" value="Ваше имя" placeholder="Ваше имя"
-				class="text" /> <input name="email" value="Ваша почта"
+			<input name="name" value="" placeholder="Ваше имя"
+				class="text" /> <input name="email" value=""
 				placeholder="Ваша почта" class="text" /> <input name="phone"
-				value="Ваш телефон" placeholder="Ваш телефон" class="text" /> <input
-				name="address" value="Адрес подключения"
+				value="" placeholder="Ваш телефон" class="text" /> <input
+				name="address" value=""
 				placeholder="Адрес подключения" class="text" /> <input
-				type="hidden" name="command" value="subscribe" /> <input
-				type="submit" class="submit" value="Отправить заявку" />
+				type="hidden" name="command" value="post_request" /> <input
+				type="submit" class="submit" value='<fmt:message key="post_request_button"/> ' />
 		</form>
 	</div>
 	</section> <a name="tariffs"></a> <section id="tariffs">

@@ -7,7 +7,9 @@ import by.newnet.command.impl.AddTariff;
 import by.newnet.command.impl.Authentication;
 import by.newnet.command.impl.ChangeLocale;
 import by.newnet.command.impl.LogOut;
+import by.newnet.command.impl.PostRequest;
 import by.newnet.command.impl.Registration;
+import by.newnet.command.impl.ShowRequests;
 import by.newnet.command.impl.ShowTariffs;
 
 public class CommandHelper {
@@ -19,6 +21,9 @@ public class CommandHelper {
 			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());	
 			commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
 			commands.put(CommandName.LOG_OUT, new LogOut());
+			commands.put(CommandName.SHOW_REQUESTS, new ShowRequests());
+			commands.put(CommandName.POST_REQUEST, new PostRequest());
+
 			commands.put(CommandName.ADD_TARIFF, new AddTariff());
 
 		}

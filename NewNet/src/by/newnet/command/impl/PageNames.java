@@ -8,6 +8,7 @@ public class PageNames {
 	public static final String ADMIN = "/admin.jsp";
 	public static final String CATALOGUE = "/catalogue.jsp";
 	public static final String SHOW_BOOKS_COMMAND = "/controller?command=" + CommandName.SHOW_TARIFFS;
+	public static final String OPERATOR = "/operator.jsp";
 	
 	
 	private PageNames(){}
