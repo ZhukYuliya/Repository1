@@ -9,6 +9,7 @@ public class ServiceFactory {
 	private UserService userService = new UserServiceImpl();
 	private TariffService tariffService = new TariffServiceImpl();
 
+
 		private ServiceFactory(){}
 	
 	public UserService getUserService(){
@@ -18,7 +19,7 @@ public class ServiceFactory {
 	public TariffService getTariffService(){
 		return tariffService;
 	}
-	
+
 	public static ServiceFactory getInstance(){
 		return instance;
 	}

@@ -10,7 +10,7 @@ public interface UserDAO {
 	User checkAuthorisationData(User user) throws DAOException;
 	boolean registerUser(User user) throws DAOException;
 	boolean postRequest(User user) throws DAOException;
-	List<User> showRequests();
-
-
+	List<User> showRequests()throws DAOException;
+	void subscribeTariff(int newTariffId) throws DAOException;
+	User getUser (int userId) throws DAOException;
 }

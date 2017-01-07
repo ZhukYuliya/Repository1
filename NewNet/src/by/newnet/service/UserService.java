@@ -11,4 +11,9 @@ public interface UserService {
 	void registration(User user) throws ServiceException;
 	void postRequest(User preCustomer) throws ServiceException;
 	List<User> showRequests()throws ServiceException;
+
+	void subscribeTariff(int newTariffId) throws ServiceException;
+
+	User getUser(int userId) throws ServiceException;
+
 }

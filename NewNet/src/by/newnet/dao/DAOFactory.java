@@ -7,7 +7,8 @@ public class DAOFactory {
 	private static final DAOFactory instance = new DAOFactory();
 	
 	private UserDAO userDAO = new UserJdbcDAO();
-	private TariffDAO bookDAO = new TariffJdbcDAO();
+	private TariffDAO tariffDAO = new TariffJdbcDAO();
+
 	
 	private DAOFactory(){}
 	
@@ -16,7 +17,7 @@ public class DAOFactory {
 	}
 	
 	public TariffDAO getBookDAO(){
-		return bookDAO;
+		return tariffDAO;
 	}
 	
 	public static DAOFactory getInstance(){

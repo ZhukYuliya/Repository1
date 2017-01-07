@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import by.newnet.command.CommandName;
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.domain.Role;
@@ -19,6 +20,7 @@ public class Authentication implements Command {
 	private static final String LOGIN_FAILED = "loginFailed";
 	public static final String USER = "user";
 
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
@@ -45,7 +47,7 @@ public class Authentication implements Command {
 			HttpSession session = request.getSession();
 			session.setAttribute(USER, loggedUser);
 			if (loggedUser.getRole() == Role.CUSTOMER) {
-				return PageNames.HOME;
+				return PageNames.SHOW_ACCOUNT_COMMAND;
 			} else if (loggedUser.getRole() == Role.OPERATOR) {
 				return PageNames.OPERATOR;
 			}
