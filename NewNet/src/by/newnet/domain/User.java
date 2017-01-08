@@ -14,7 +14,6 @@ public class User implements Serializable{
 	private BigDecimal accountBalance;
 	private Role role;
 	private boolean banned;
-	//phone int or String?
 	private String phone;
 	private Tariff tariff;
 	

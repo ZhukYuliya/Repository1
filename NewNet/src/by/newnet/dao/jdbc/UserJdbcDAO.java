@@ -303,13 +303,23 @@ public class UserJdbcDAO implements UserDAO {
 			User user = new User();
 			user.setId(rs.getInt(UsersTable.ID));
 			user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-			user.set(rs.getBigDecimal(UsersTable.PRICE));
-			user.setSpeed(rs.getInt(UsersTable.SPEED));
-			user.setTraffic(rs.getInt(UsersTable.TRAFFIC));
-			user.setInactive(rs.getBoolean(UsersTable.INACTIVE));
-			tariffsList.add(user);
+			user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
+			user.setEmail(rs.getString(UsersTable.EMAIL));
+			user.setAccount(rs.getInt(UsersTable.ACCOUNT));
+			user.setPassword(rs.getString(UsersTable.PASSWORD));
+			user.setPassword(rs.getString(UsersTable.PASSWORD));
+			Role role = new Role();
+			role.setId(rs.getInt(UsersTable.ROLE));
+			user.setRole(role);
+			user.setAccountBalance(rs.getBigDecimal((UsersTable.ACCOUNT_BALANCE)));
+			user.setBanned(rs.getBoolean(UsersTable.BANNED));
+			user.setPhone(rs.getString(UsersTable.PHONE));
+			Tariff tariff = new Tariff();
+			tariff.setId(rs.getInt(UsersTable.TARIFF));
+			user.setTariff(tariff);
+			usersList.add(user);
 		}
-		return tariffsList;
+		return usersList;
 	} catch (SQLException | ConnectionPoolException e) {
 		throw new DAOException(e);
 	} finally {

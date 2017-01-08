@@ -16,7 +16,7 @@ public class DAOFactory {
 		return userDAO;
 	}
 	
-	public TariffDAO getBookDAO(){
+	public TariffDAO getTariffDAO(){
 		return tariffDAO;
 	}
 	

@@ -15,6 +15,7 @@ import by.newnet.command.impl.SetPassword;
 import by.newnet.command.impl.ShowAccountInfo;
 import by.newnet.command.impl.ShowRequests;
 import by.newnet.command.impl.ShowTariffs;
+import by.newnet.command.impl.ShowUsers;
 import by.newnet.command.impl.Subscribe;
 
 public class CommandHelper {
@@ -25,7 +26,7 @@ public class CommandHelper {
 			commands.put(CommandName.REGISTRATION, new Registration());		
 			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());
 			commands.put(CommandName.SHOW_USERS, new ShowUsers());	
-			commands.put(CommandName.SHOW_OPERATIONS, new ShowOperations());	
+			//commands.put(CommandName.SHOW_OPERATIONS, new ShowOperations());	
 
 			commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
 			commands.put(CommandName.LOG_OUT, new LogOut());

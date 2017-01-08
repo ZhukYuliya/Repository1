@@ -19,7 +19,7 @@ public class TariffServiceImpl implements TariffService {
 		TariffDAO tariffDAO = daoFactory.getTariffDAO();
 
 		try {
-			List<Tariff> tariffsList = tariffDAO.showAllTariffs();
+			List<Tariff> tariffsList = tariffDAO.showTariffs();
 			return tariffsList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -28,15 +28,17 @@ public class TariffServiceImpl implements TariffService {
 	}
 
 	@Override
-	public void addNewTariff(Tariff tariff) throws ServiceException {
+	public void addTariff(Tariff tariff) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
-		tariffDAO tariffDAO = daoFactory.getTariffDAO();
+		TariffDAO tariffDAO = daoFactory.getTariffDAO();
 
 		try {
-			tariffDAO.addtariff(tariff);
+			tariffDAO.addTariff(tariff);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 
 	}
+
+    
 }

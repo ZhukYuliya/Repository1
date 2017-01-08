@@ -32,6 +32,9 @@
 			</form></li>
 	</ul>
 	</nav>
+	
+	<%@include file="WEB-INF/jsp_fragments/account.jsp"%>
+	
 	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
 </body>
 </html>
