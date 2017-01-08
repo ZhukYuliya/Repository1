@@ -1,34 +1,34 @@
 package by.newnet.command.impl;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Tariff;
-import by.newnet.service.TariffService;
+import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
+import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowTariffs implements Command {
+public class ChangePersonalDetails implements Command {
 
-		public static final String TARIFFS_LIST = "tariffsList";
+		public static final String USER = "user";
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
-		TariffService tariffService = ServiceFactory.getInstance().getTariffService();
-		List<Tariff> tariffsList = null;
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		int userId = ((User)request.getSession().getAttribute(USER)).getId();
+		User user = null;
 		try {
-			tariffsList = tariffService.showTariffs();
+			user = userService.getUser(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
 		
-		request.setAttribute(TARIFFS_LIST, tariffsList);
+		request.setAttribute(USER, user);
 	
-		return PageNames.CATALOGUE;
+		return PageNames.PERSONAL_DETAILS;
 	}
 
 }

@@ -25,16 +25,19 @@ public class UserJdbcDAO implements UserDAO {
 	public static final String POST_REQUEST =
 	        "INSERT INTO requests (firstName, email, phone, address) values(?, ?, ?, ?)";
 	// request
-	public static final String SHOW_REQUESTS = "select requests." +   " , "
-	        + "genres." + UsersTable.FIRST_NAME + " from books join genres on books.genre = genres.id";
+	public static final String SHOW_REQUESTS = "select requests." + " , " + "genres."
+	        + UsersTable.FIRST_NAME + " from books join genres on books.genre = genres.id";
 	public static final String SUBSCRIBE_FOR_TARIFF = "INSERT INTO accounts (tariff_id) values(?)";
 	public static final String GET_USER = "select * from users where user.id = ?";
+	public static final String SET_PASSWORD = "INSERT INTO users (password) values(?)";
 
-	
-	/*public static final String SHOW_ACCOUNT_INFO = "select users." + UsersTable.ACCOUNT + " , "
-	        + "users." + UsersTable.ACCOUNT_BALANCE + UsersTable.BANNED + TariffsTable.NAME
-	        + " from users join tariffs on users.tariff_id = tariffs.id where users.id = ?";
-*/
+	/*
+	 * public static final String SHOW_ACCOUNT_INFO = "select users." +
+	 * UsersTable.ACCOUNT + " , " + "users." + UsersTable.ACCOUNT_BALANCE +
+	 * UsersTable.BANNED + TariffsTable.NAME +
+	 * " from users join tariffs on users.tariff_id = tariffs.id where users.id = ?"
+	 * ;
+	 */
 	@Override
 	public User checkAuthorisationData(User user) throws DAOException {
 		Connection connection = null;
@@ -161,7 +164,7 @@ public class UserJdbcDAO implements UserDAO {
 			List<User> requestsList = new ArrayList<User>();
 			while (rs.next()) {
 				User preCustomer = new User();
-				//change  tables names
+				// change tables names
 				preCustomer.setFirstName(rs.getString(TariffsTable.DESCRIPTION));
 				preCustomer.setEmail(rs.getString(UsersTable.NAME));
 				preCustomer.setPhone(rs.getString(UsersTable.NAME));
@@ -185,8 +188,8 @@ public class UserJdbcDAO implements UserDAO {
 			}
 		}
 	}
-		
-		@Override
+
+	@Override
 		public User getUser(int userId) throws DAOException {
 			Connection connection = null;
 			PreparedStatement statement = null;
@@ -230,37 +233,59 @@ public class UserJdbcDAO implements UserDAO {
 			}		
 			return user;
 		}
-	
-		
-		@Override
-		public void subscribeTariff (int newTariffId)throws DAOException  {
-			Connection connection = null;
-			PreparedStatement statement = null;
-			try {
-				connection = ConnectionPool.getInstance().takeConnection();
-				//not transaction?
-				//connection.setAutoCommit(false);
-				statement = connection.prepareStatement(SUBSCRIBE_FOR_TARIFF);
-				statement.setInt(1, newTariffId);
-				statement.executeUpdate();
-			} catch (SQLException | ConnectionPoolException e) {
-				throw new DAOException(e);
-			} finally {
-				try {
-					if (statement != null) {
-						statement.close();
-					}
-					if (connection != null) {
-						//rollback needed?
-						connection.rollback();
-						ConnectionPool.getInstance().releaseConnection(connection);
-					}
-				} catch (ConnectionPoolException | SQLException e) {
-					throw new DAOException(e);
-				}
-			}		
-		}
 
+	@Override
+	public void subscribeTariff(int newTariffId) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			// not transaction?
+			// connection.setAutoCommit(false);
+			statement = connection.prepareStatement(SUBSCRIBE_FOR_TARIFF);
+			statement.setInt(1, newTariffId);
+			statement.executeUpdate();
+		} catch (SQLException | ConnectionPoolException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+				if (connection != null) {
+					// rollback needed?
+					connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void setPassword(String newPassword) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			statement = connection.prepareStatement(SET_PASSWORD);
+			statement.setString(1, newPassword);
+		} catch (SQLException | ConnectionPoolException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+				if (connection != null) {
+					connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
 	}
 
 }

@@ -112,11 +112,33 @@ public class UserServiceImpl implements UserService {
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User user = null;
 		try {
-			userDAO.getUser(userId);
+			user = userDAO.getUser(userId);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 		return user;
+	}
+
+	@Override
+	public void setPassword(int userId, String oldPassword, String newPassword)
+	        throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		User user = null;
+		try {
+			user = userDAO.getUser(userId);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		if (!user.getPassword().equals(oldPassword)){
+			throw new ServiceAuthorizationException();
+		}
+		try {
+			userDAO.setRassword(String newPassword);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		
 	}
 
 }

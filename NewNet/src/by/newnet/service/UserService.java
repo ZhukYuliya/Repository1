@@ -15,5 +15,6 @@ public interface UserService {
 	void subscribeTariff(int newTariffId) throws ServiceException;
 
 	User getUser(int userId) throws ServiceException;
+	void setPassword(int userId, String oldPassword, String newPassword) throws ServiceException;
 
 }

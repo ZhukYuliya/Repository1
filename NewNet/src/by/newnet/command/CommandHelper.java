@@ -10,6 +10,8 @@ import by.newnet.command.impl.ChangePersonalDetails;
 import by.newnet.command.impl.LogOut;
 import by.newnet.command.impl.PostRequest;
 import by.newnet.command.impl.Registration;
+import by.newnet.command.impl.SetContacts;
+import by.newnet.command.impl.SetPassword;
 import by.newnet.command.impl.ShowAccountInfo;
 import by.newnet.command.impl.ShowRequests;
 import by.newnet.command.impl.ShowTariffs;
@@ -21,12 +23,17 @@ public class CommandHelper {
 		public CommandHelper(){
 			commands.put(CommandName.AUTHENTICATION, new Authentication());
 			commands.put(CommandName.REGISTRATION, new Registration());		
-			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());	
+			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());
+			commands.put(CommandName.SHOW_USERS, new ShowUsers());	
+			commands.put(CommandName.SHOW_OPERATIONS, new ShowOperations());	
+
 			commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
 			commands.put(CommandName.LOG_OUT, new LogOut());
 			commands.put(CommandName.SHOW_REQUESTS, new ShowRequests());
 			commands.put(CommandName.SHOW_ACCOUNT_INFO, new ShowAccountInfo());
 			commands.put(CommandName.CHANGE_PERSONAL_DETAILS, new ChangePersonalDetails());
+			commands.put(CommandName.SET_PASSWORD, new SetPassword());
+			commands.put(CommandName.SET_CONTACTS, new SetContacts());
 
 			commands.put(CommandName.POST_REQUEST, new PostRequest());
 			commands.put(CommandName.SUBSCRIBE, new Subscribe());

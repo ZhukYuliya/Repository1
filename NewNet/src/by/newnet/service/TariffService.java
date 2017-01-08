@@ -7,6 +7,6 @@ import by.newnet.service.exception.ServiceException;
 
 public interface TariffService {
 	
-	List<Tariff> showCatalogue() throws ServiceException;
 	void addNewTariff(Tariff tariff) throws ServiceException;
+	List<Tariff> showTariffs() throws ServiceException;
 }

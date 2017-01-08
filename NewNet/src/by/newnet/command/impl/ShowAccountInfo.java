@@ -7,28 +7,34 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Tariff;
+import by.newnet.domain.Account;
+import by.newnet.domain.Book;
+import by.newnet.domain.User;
 import by.newnet.service.TariffService;
+import by.newnet.service.AccountService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowTariffs implements Command {
+public class ShowAccountInfo implements Command {
 
-		public static final String TARIFFS_LIST = "tariffsList";
+		public static final String ACCOUNT = "account";
+		public static final String USER = "user";
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
-		TariffService tariffService = ServiceFactory.getInstance().getTariffService();
-		List<Tariff> tariffsList = null;
+		AccountService accountService = ServiceFactory.getInstance().getAccountService();
+		Account account = null;
+		User user = (User)request.getSession().getAttribute(USER);
 		try {
-			tariffsList = tariffService.showTariffs();
+			account = accountService.getUser(user);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
 		
-		request.setAttribute(TARIFFS_LIST, tariffsList);
+		request.setAttribute(ACCOUNT, account);
 	
-		return PageNames.CATALOGUE;
+		return PageNames.HOME;
 	}
 
 }

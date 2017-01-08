@@ -6,7 +6,7 @@ public class PageNames {
 	public static final String INDEX = "/index.jsp";
 	public static final String HOME = "/home.jsp";
 	public static final String ADMIN = "/admin.jsp";
-	public static final String CATALOGUE = "/catalogue.jsp";
+	public static final String TARIFFS_LIST = "/tariffs.jsp";
 	public static final String OPERATOR = "/operator.jsp";
 	public static final String PERSONAL_DETAILS = "/personal_details.jsp";
 
