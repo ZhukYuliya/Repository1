@@ -16,5 +16,6 @@ public interface UserService {
 
 	User getUser(int userId) throws ServiceException;
 	void setPassword(int userId, String oldPassword, String newPassword) throws ServiceException;
+	List<User> showUsers() throws ServiceException;
 
 }

@@ -8,7 +8,7 @@ import by.newnet.domain.Tariff;
 
 public interface TariffDAO {
 	
-	List<Tariff> showAllTariffs() throws DAOException;
+	List<Tariff> showTariffs() throws DAOException;
 	void addTariff(Tariff tariff) throws DAOException;
 
 }

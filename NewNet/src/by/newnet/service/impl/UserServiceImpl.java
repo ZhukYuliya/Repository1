@@ -2,11 +2,10 @@ package by.newnet.service.impl;
 
 import java.util.List;
 
-import by.newnet.dao.AccountDAO;
 import by.newnet.dao.DAOFactory;
+import by.newnet.dao.TariffDAO;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.Account;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 import by.newnet.service.UserService;
@@ -134,11 +133,23 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceAuthorizationException();
 		}
 		try {
-			userDAO.setRassword(String newPassword);
+			userDAO.setPassword(newPassword);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 		
+	}
+
+	@Override
+	public List<User> showUsers() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		try {
+			List<User> usersList = userDAO.showUsers();
+			return usersList;
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}		
 	}
 
 }

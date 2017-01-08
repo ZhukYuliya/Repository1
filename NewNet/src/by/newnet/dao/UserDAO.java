@@ -14,4 +14,6 @@ public interface UserDAO {
 	void subscribeTariff(int newTariffId) throws DAOException;
 	User getUser (int userId) throws DAOException;
 	void setPassword(String newPassword) throws DAOException;
+	List<User> showUsers()throws DAOException;
+
 }

@@ -13,10 +13,10 @@ import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.Book;
 import by.newnet.domain.Genre;
+import by.newnet.domain.Tariff;
 
 public class TariffJdbcDAO implements TariffDAO {
-	public static final String SHOW_BOOKS = "select books." + TariffsTable.DESCRIPTION + " , "
-	        + "genres." + AccountsTable.NAME + " from books join genres on books.genre = genres.id";
+	public static final String SHOW_TARIFFS = "select * from tariffs";
 	public static final String ADD_GENRE = "insert into genres (" + AccountsTable.NAME + ") values (?)";
 	public static final String ADD_BOOK =
 	        "insert into books (" + TariffsTable.DESCRIPTION + "," + TariffsTable.GENRE + ") values (?, ?)";
@@ -24,23 +24,25 @@ public class TariffJdbcDAO implements TariffDAO {
 	        "select * from genres where " + AccountsTable.NAME + " = ? ";
 
 	@Override
-	public List<Book> showAllBooks() throws DAOException {
+	public List<Tariff> showTariffs() throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			statement = connection.prepareStatement(SHOW_BOOKS);
+			statement = connection.prepareStatement(SHOW_TARIFFS);
 			ResultSet rs = statement.executeQuery();
-			List<Book> bookList = new ArrayList<Book>();
+			List<Tariff> tariffsList = new ArrayList<Tariff>();
 			while (rs.next()) {
-				Book book = new Book();
-				book.setDescription(rs.getString(TariffsTable.DESCRIPTION));
-				Genre genre = new Genre();
-				genre.setName(rs.getString(AccountsTable.NAME));
-				book.setGenre(genre);
-				bookList.add(book);
+				Tariff tariff = new Tariff();
+				tariff.setId(rs.getInt(TariffsTable.ID));
+				tariff.setName(rs.getString(TariffsTable.NAME));
+				tariff.setPrice(rs.getBigDecimal(TariffsTable.PRICE));
+				tariff.setSpeed(rs.getInt(TariffsTable.SPEED));
+				tariff.setTraffic(rs.getInt(TariffsTable.TRAFFIC));
+				tariff.setInactive(rs.getBoolean(TariffsTable.INACTIVE));
+				tariffsList.add(tariff);
 			}
-			return bookList;
+			return tariffsList;
 		} catch (SQLException | ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
@@ -58,7 +60,7 @@ public class TariffJdbcDAO implements TariffDAO {
 	}
 
 	@Override
-	public void addBook(Book book) throws DAOException {
+	public void addTariff(Tariff tariff) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		PreparedStatement statement2 = null;
@@ -115,5 +117,6 @@ public class TariffJdbcDAO implements TariffDAO {
 		}
 
 	}
+
 
 }

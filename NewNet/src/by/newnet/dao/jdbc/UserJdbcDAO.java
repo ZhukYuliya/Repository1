@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class UserJdbcDAO implements UserDAO {
 	public static final String SUBSCRIBE_FOR_TARIFF = "INSERT INTO accounts (tariff_id) values(?)";
 	public static final String GET_USER = "select * from users where user.id = ?";
 	public static final String SET_PASSWORD = "INSERT INTO users (password) values(?)";
+	public static final String SHOW_USERS = "SELECT * from users";
+
 
 	/*
 	 * public static final String SHOW_ACCOUNT_INFO = "select users." +
@@ -287,5 +290,39 @@ public class UserJdbcDAO implements UserDAO {
 			}
 		}
 	}
-
+	@Override
+	public List<User> showUsers() throws DAOException {
+	Connection connection = null;
+	Statement statement = null;
+	try {
+		connection = ConnectionPool.getInstance().takeConnection();
+		statement = connection.createStatement(); 
+		ResultSet rs = statement.executeQuery(SHOW_USERS);
+		List<User> usersList = new ArrayList<User>();
+		while (rs.next()) {
+			User user = new User();
+			user.setId(rs.getInt(UsersTable.ID));
+			user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
+			user.set(rs.getBigDecimal(UsersTable.PRICE));
+			user.setSpeed(rs.getInt(UsersTable.SPEED));
+			user.setTraffic(rs.getInt(UsersTable.TRAFFIC));
+			user.setInactive(rs.getBoolean(UsersTable.INACTIVE));
+			tariffsList.add(user);
+		}
+		return tariffsList;
+	} catch (SQLException | ConnectionPoolException e) {
+		throw new DAOException(e);
+	} finally {
+		try {
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				ConnectionPool.getInstance().releaseConnection(connection);
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		}
+	}
+	}
 }
