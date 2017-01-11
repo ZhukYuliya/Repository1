@@ -7,11 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Account;
-import by.newnet.domain.Book;
 import by.newnet.domain.User;
 import by.newnet.service.TariffService;
-import by.newnet.service.AccountService;
+import by.newnet.service.UserService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
@@ -23,9 +21,9 @@ public class ShowAccountInfo implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
-		AccountService accountService = ServiceFactory.getInstance().getAccountService();
-		Account account = null;
-		User user = (User)request.getSession().getAttribute(USER);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		User user = null;
+/*		User user = (User)request.getSession().getAttribute(USER);
 		try {
 			account = accountService.getUser(user);
 		} catch (ServiceException e) {
@@ -33,7 +31,7 @@ public class ShowAccountInfo implements Command {
 		}
 		
 		request.setAttribute(ACCOUNT, account);
-	
+	*/
 		return PageNames.HOME;
 	}
 

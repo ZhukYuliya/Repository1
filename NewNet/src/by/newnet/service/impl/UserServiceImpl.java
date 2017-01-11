@@ -6,6 +6,7 @@ import by.newnet.dao.DAOFactory;
 import by.newnet.dao.TariffDAO;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
+import by.newnet.domain.Request;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 import by.newnet.service.UserService;
@@ -16,22 +17,26 @@ import by.newnet.service.exception.UserAlreadyExistingException;
 public class UserServiceImpl implements UserService {
 
 	@Override
-	public User authentication(User user) throws ServiceException, ServiceAuthorizationException {
+	public User authenticate(String account, String password) throws ServiceException, ServiceAuthorizationException {
 		// why check on not null, shouldnt it be in command?
-		if (!validation(user.getLogin(), user.getPassword())) {
+		/*if (!validation(user.getAccount(), user.getPassword())) {
 			throw new ServiceAuthorizationException();
-		}
+		}*/
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
-
+		User loggedUser = null;
+// ok to return null here??
 		try {
-			User loggedUser = userDAO.checkAuthorisationData(user);
-			return loggedUser;
+			loggedUser = userDAO.getUserByAccount(account);
+			if (password.equals(loggedUser.getPassword())){
+				return loggedUser;
+			}
+			return null;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 	}
-
+//change validation!
 	private boolean validation(String login, String password) {
 		if (login.isEmpty() || login == null) {
 			return false;
@@ -45,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void registration(User user) throws ServiceException {
+	public void register(User user) throws ServiceException {
 
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
@@ -61,45 +66,13 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@Override
-	public void postRequest(User preCustomer) throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
-		UserDAO userDAO = daoFactory.getUserDAO();
-
-		try {
-			boolean isPosted = userDAO.postRequest(preCustomer);
-			if (!isPosted) {
-				// check on existing user AND existing order
-				// throw new UserAlreadyExistingException();
-			}
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}
-
-	}
-
-	@Override
-	public List<User> showRequests() throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
-		UserDAO userDAO = daoFactory.getUserDAO();
-
-		try {
-			List<User> requestsList = userDAO.showRequests();
-			return requestsList;
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}
-
-	}
-
 	
-
 	@Override
-	public void subscribeTariff(int newTariffId) throws ServiceException {
+	public void subscribeTariff(int userId, int newTariffId) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
-			userDAO.subscribeTariff(newTariffId);
+			userDAO.subscribeTariff(userId, newTariffId);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -111,7 +84,7 @@ public class UserServiceImpl implements UserService {
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User user = null;
 		try {
-			user = userDAO.getUser(userId);
+			user = userDAO.getUserById(userId);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -125,7 +98,7 @@ public class UserServiceImpl implements UserService {
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User user = null;
 		try {
-			user = userDAO.getUser(userId);
+			user = userDAO.getUserById(userId);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

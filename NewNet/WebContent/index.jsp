@@ -8,20 +8,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<title>NewNet – лучший интернет провайдер.</title>
+<link rel="shortcut icon" href="resources/img/favicon.png"
+	type="image/png">
+<title>NewNet</title>
 
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/menu.css" />
 </head>
 <body>
 	<%@include file="WEB-INF/jsp_fragments/start_header.jsp"%>
 
-	<main><section id="wrappertop">
+	<main>
+	<section id="wrappertop">
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://newnet.by/" title="Логотип"> <img
-				src="img/logo.png" alt="NewNet" /></a>
+				src="resources/img/logo.png" alt="NewNet" /></a>
 		</div>
 		<div class="contact">
 			<a class="phone" href="tel:+375(29) 222-22-22">(29) 222-22-22</a> <a
@@ -35,14 +38,16 @@
 				<fmt:message key="sign_in_message" />
 			</div>
 			<form action="controller" method="post">
-				<input name="login" value=""
-					placeholder='<fmt:message key="login"/>' class="text" /> <input
-					name="password" value=""
+				<input name="account" value=""
+					placeholder='<fmt:message key="contract_number"/>' class="text" />
+				<input name="password" type="password" value=""
 					placeholder='<fmt:message key="password"/>' class="text" /> <input
 					type="hidden" name="command" value="authentication" /> <input
 					type="submit" class="submit"
 					value='<fmt:message key="sign_in_button"/> ' /> <br>
-
+				<c:if test="${not empty addTariffMessage}">
+					<fmt:message key="${authenticationMessage}" />
+				</c:if>
 				<c:if test="${loginFailed == true}">
 					<fmt:message key="loginFailed" />
 				</c:if>
@@ -57,7 +62,7 @@
 	</section> <a name="about-company"></a> <section id="internettop">
 	<div class="wrapper">
 		<div class="img">
-			<img src="img/globe.jpg" />
+			<img src="resources/img/globe.jpg" />
 		</div>
 		<div class="text">
 			<p>
@@ -80,7 +85,7 @@
 		</div>
 		<div class="text">
 			<div class="img">
-				<img src="img/advantages.png" />
+				<img src="resources/img/advantages.png" />
 			</div>
 			<table>
 				<tr>
@@ -100,14 +105,13 @@
 		<div class="small">Наш специалист свяжется с вами в течение 5
 			минут для уточнения деталей</div>
 		<form method="post">
-			<input name="name" value="" placeholder="Ваше имя"
-				class="text" /> <input name="email" value=""
-				placeholder="Ваша почта" class="text" /> <input name="phone"
-				value="" placeholder="Ваш телефон" class="text" /> <input
-				name="address" value=""
-				placeholder="Адрес подключения" class="text" /> <input
-				type="hidden" name="command" value="post_request" /> <input
-				type="submit" class="submit" value='<fmt:message key="post_request_button"/> ' />
+			<input name="name" value="" placeholder="Ваше имя" class="text" /> <input
+				name="email" value="" placeholder="Ваша почта" class="text" /> <input
+				name="phone" value="" placeholder="Ваш телефон" class="text" /> <input
+				name="address" value="" placeholder="Адрес подключения" class="text" />
+			<input type="hidden" name="command" value="post_request" /> <input
+				type="submit" class="submit"
+				value='<fmt:message key="post_request_button"/> ' />
 		</form>
 	</div>
 	</section> <a name="tariffs"></a> <section id="tariffs">
@@ -140,23 +144,19 @@
 	</div>
 	</section> <a name="subscribe"></a> <section id="scheme">
 	<div class="wrapper">
-		<div class="top_title">Схема подключения</div>
+		<div class="top_title">
+			<fmt:message key="procedure" />
+		</div>
 		<div class="text">
 			<div class="img">
-				<img src="img/scheme.png" />
+				<img src="resources/img/scheme.png" />
 			</div>
 			<table>
 				<tr>
-					<td width="25%">Вы оставляете заявку на нашем сайте или по
-						телефону и мы подбираем для Вас тариф</td>
-					<td width="25%">Мы приезжаем <br />и подключаем Вас<br />к
-						сети Интернет
-					</td>
-					<td width="25%">В течение 1 недели Вы<br />пользуетесь
-						услугами<br />бесплатно в тестовом режиме
-					</td>
-					<td width="25%">Мы подписываем договор<br />на оказание услуг
-					</td>
+					<td width="25%"><fmt:message key="procedure_step1" /></td>
+					<td width="25%"><fmt:message key="procedure_step2" /></td>
+					<td width="25%"><fmt:message key="procedure_step3" /></td>
+					<td width="25%"><fmt:message key="procedure_step4" /></td>
 				</tr>
 			</table>
 		</div>
@@ -164,18 +164,20 @@
 	</section> <a name="contacts"></a> <section id="contacts" class="map">
 	<div class="wrapper">
 		<div class="img">
-			<img src="img/map.png" />
+			<img src="resources/img/map.png" />
 		</div>
 		<div class="block">
 			<p>
-				<strong>Мы находимся по адресу:</strong><br /> 220019, Минск, <br />Революционная
-				ул., д.17, 3 этаж
+				<strong><fmt:message key="our_address" /></strong><br />
+				<fmt:message key="minsk_address" />
 			</p>
 			<p>
-				<strong>Позвоните нам</strong><br /> +375 (29) 222-22-22
+				<strong> <fmt:message key="call_us" /></strong><br /> +375 (29)
+				222-22-22
 			</p>
 			<p>
-				<strong>Отправьте сообщение</strong><br /> <span class="email">info@newnet.by</span>
+				<strong><fmt:message key="email_us" /></strong><br />
+				info@newnet.by
 			</p>
 		</div>
 		<div class="clearfix"></div>

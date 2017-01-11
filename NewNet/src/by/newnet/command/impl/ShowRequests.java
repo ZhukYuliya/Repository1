@@ -1,16 +1,15 @@
 package by.newnet.command.impl;
 
+import java.util.Collection;
 import java.util.List;
-
+import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Book;
-import by.newnet.domain.User;
-import by.newnet.service.TariffService;
-import by.newnet.service.UserService;
+import by.newnet.domain.Request;
+import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
@@ -20,17 +19,17 @@ public class ShowRequests implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		//user service or create new service?
-		UserService userService = ServiceFactory.getInstance().getUserService();
-		List<User> requestList = null;
+		RequestService requestService = ServiceFactory.getInstance().getRequestService();
+		List<Request> requestsList = null;
 		try {
-			requestList = userService.s;
+			requestsList = requestService.showRequests();
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
-		request.setAttribute(CATALOGUE, catalogue);
+		Collections.sort(requestsList);
+		request.setAttribute(REQUESTS_LIST, requestsList);
 	
-		return PageNames.CATALOGUE;
+		return PageNames.REQUESTS;
 	}
 
 }

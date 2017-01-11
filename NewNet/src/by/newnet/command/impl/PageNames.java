@@ -14,6 +14,7 @@ public class PageNames {
 	public static final String CHANGE_PERSONAL_DETAILS_COMMAND = "/controller?command=" + CommandName.CHANGE_PERSONAL_DETAILS;
 	public static final String USERS = "/users.jsp";
     public static final String SHOW_TARIFFS_COMMAND = null;
+	public static final String REQUESTS = "/requests.jsp";
 
 	
 	private PageNames(){}

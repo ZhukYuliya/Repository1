@@ -2,11 +2,9 @@ package by.newnet.service.impl;
 
 import java.util.List;
 
-import by.newnet.dao.tariffDAO;
 import by.newnet.dao.DAOFactory;
 import by.newnet.dao.TariffDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.tariff;
 import by.newnet.domain.Tariff;
 import by.newnet.service.TariffService;
 import by.newnet.service.exception.ServiceException;

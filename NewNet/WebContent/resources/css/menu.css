@@ -48,3 +48,19 @@ nav li a:hover{
     background:#226494;
 }
 
+input #submit{
+	display: block;
+    width: 150px;
+    height: 50px;
+    border: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: #226494;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-left: 230px;
+    margin-top: 14px;
+}
+

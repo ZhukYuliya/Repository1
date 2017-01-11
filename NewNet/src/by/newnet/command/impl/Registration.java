@@ -23,7 +23,7 @@ public class Registration implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
-
+// login or account?
 		String login;
 		String password;
 		String repeatPassword;
@@ -38,14 +38,14 @@ public class Registration implements Command {
 		
 		if (message == null) {
 			User user = new User();
-			user.setLogin(login);
+			user.setAccount(login);
 			user.setPassword(password);
-			user.setName(name);
+			user.setFirstName(name);
 
 			UserService userService = ServiceFactory.getInstance().getUserService();
 
 			try {
-				userService.registration(user);
+				userService.register(user);
 				message = "user_created";
 			} catch (UserAlreadyExistingException e) {
 				message = "user_already_existing";
@@ -66,6 +66,7 @@ public class Registration implements Command {
 		if (!password.equals(repeatPassword)) {
 			return "different_passwords";
 		}
+		
 
 		return null;
 	}

@@ -23,7 +23,7 @@ public class AddTariff implements Command {
     private static final String INACTIVE = "inactive";
 
     private static final String ADD_TARIFF_MESSAGE = "addTariffMessage";
-
+//TODO: change to set tariff and use both for adding and changing tariff?
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
@@ -31,13 +31,11 @@ public class AddTariff implements Command {
         String priceParameter;
         String speedParameter;
         String trafficParameter;
-        String inactiveParameter;
 
         name = request.getParameter(NAME);
         priceParameter = request.getParameter(PRICE);
         speedParameter = request.getParameter(SPEED);
         trafficParameter = request.getParameter(TRAFFIC);
-        inactiveParameter = request.getParameter(INACTIVE);
         
         String message = checkIfEmpty(name, priceParameter, speedParameter, trafficParameter);
   

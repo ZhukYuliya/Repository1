@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private int account;
+	private String account;
 	private String password;
 	private String email;
 	private String firstName;
@@ -30,10 +30,10 @@ public class User implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getAccount() {
+	public String getAccount() {
 		return account;
 	}
-	public void setAccount(int account) {
+	public void setAccount(String account) {
 		this.account = account;
 	}
 	public String getPassword() {

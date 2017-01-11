@@ -13,7 +13,7 @@
 	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
-		<fmt:message key="hello" />
+		<fmt:message key="welcome" />
 		, ${user.firstName} ${user.secondName}
 	</h1>
 

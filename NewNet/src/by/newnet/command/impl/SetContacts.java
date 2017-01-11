@@ -25,7 +25,7 @@ public class SetContacts implements Command {
 	public static final Pattern EMAIL_PATTERN =
 	        Pattern.compile("[A-z0-9]+@[A-z0-9]+]\\.[A-z]");
 	public static final Pattern PHONE_PATTERN =
-	        Pattern.compile("\\d{7}");
+	        Pattern.compile("\\d{9}");
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

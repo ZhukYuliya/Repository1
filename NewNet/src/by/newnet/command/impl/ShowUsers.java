@@ -16,7 +16,7 @@ import by.newnet.service.exception.ServiceException;
 
 public class ShowUsers implements Command {
 
-		public static final String USERS_LIST = "tariffsList";
+		public static final String USERS_LIST = "usersList";
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		

@@ -26,6 +26,7 @@
 				placeholder='<fmt:message key="new_password" />' class="text" /> 
 				<input name="reenterNewPassword"
 				value="" placeholder='<fmt:message key="reenter_new_password" />' class="text" /> 
+				<input type="hidden" name="command" value="set_password" /> 
 				<input type="submit" class="submit" value='<fmt:message key="change_button"/> ' />
 		</form>
 		
@@ -37,7 +38,9 @@
 			<input name="newPhone" value="${user.phone}" placeholder='<fmt:message key="new_phone" />'
 				class="text" /> 
 				<input name="newEmail" value="${user.email}"
-				placeholder='<fmt:message key="new_email" />' class="text" /> 
+				placeholder='<fmt:message key="new_email" />' class="text" />
+								<input type="hidden" name="command" value="set_contacts" /> 
+				 
 				<input type="submit" class="submit" value='<fmt:message key="change_button"/> ' />
 		</form>
 </body>

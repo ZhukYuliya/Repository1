@@ -1,5 +1,6 @@
 package by.newnet.dao;
 
+import by.newnet.dao.jdbc.RequestJdbcDAO;
 import by.newnet.dao.jdbc.TariffJdbcDAO;
 import by.newnet.dao.jdbc.UserJdbcDAO;
 
@@ -8,6 +9,7 @@ public class DAOFactory {
 	
 	private UserDAO userDAO = new UserJdbcDAO();
 	private TariffDAO tariffDAO = new TariffJdbcDAO();
+	private RequestDAO requestDAO = new RequestJdbcDAO();
 
 	
 	private DAOFactory(){}
@@ -18,6 +20,9 @@ public class DAOFactory {
 	
 	public TariffDAO getTariffDAO(){
 		return tariffDAO;
+	}
+	public RequestDAO getRequestDAO(){
+		return requestDAO;
 	}
 	
 	public static DAOFactory getInstance(){
