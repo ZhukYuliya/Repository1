@@ -35,9 +35,10 @@ public class Authentication implements Command {
 		password = request.getParameter(PASSWORD);
 
 		String message = validation(account, password);
+		String page = null;
 
 		if (message == null) {
-		
+
 			UserService userService = ServiceFactory.getInstance().getUserService();
 
 			User loggedUser = null;
@@ -50,26 +51,15 @@ public class Authentication implements Command {
 			if (loggedUser != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute(USER, loggedUser);
-				//ok with int or better string role name
-				String role = loggedUser.getRole().getName();
-				switch (role) {
-				// is show account command needed?
-				case CUSTOMER:
-					return PageNames.SHOW_ACCOUNT_COMMAND;
-				case OPERATOR:
-					return PageNames.OPERATOR;
-				case ADMIN:
-					return PageNames.ADMIN;
-				}
-			} else {
-				request.setAttribute(AUTHENTICATION_FAILED, true);
-				return PageNames.INDEX;
-
+				page = PageNames.SHOW_ACCOUNT_COMMAND;
 			}
+		} else {
+			request.setAttribute(AUTHENTICATION_FAILED, true);
+			request.setAttribute(AUTHENTICATION_MESSAGE,message);
+			page = PageNames.INDEX;
+
 		}
-		// TODO: check what's returned, if
-		request.setAttribute(AUTHENTICATION_MESSAGE, message);
-		return PageNames.INDEX;
+		return page;
 
 	}
 

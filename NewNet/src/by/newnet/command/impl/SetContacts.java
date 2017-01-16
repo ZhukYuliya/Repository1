@@ -46,7 +46,7 @@ public class SetContacts implements Command {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 
 			try {
-				userService.setPassword(userId, phone, email);
+				userService.setContacts(userId, phone, email);
 				message = "password_changed";
 				// other exception with wrong password
 			} catch (ServiceAuthorizationException e) {

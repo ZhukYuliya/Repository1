@@ -15,6 +15,10 @@ import by.newnet.domain.Tariff;
 
 public class TariffJdbcDAO implements TariffDAO {
     public static final String SHOW_TARIFFS = "select * from tariffs";
+
+    public static final String MODIFY_TARIFF = "update tariffs set " + TariffsTable.NAME + "=?, " + TariffsTable.PRICE + "=?, "
+            + TariffsTable.SPEED + "=?, " + TariffsTable.TRAFFIC + "=?, " + TariffsTable.INACTIVE + "=?, where"
+            		+ TariffsTable.ID + "=?";
     public static final String ADD_TARIFF = "insert into tariffs (" + TariffsTable.NAME + "," + TariffsTable.PRICE + ","
             + TariffsTable.SPEED + "," + TariffsTable.TRAFFIC + "," + TariffsTable.INACTIVE + ") values (?,?,?,?,?)";
     public static final String GET_TARIFF = "select * from tariffs where " + TariffsTable.NAME + " = ? ";
@@ -105,6 +109,40 @@ public class TariffJdbcDAO implements TariffDAO {
             statement.setInt(4, tariff.getTraffic());
             // bit boolean?
             statement.setBoolean(5, tariff.isInactive());
+            statement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.rollback();
+                    ConnectionPool.getInstance().releaseConnection(connection);
+                }
+
+            } catch (ConnectionPoolException | SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
+    }
+    
+    @Override
+    public void modifyTariff(Tariff tariff) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(MODIFY_TARIFF);
+            statement.setString(1, tariff.getName());
+            statement.setBigDecimal(2, tariff.getPrice());
+            statement.setInt(3, tariff.getSpeed());
+            statement.setInt(4, tariff.getTraffic());
+            // bit boolean?
+            statement.setBoolean(5, tariff.isInactive());
+            statement.setInt(6, tariff.getId());
             statement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);

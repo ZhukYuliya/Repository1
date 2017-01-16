@@ -100,9 +100,7 @@
 				type="submit" value='<fmt:message key="subsribe_for_tariff"/> ' />
 		</form>
 	</c:if>
-	<c:if test="${not empty subscriptionMessage}">
-		<fmt:message key="successfull_subscription" />
-	</c:if>
+	
 	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
 
 </body>

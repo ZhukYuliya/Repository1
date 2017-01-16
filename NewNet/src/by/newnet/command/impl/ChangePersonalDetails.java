@@ -21,7 +21,7 @@ public class ChangePersonalDetails implements Command {
 		int userId = ((User)request.getSession().getAttribute(USER)).getId();
 		User user = null;
 		try {
-			user = userService.getUser(userId);
+			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}

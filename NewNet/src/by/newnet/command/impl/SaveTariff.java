@@ -14,24 +14,36 @@ import by.newnet.service.TariffService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
-public class AddTariff implements Command {
-
+public class SaveTariff implements Command {
+	
+    private static final String ID = "id";
     private static final String NAME = "name";
     private static final String PRICE = "price";
     private static final String SPEED = "speed";
     private static final String TRAFFIC = "traffic";
     private static final String INACTIVE = "inactive";
 
-    private static final String ADD_TARIFF_MESSAGE = "addTariffMessage";
+    private static final String SET_TARIFF_MESSAGE = "setTariffMessage";
 //TODO: change to set tariff and use both for adding and changing tariff?
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-
+    	
+    	String idParameter;
         String name;
         String priceParameter;
         String speedParameter;
         String trafficParameter;
-
+        
+        boolean newlyAdded;
+        
+        idParameter = request.getParameter(ID);
+        int id = 0;
+        if(idParameter == null){
+        	newlyAdded = true;
+        } else{
+        	id = Integer.valueOf(idParameter);
+        	newlyAdded = false;
+        }
         name = request.getParameter(NAME);
         priceParameter = request.getParameter(PRICE);
         speedParameter = request.getParameter(SPEED);
@@ -54,6 +66,7 @@ public class AddTariff implements Command {
         
         if (message == null) {
             Tariff tariff = new Tariff();
+            tariff.setId(id);
             tariff.setName(name);
             tariff.setPrice(price);
             tariff.setSpeed(speed);
@@ -62,14 +75,14 @@ public class AddTariff implements Command {
             TariffService TariffService = ServiceFactory.getInstance().getTariffService();
 
             try {
-                TariffService.addTariff(tariff);
-                message = "tariff_added";
+                TariffService.saveTariff(tariff, newlyAdded);
+                message = "tariff_saved";
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }
         }
 
-        request.setAttribute(ADD_TARIFF_MESSAGE, message);
+        request.setAttribute(SET_TARIFF_MESSAGE, message);
 
         return PageNames.SHOW_TARIFFS_COMMAND;
     }

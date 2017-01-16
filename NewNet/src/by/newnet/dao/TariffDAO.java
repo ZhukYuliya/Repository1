@@ -10,6 +10,8 @@ public interface TariffDAO {
 	
 	List<Tariff> showTariffs() throws DAOException;
 	void addTariff(Tariff tariff) throws DAOException;
+	void modifyTariff(Tariff tariff) throws DAOException;
+
     Tariff getTariff(String tariffName) throws DAOException;
 
 }

@@ -13,6 +13,7 @@ import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
+import by.newnet.domain.CreditCard;
 import by.newnet.domain.Role;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
@@ -32,93 +33,20 @@ public class UserJdbcDAO implements UserDAO {
 	        "select * from users join roles on users." + UsersTable.ROLE + " = roles."
 	                + RolesTable.ID + " join tariffs on users." + UsersTable.TARIFF + " = tariffs."
 	                + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ? ";
-
-	public static final String SET_PASSWORD = "INSERT INTO users (password) values(?)";
+	public static final String SET_PASSWORD = "update users set " + UsersTable.PASSWORD + "=? where" + UsersTable.ID + "=?";
+	public static final String SET_CONTACTS = "update users set " + UsersTable.PHONE + "=?, " 
+			+ UsersTable.EMAIL + "=? where" + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
-
-	/*
-	 * public static final String SHOW_ACCOUNT_INFO = "select users." +
-	 * UsersTable.ACCOUNT + " , " + "users." + UsersTable.ACCOUNT_BALANCE +
-	 * UsersTable.BANNED + TariffsTable.NAME +
-	 * " from users join tariffs on users.tariff_id = tariffs.id where users.id = ?"
-	 * ;
-	 */
-	/*
-	 * @Override public User checkAuthorisationData(User user) throws
-	 * DAOException { Connection connection = null; PreparedStatement statement
-	 * = null; try { connection = ConnectionPool.getInstance().takeConnection();
-	 * statement = connection.prepareStatement(CHECK_CREDENTIALS);
-	 * statement.setString(1, user.getAccount()); statement.setString(2,
-	 * user.getPassword()); ResultSet rs = statement.executeQuery(); User
-	 * loggedUser = null; if (rs.next()) { loggedUser = new User();
-	 * loggedUser.setId(rs.getInt(UsersTable.ID));
-	 * loggedUser.setAccount(rs.getString(UsersTable.ACCOUNT));
-	 * loggedUser.setPassword(rs.getString(UsersTable.PASSWORD));
-	 * loggedUser.setEmail(rs.getString(UsersTable.EMAIL));
-	 * loggedUser.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE)
-	 * ); // set id or name? Role role = new Role();
-	 * role.setId(rs.getInt(UsersTable.ROLE));
-	 * //role.setName(rs.getString(UsersTable.ROLE)); user.setRole(role);
-	 * user.setBanned(rs.getBoolean(UsersTable.BANNED));
-	 * user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-	 * user.setSecondName(rs.getString(UsersTable.SECOND_NAME)); Tariff tariff =
-	 * new Tariff(); // need to creat tariff or just set tariff id?
-	 * tariff.setName(rs.getString(UsersTable.TARIFF)); user.setTariff(tariff);
-	 * loggedUser.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-	 * loggedUser.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-	 * loggedUser.setPhone(rs.getString(UsersTable.PHONE)); } return loggedUser;
-	 * } catch (SQLException | ConnectionPoolException e) { throw new
-	 * DAOException(e); } finally { try { if (statement != null) {
-	 * statement.close(); } if (connection != null) {
-	 * ConnectionPool.getInstance().releaseConnection(connection); } } catch
-	 * (ConnectionPoolException | SQLException e) { throw new DAOException(e); }
-	 * } }
-	 */
-
-	@Override
-	public boolean registerUser(User user) throws DAOException {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		PreparedStatement statement2 = null;
-		try {
-			connection = ConnectionPool.getInstance().takeConnection();
-			connection.setAutoCommit(false);
-			statement = connection.prepareStatement(CHECK_USER);
-			statement.setString(1, user.getAccount());
-			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
-				connection.commit();
-				return false;
-			}
-
-			statement2 = connection.prepareStatement(REGISTER_USER);
-			statement2.setString(1, user.getAccount());
-			statement2.setString(2, user.getPassword());
-			statement2.setString(3, user.getFirstName());
-			statement2.executeUpdate();
-			connection.commit();
-		} catch (SQLException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (statement2 != null) {
-					statement2.close();
-				}
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
-		}
-		return true;
-	}
+	public static final String GET_CARD_BY_NUMBER =
+	        "select * from cards where " + CardsTable.NUMBER + " = ?";
+	public static final String SET_ACCOUNT_BALANCE = "update users set "
+	        + UsersTable.ACCOUNT_BALANCE + "=? where" + UsersTable.ACCOUNT + "=?";
+	public static final String SET_CARD_BALANCE =
+	        "update cards set " + CardsTable.BALANCE + "=? where" + CardsTable.NUMBER + "=?";
+	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" +UsersTable.ACCOUNT+","
+	        +UsersTable.FIRST_NAME+","+UsersTable.SECOND_NAME+") values(?,?,?)";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
@@ -252,25 +180,40 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void setPassword(String newPassword) throws DAOException {
+	public void setPassword(String password) throws DAOException {
 		Connection connection = null;
-		PreparedStatement statement = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			statement = connection.prepareStatement(SET_PASSWORD);
-			statement.setString(1, newPassword);
-		} catch (SQLException | ConnectionPoolException e) {
+			savePassword(connection, password);
+		} catch (ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
 			try {
-				if (statement != null) {
-					statement.close();
-				}
 				if (connection != null) {
 					// connection.rollback();
 					ConnectionPool.getInstance().releaseConnection(connection);
 				}
-			} catch (ConnectionPoolException | SQLException e) {
+			} catch (ConnectionPoolException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void setContacts(String phone, String email) throws DAOException {
+		Connection connection = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			saveContacts(connection, phone, email);
+		} catch (ConnectionPoolException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException e) {
 				throw new DAOException(e);
 			}
 		}
@@ -328,4 +271,232 @@ public class UserJdbcDAO implements UserDAO {
 			}
 		}
 	}
+
+	@Override
+	public void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException {
+		Connection connection = null;
+		PreparedStatement getCardStatement = null;
+		PreparedStatement getUserStatement = null;
+		PreparedStatement accountBalanceStatement = null;
+		PreparedStatement cardBalanceStatement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			connection.setAutoCommit(false);
+			getCardStatement = connection.prepareStatement(GET_CARD_BY_NUMBER);
+			getCardStatement.setString(1, card.getNumber());
+			ResultSet rsCard = getCardStatement.executeQuery();
+			CreditCard cardDB = new CreditCard();
+			while (rsCard.next()) {
+				cardDB.setNumber(rsCard.getString(CardsTable.NUMBER));
+				cardDB.setExpirationMonth(rsCard.getString(CardsTable.EXPIRATION_MONTH));
+				cardDB.setExpirationYear(rsCard.getString(CardsTable.EXPIRATION_YEAR));
+				cardDB.setSecurityCode(rsCard.getString(CardsTable.SECURITY_CODE));
+				cardDB.setFirstName(rsCard.getString(CardsTable.FIRST_NAME));
+				cardDB.setSecondName(rsCard.getString(CardsTable.SECOND_NAME));
+				cardDB.setBalance(rsCard.getBigDecimal(CardsTable.BALANCE));
+			}
+			// check alsoif card is expired
+			if (card.equals(cardDB) && (cardDB.getBalance()).compareTo(amount) >= 0) {
+				User user = getUserById(userId);
+				accountBalanceStatement = connection.prepareStatement(SET_ACCOUNT_BALANCE);
+				accountBalanceStatement.setBigDecimal(1, user.getAccountBalance().add(amount));
+				accountBalanceStatement.setString(2, user.getAccount());
+				accountBalanceStatement.executeUpdate();
+				cardBalanceStatement = connection.prepareStatement(SET_CARD_BALANCE);
+				cardBalanceStatement.setBigDecimal(1, (cardDB.getBalance().subtract(amount)));
+				cardBalanceStatement.setString(2, cardDB.getNumber());
+				cardBalanceStatement.executeUpdate();
+				connection.commit();
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (getCardStatement != null) {
+					getCardStatement.close();
+				}
+				if (accountBalanceStatement != null) {
+					accountBalanceStatement.close();
+				}
+				if (cardBalanceStatement != null) {
+					cardBalanceStatement.close();
+				}
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void register(String password, String reenterPassword, String phone, String email)
+	        throws DAOException {
+		Connection connection = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			connection.setAutoCommit(false);
+			savePassword(connection, password);
+			saveContacts(connection, phone, email);
+			connection.commit();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	private void savePassword(Connection connection, String password) throws DAOException {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(SET_PASSWORD);
+			statement.setString(1, password);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	private void saveContacts(Connection connection, String phone, String email)
+	        throws DAOException {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(SET_CONTACTS);
+			statement.setString(1, phone);
+			statement.setString(2, email);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void addContract(String contract, String firstName, String secondName)
+	        throws DAOException {
+		Connection connection = null;
+		PreparedStatement getUserStatement = null;
+		PreparedStatement addContractStatement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			connection.setAutoCommit(false);
+			getUserStatement = connection.prepareStatement(GET_USER_BY_ACCOUNT);
+			getUserStatement.setString(1, contract);
+			ResultSet rs = getUserStatement.executeQuery();
+			if (!rs.next()) {
+				addContractStatement = connection.prepareStatement(ADD_NEW_CONTRACT);
+				addContractStatement.setString(1, contract);
+				addContractStatement.setString(2, firstName);
+				addContractStatement.setString(3, secondName);
+				addContractStatement.executeUpdate();
+				connection.commit();
+			} else{
+				// do smthg else!!
+				throw new DAOException();
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (getUserStatement != null) {
+					getUserStatement.close();
+				}
+				if (addContractStatement != null) {
+					addContractStatement.close();
+				}
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+
+	}
+
+	/*
+	 * public static final String SHOW_ACCOUNT_INFO = "select users." +
+	 * UsersTable.ACCOUNT + " , " + "users." + UsersTable.ACCOUNT_BALANCE +
+	 * UsersTable.BANNED + TariffsTable.NAME +
+	 * " from users join tariffs on users.tariff_id = tariffs.id where users.id = ?"
+	 * ;
+	 */
+	/*
+	 * @Override public User checkAuthorisationData(User user) throws
+	 * DAOException { Connection connection = null; PreparedStatement statement
+	 * = null; try { connection = ConnectionPool.getInstance().takeConnection();
+	 * statement = connection.prepareStatement(CHECK_CREDENTIALS);
+	 * statement.setString(1, user.getAccount()); statement.setString(2,
+	 * user.getPassword()); ResultSet rs = statement.executeQuery(); User
+	 * loggedUser = null; if (rs.next()) { loggedUser = new User();
+	 * loggedUser.setId(rs.getInt(UsersTable.ID));
+	 * loggedUser.setAccount(rs.getString(UsersTable.ACCOUNT));
+	 * loggedUser.setPassword(rs.getString(UsersTable.PASSWORD));
+	 * loggedUser.setEmail(rs.getString(UsersTable.EMAIL));
+	 * loggedUser.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE)
+	 * ); // set id or name? Role role = new Role();
+	 * role.setId(rs.getInt(UsersTable.ROLE));
+	 * //role.setName(rs.getString(UsersTable.ROLE)); user.setRole(role);
+	 * user.setBanned(rs.getBoolean(UsersTable.BANNED));
+	 * user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
+	 * user.setSecondName(rs.getString(UsersTable.SECOND_NAME)); Tariff tariff =
+	 * new Tariff(); // need to creat tariff or just set tariff id?
+	 * tariff.setName(rs.getString(UsersTable.TARIFF)); user.setTariff(tariff);
+	 * loggedUser.setFirstName(rs.getString(UsersTable.FIRST_NAME));
+	 * loggedUser.setSecondName(rs.getString(UsersTable.SECOND_NAME));
+	 * loggedUser.setPhone(rs.getString(UsersTable.PHONE)); } return loggedUser;
+	 * } catch (SQLException | ConnectionPoolException e) { throw new
+	 * DAOException(e); } finally { try { if (statement != null) {
+	 * statement.close(); } if (connection != null) {
+	 * ConnectionPool.getInstance().releaseConnection(connection); } } catch
+	 * (ConnectionPoolException | SQLException e) { throw new DAOException(e); }
+	 * } }
+	 */
+
+	/*
+	 * @Override public boolean registerUser(User user) throws DAOException {
+	 * Connection connection = null; PreparedStatement statement = null;
+	 * PreparedStatement statement2 = null; try { connection =
+	 * ConnectionPool.getInstance().takeConnection();
+	 * connection.setAutoCommit(false); statement =
+	 * connection.prepareStatement(CHECK_USER); statement.setString(1,
+	 * user.getAccount()); ResultSet rs = statement.executeQuery(); if
+	 * (rs.next()) { connection.commit(); return false; }
+	 * 
+	 * statement2 = connection.prepareStatement(REGISTER_USER);
+	 * statement2.setString(1, user.getAccount()); statement2.setString(2,
+	 * user.getPassword()); statement2.setString(3, user.getFirstName());
+	 * statement2.executeUpdate(); connection.commit(); } catch (SQLException |
+	 * ConnectionPoolException e) { throw new DAOException(e); } finally { try {
+	 * if (statement != null) { statement.close(); } if (statement2 != null) {
+	 * statement2.close(); } if (connection != null) { // connection.rollback();
+	 * ConnectionPool.getInstance().releaseConnection(connection); } } catch
+	 * (ConnectionPoolException | SQLException e) { throw new DAOException(e); }
+	 * } return true; }
+	 */
 }

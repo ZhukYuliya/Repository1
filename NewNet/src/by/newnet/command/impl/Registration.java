@@ -1,7 +1,11 @@
 package by.newnet.command.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +18,81 @@ import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class Registration implements Command {
-	private static final String LOGIN = "login";
+
+	private static final String ACCOUNT = "account";
+	private static final String PASSWORD = "password";
+	private static final String REENTER_PASSWORD = "reenterPassword";
+
+	private static final String PHONE = "phone";
+	private static final String EMAIL = "email";
+	private static final String REGISTRATION_MESSAGE = "registrationMessage";
+	public static final Pattern EMAIL_PATTERN = Pattern.compile("[A-z0-9]+@[A-z0-9]+]\\.[A-z]");
+	public static final Pattern PHONE_PATTERN = Pattern.compile("\\d{9}");
+
+	private static final String AUTHENTICATION_FAILED = "authenticationFailed";
+	private static final String AUTHENTICATION_MESSAGE = "authenticationMessage";
+	public static final String USER = "user";
+	public static final String ADMIN = "admin";
+	public static final String CUSTOMER = "customer";
+	public static final String OPERATOR = "operator";
+
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response)
+	        throws CommandException {
+
+		String password;
+		String reenterPassword;
+		String phone;
+		String email;
+
+		password = request.getParameter(PASSWORD);
+		reenterPassword = request.getParameter(REENTER_PASSWORD);
+		phone = request.getParameter(PHONE);
+		email = request.getParameter(EMAIL);
+
+		String message = validation(password, reenterPassword, phone, email);
+		String page = null;
+
+		User user = null;
+
+		if (message == null) {
+
+			UserService userService = ServiceFactory.getInstance().getUserService();
+
+			try {
+				userService.register(password, reenterPassword, phone, email);
+			} catch (ServiceException e) {
+				throw new CommandException(e);
+			}
+
+			request.setAttribute(AUTHENTICATION_MESSAGE, message);
+			page = PageNames.INDEX;
+
+		}
+		return page;
+
+	}
+
+	private String validation(String password, String reenterPassword, String phone, String email) {
+		if (StringUtils.isEmpty(password) || StringUtils.isEmpty(reenterPassword)
+		        || StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
+			return "empty_fields";
+		}
+		if (!password.equals(reenterPassword)) {
+			return "different_passwords";
+		}
+		Matcher phoneMatcher = PHONE_PATTERN.matcher(phone);
+		if (!phoneMatcher.matches()) {
+			return "incorrect_phone";
+		}
+		Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
+		if (!emailMatcher.matches()) {
+			return "incorrect_email";
+		}
+		return null;
+	}
+	
+/*	// private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
 	private static final String REPEAT_PASSWORD = "repeatPassword";
 	private static final String NAME = "name";
@@ -69,5 +147,5 @@ public class Registration implements Command {
 		
 
 		return null;
-	}
+	}*/
 }

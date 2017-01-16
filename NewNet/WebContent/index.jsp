@@ -45,13 +45,25 @@
 					type="hidden" name="command" value="authentication" /> <input
 					type="submit" class="submit"
 					value='<fmt:message key="sign_in_button"/> ' /> <br>
-				<c:if test="${not empty addTariffMessage}">
-					<fmt:message key="${authenticationMessage}" />
+				<c:if test="${not empty authenticationMessage}">
+					<fmt:message key="${authentication_message}" />
 				</c:if>
 				<c:if test="${loginFailed == true}">
 					<fmt:message key="loginFailed" />
 				</c:if>
 
+			</form>
+			<form action="controller" method="post">
+				<input name="account" value=""
+					placeholder='<fmt:message key="contract_number"/>' class="text" />
+					<input
+					type="hidden" name="command" value="createAccount" /> <input
+					type="submit" class="submit"
+					value='<fmt:message key="create_account_button"/> ' />
+				 <br>
+				<c:if test="${not empty createAccountMessage}">
+					<fmt:message key="${create_account_message}" />
+				</c:if>
 			</form>
 		</div>
 		<div class="slogan">

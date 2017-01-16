@@ -7,11 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
-import by.newnet.service.TariffService;
-import by.newnet.service.UserService;
 import by.newnet.service.ServiceFactory;
+import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
 public class ShowUsers implements Command {

@@ -26,12 +26,15 @@ public class TariffServiceImpl implements TariffService {
 	}
 
 	@Override
-	public void addTariff(Tariff tariff) throws ServiceException {
+	public void saveTariff(Tariff tariff, boolean newlyAdded) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		TariffDAO tariffDAO = daoFactory.getTariffDAO();
 
 		try {
-			tariffDAO.addTariff(tariff);
+			if(newlyAdded == true){
+				tariffDAO.addTariff(tariff);
+			}
+			tariffDAO.modifyTariff(tariff);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
