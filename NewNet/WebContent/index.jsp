@@ -19,19 +19,11 @@
 <body>
 	<%@include file="WEB-INF/jsp_fragments/start_header.jsp"%>
 
-	<main>
-	<section id="wrappertop">
+	<main> <section id="wrappertop">
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://newnet.by/" title="Логотип"> <img
 				src="resources/img/logo.png" alt="NewNet" /></a>
-		</div>
-		<div class="contact">
-			<a class="phone" href="tel:+375(29) 222-22-22">(29) 222-22-22</a> <a
-				class="phone" href="tel:+375(29) 444-44-44">(29) 444-44-44</a>
-			<div class="text">
-				<fmt:message key="call_message" />
-			</div>
 		</div>
 		<div class="login">
 			<div class="subtitle">
@@ -51,18 +43,20 @@
 				<c:if test="${loginFailed == true}">
 					<fmt:message key="loginFailed" />
 				</c:if>
-
 			</form>
+		</div>
+		<div class="register">
+			<div class="subtitle">
+				<fmt:message key="register" />
+			</div>
 			<form action="controller" method="post">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
-					<input
-					type="hidden" name="command" value="createAccount" /> <input
+				<input type="hidden" name="command" value="check_account" /> <input
 					type="submit" class="submit"
-					value='<fmt:message key="create_account_button"/> ' />
-				 <br>
-				<c:if test="${not empty createAccountMessage}">
-					<fmt:message key="${create_account_message}" />
+					value='<fmt:message key="register_button"/> ' /> <br>
+				<c:if test="${not empty registerMessage}">
+					<fmt:message key="${register_message}" />
 				</c:if>
 			</form>
 		</div>
@@ -111,21 +105,27 @@
 	</div>
 	</section> <section id="order">
 	<div class="wrapper">
-		<div class="top_title">
-			Оставьте заявку на подключение<br />к сети Интернет с NewNet
+		<div class="contact">
+			<a class="phone" href="tel:+375(29) 222-22-22">(29) 222-22-22</a> <a
+				class="phone" href="tel:+375(29) 444-44-44">(29) 444-44-44</a>
+			<div class="text">
+				<fmt:message key="call_message" />
+			</div>
+			<div class="top_title">
+				Оставьте заявку на подключение<br />к сети Интернет с NewNet
+			</div>
+			<div class="small">Наш специалист свяжется с вами в течение 5
+				минут для уточнения деталей</div>
+			<form method="post">
+				<input name="name" value="" placeholder="Ваше имя" class="text" />
+				<input name="email" value="" placeholder="Ваша почта" class="text" />
+				<input name="phone" value="" placeholder="Ваш телефон" class="text" />
+				<input name="address" value="" placeholder="Адрес подключения"
+					class="text" /> <input type="hidden" name="command"
+					value="post_request" /> <input type="submit" class="submit"
+					value='<fmt:message key="post_request_button"/> ' />
+			</form>
 		</div>
-		<div class="small">Наш специалист свяжется с вами в течение 5
-			минут для уточнения деталей</div>
-		<form method="post">
-			<input name="name" value="" placeholder="Ваше имя" class="text" /> <input
-				name="email" value="" placeholder="Ваша почта" class="text" /> <input
-				name="phone" value="" placeholder="Ваш телефон" class="text" /> <input
-				name="address" value="" placeholder="Адрес подключения" class="text" />
-			<input type="hidden" name="command" value="post_request" /> <input
-				type="submit" class="submit"
-				value='<fmt:message key="post_request_button"/> ' />
-		</form>
-	</div>
 	</section> <a name="tariffs"></a> <section id="tariffs">
 	<div class="wrapper">
 		<div class="top_title">Тарифные планы</div>

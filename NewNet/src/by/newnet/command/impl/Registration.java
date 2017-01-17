@@ -19,22 +19,13 @@ import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class Registration implements Command {
 
-	private static final String ACCOUNT = "account";
 	private static final String PASSWORD = "password";
 	private static final String REENTER_PASSWORD = "reenterPassword";
-
 	private static final String PHONE = "phone";
 	private static final String EMAIL = "email";
 	private static final String REGISTRATION_MESSAGE = "registrationMessage";
 	public static final Pattern EMAIL_PATTERN = Pattern.compile("[A-z0-9]+@[A-z0-9]+]\\.[A-z]");
 	public static final Pattern PHONE_PATTERN = Pattern.compile("\\d{9}");
-
-	private static final String AUTHENTICATION_FAILED = "authenticationFailed";
-	private static final String AUTHENTICATION_MESSAGE = "authenticationMessage";
-	public static final String USER = "user";
-	public static final String ADMIN = "admin";
-	public static final String CUSTOMER = "customer";
-	public static final String OPERATOR = "operator";
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -51,25 +42,19 @@ public class Registration implements Command {
 		email = request.getParameter(EMAIL);
 
 		String message = validation(password, reenterPassword, phone, email);
-		String page = null;
-
-		User user = null;
 
 		if (message == null) {
-
 			UserService userService = ServiceFactory.getInstance().getUserService();
-
 			try {
 				userService.register(password, reenterPassword, phone, email);
 			} catch (ServiceException e) {
+				// exception?message needed? message registration failed
+				message = "";
 				throw new CommandException(e);
 			}
-
-			request.setAttribute(AUTHENTICATION_MESSAGE, message);
-			page = PageNames.INDEX;
-
 		}
-		return page;
+		request.setAttribute(REGISTRATION_MESSAGE, message);
+		return PageNames.INDEX;
 
 	}
 

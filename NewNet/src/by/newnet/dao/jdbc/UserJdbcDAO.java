@@ -30,9 +30,9 @@ public class UserJdbcDAO implements UserDAO {
 	public static final String GET_USER_BY_ID =
 	        "select * from users where " + UsersTable.ID + " = ?";
 	public static final String GET_USER_BY_ACCOUNT =
-	        "select * from users join roles on users." + UsersTable.ROLE + " = roles."
-	                + RolesTable.ID + " join tariffs on users." + UsersTable.TARIFF + " = tariffs."
-	                + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ? ";
+	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
+	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF + " = tariffs."
+	                + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
 	public static final String SET_PASSWORD = "update users set " + UsersTable.PASSWORD + "=? where" + UsersTable.ID + "=?";
 	public static final String SET_CONTACTS = "update users set " + UsersTable.PHONE + "=?, " 
 			+ UsersTable.EMAIL + "=? where" + UsersTable.ID + "=?";
@@ -46,7 +46,7 @@ public class UserJdbcDAO implements UserDAO {
 	public static final String SET_CARD_BALANCE =
 	        "update cards set " + CardsTable.BALANCE + "=? where" + CardsTable.NUMBER + "=?";
 	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" +UsersTable.ACCOUNT+","
-	        +UsersTable.FIRST_NAME+","+UsersTable.SECOND_NAME+") values(?,?,?)";
+	        +UsersTable.FIRST_NAME+","+UsersTable.SECOND_NAME+") values('?','?','?')";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
@@ -122,6 +122,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
+				if(rs.getString(UsersTable.TARIFF)!=null){
 				tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
 				tariff.setName(rs.getString(TariffsTable.NAME));
 				tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
@@ -130,6 +131,8 @@ public class UserJdbcDAO implements UserDAO {
 				// boolean ok here? values 1 or 0
 				tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
 				user.setTariff(tariff);
+				}
+				// what if user is not null but empty?
 			}
 		} catch (SQLException | ConnectionPoolException e) {
 			throw new DAOException(e);

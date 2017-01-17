@@ -60,8 +60,19 @@ body .wrapper{
     font-size: 16px;
     color: #0f75bc;
     line-height: 26px;
-    text-decoration: underline;
     padding-left: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#wrappertop .register {
+    position: absolute;
+    right: 0px;
+    top: 38px;
+    font-size: 16px;
+    color: #0f75bc;
+    line-height: 26px;
+    padding-left: 1px;
     cursor: pointer;
 }
 
