@@ -18,17 +18,20 @@
 		<td>${user.account}</td>
 		<td>${user.accountBalance},BYN</td>
 		<td>${user.tariff.name}</td>
-		<td><c:if test="${user.banned == true}">
-				<fmt:message key="${blocked}" />
-			</c:if> <c:if test="${user.banned == false}">
-				<fmt:message key="${not_blocked}" />
-			</c:if></td>
+		<td><c:choose>
+				<c:when test="${user.banned}">
+					<fmt:message key="${blocked}" />
+				</c:when>
+				<c:otherwise>
+					<fmt:message key="${not_blocked}" />
+				</c:otherwise>
+			</c:choose></td>
 	</tr>
 </table>
 
 <c:if test="${not empty subscriptionMessage}">
-		<fmt:message key="successfull_subscription" />
-	</c:if>
+	<fmt:message key="successfull_subscription" />
+</c:if>
 
 <form action="controller" method="get">
 	<input type="hidden" name="command" value="show_tariffs" /> <input

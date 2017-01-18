@@ -55,8 +55,8 @@ body .wrapper{
 
 #wrappertop .login {
     position: absolute;
-    right: 0px;
-    top: 38px;
+    left: 350px;
+    top: 56px;
     font-size: 16px;
     color: #0f75bc;
     line-height: 26px;

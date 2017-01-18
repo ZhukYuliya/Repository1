@@ -34,8 +34,9 @@ public class UserServiceImpl implements UserService {
 			loggedUser = userDAO.getUserByAccount(account);
 			if (password.equals(loggedUser.getPassword())) {
 				return loggedUser;
+			} else{
+				return null;
 			}
-			return null;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -110,7 +111,7 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceAuthorizationException();
 		}
 		try {
-			userDAO.setPassword(newPassword);
+			userDAO.setPassword(userId, newPassword);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -129,7 +130,7 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException(e);
 		}
 		try {
-			userDAO.setContacts(phone, email);
+			userDAO.setContacts(userId, phone, email);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -173,23 +174,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void register(String password, String reenterPassword, String phone, String email)
+	public void register(int userId, String password, String reenterPassword, String phone, String email)
 	        throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
-			userDAO.register(password, reenterPassword, phone, email);
+			userDAO.register(userId, password, reenterPassword, phone, email);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 		
 	}
 
-	@Override
+	/*@Override
 	public List<String> getAccountInfo(int userId) throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	@Override
 	public void addContract(String contract, String firstName, String secondName)

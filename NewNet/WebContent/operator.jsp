@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Title</title>
+<title>NewNet: <fmt:message key="operator"/></title>
 </head>
 <body>
 

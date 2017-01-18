@@ -55,8 +55,11 @@
 				<input type="hidden" name="command" value="check_account" /> <input
 					type="submit" class="submit"
 					value='<fmt:message key="register_button"/> ' /> <br>
-				<c:if test="${not empty registerMessage}">
-					<fmt:message key="${register_message}" />
+				<c:if test="${not empty checkAccountMessage}">
+					<fmt:message key="${checkAccountMessage}" />
+				</c:if>
+				<c:if test="${not empty registrationMessage}">
+					<fmt:message key="${registrationMessage}" />
 				</c:if>
 			</form>
 		</div>

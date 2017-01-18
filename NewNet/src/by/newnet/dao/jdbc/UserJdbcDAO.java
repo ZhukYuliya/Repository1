@@ -33,18 +33,18 @@ public class UserJdbcDAO implements UserDAO {
 	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
 	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF + " = tariffs."
 	                + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
-	public static final String SET_PASSWORD = "update users set " + UsersTable.PASSWORD + "=? where" + UsersTable.ID + "=?";
-	public static final String SET_CONTACTS = "update users set " + UsersTable.PHONE + "=?, " 
-			+ UsersTable.EMAIL + "=? where" + UsersTable.ID + "=?";
+	public static final String SAVE_PASSWORD = "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
+	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, " 
+			+ UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
 	public static final String GET_CARD_BY_NUMBER =
 	        "select * from cards where " + CardsTable.NUMBER + " = ?";
 	public static final String SET_ACCOUNT_BALANCE = "update users set "
-	        + UsersTable.ACCOUNT_BALANCE + "=? where" + UsersTable.ACCOUNT + "=?";
+	        + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ACCOUNT + "=?";
 	public static final String SET_CARD_BALANCE =
-	        "update cards set " + CardsTable.BALANCE + "=? where" + CardsTable.NUMBER + "=?";
+	        "update cards set " + CardsTable.BALANCE + "=? where " + CardsTable.NUMBER + "=?";
 	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" +UsersTable.ACCOUNT+","
 	        +UsersTable.FIRST_NAME+","+UsersTable.SECOND_NAME+") values('?','?','?')";
 
@@ -183,11 +183,11 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void setPassword(String password) throws DAOException {
+	public void setPassword(int userId, String password) throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			savePassword(connection, password);
+			savePassword(connection, userId,password);
 		} catch (ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
@@ -203,11 +203,11 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void setContacts(String phone, String email) throws DAOException {
+	public void setContacts(int userId, String phone, String email) throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			saveContacts(connection, phone, email);
+			saveContacts(connection, userId, phone, email);
 		} catch (ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
@@ -279,7 +279,6 @@ public class UserJdbcDAO implements UserDAO {
 	public void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException {
 		Connection connection = null;
 		PreparedStatement getCardStatement = null;
-		PreparedStatement getUserStatement = null;
 		PreparedStatement accountBalanceStatement = null;
 		PreparedStatement cardBalanceStatement = null;
 		try {
@@ -310,6 +309,9 @@ public class UserJdbcDAO implements UserDAO {
 				cardBalanceStatement.setString(2, cardDB.getNumber());
 				cardBalanceStatement.executeUpdate();
 				connection.commit();
+			} else{
+				//smthg else
+				throw new DAOException();
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DAOException(e);
@@ -335,14 +337,14 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void register(String password, String reenterPassword, String phone, String email)
+	public void register(int userId, String password, String reenterPassword, String phone, String email)
 	        throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
 			connection.setAutoCommit(false);
-			savePassword(connection, password);
-			saveContacts(connection, phone, email);
+			savePassword(connection, userId, password);
+			saveContacts(connection, userId, phone, email);
 			connection.commit();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DAOException(e);
@@ -358,11 +360,12 @@ public class UserJdbcDAO implements UserDAO {
 		}
 	}
 
-	private void savePassword(Connection connection, String password) throws DAOException {
+	private void savePassword(Connection connection, int userId, String password) throws DAOException {
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement(SET_PASSWORD);
+			statement = connection.prepareStatement(SAVE_PASSWORD);
 			statement.setString(1, password);
+			statement.setInt(2, userId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -377,13 +380,14 @@ public class UserJdbcDAO implements UserDAO {
 		}
 	}
 
-	private void saveContacts(Connection connection, String phone, String email)
+	private void saveContacts(Connection connection, int userId, String phone, String email)
 	        throws DAOException {
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement(SET_CONTACTS);
+			statement = connection.prepareStatement(SAVE_CONTACTS);
 			statement.setString(1, phone);
 			statement.setString(2, email);
+			statement.setInt(3, userId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);

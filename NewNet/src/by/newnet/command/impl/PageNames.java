@@ -8,7 +8,7 @@ public class PageNames {
 	public static final String ADMIN = "/admin.jsp";
 	public static final String TARIFFS = "/tariffs.jsp";
 	public static final String OPERATOR = "/operator.jsp";
-	public static final String CREATE_ACCOUNT = "/create_account.jsp";
+	public static final String REGISTRATION = "/registration.jsp";
 
 	public static final String PERSONAL_DETAILS = "/personal_details.jsp";
 
@@ -17,6 +17,7 @@ public class PageNames {
 	public static final String USERS = "/users.jsp";
     public static final String SHOW_TARIFFS_COMMAND = null;
 	public static final String REQUESTS = "/requests.jsp";
+	public static final String PAYMENT = "/payment.jsp";
 
 	
 	private PageNames(){}

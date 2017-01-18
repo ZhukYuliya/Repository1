@@ -29,25 +29,27 @@ public class ShowAccountInfo implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		User user = (User) request.getSession().getAttribute(USER);
 		int userId = user.getId();
-		List<String> accountInfo = new ArrayList<>();
 		try {
-			accountInfo = userService.getAccountInfo(userId);
+			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-
-		request.setAttribute(ACCOUNT_INFO, accountInfo);
+//to request or session?
+		request.setAttribute(USER, user);
 		// what to do for operator , admin?
 		String role = user.getRole().getName();
 		String page = null;
 		switch (role) {
 		// is show account command needed?
 		case CUSTOMER:
-			page = PageNames.SHOW_ACCOUNT_COMMAND;
+			page = PageNames.HOME;
+			break;
 		case OPERATOR:
 			page = PageNames.OPERATOR;
+			break;
 		case ADMIN:
 			page = PageNames.ADMIN;
+			break;
 		}
 		return page;
 	}

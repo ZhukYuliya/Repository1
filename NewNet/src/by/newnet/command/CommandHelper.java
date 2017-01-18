@@ -21,6 +21,7 @@ import by.newnet.command.impl.ShowRequests;
 import by.newnet.command.impl.ShowTariffs;
 import by.newnet.command.impl.ShowUsers;
 import by.newnet.command.impl.Subscribe;
+import by.newnet.command.impl.ToPayment;
 
 public class CommandHelper {
 		private Map<CommandName, Command> commands = new HashMap<>();
@@ -43,6 +44,7 @@ public class CommandHelper {
 			commands.put(CommandName.SET_PASSWORD, new SetPassword());
 			commands.put(CommandName.SET_CONTACTS, new SetContacts());
 			commands.put(CommandName.PAY, new Pay());
+			commands.put(CommandName.TO_PAYMENT, new ToPayment());
 
 			commands.put(CommandName.POST_REQUEST, new PostRequest());
 			commands.put(CommandName.SUBSCRIBE, new Subscribe());

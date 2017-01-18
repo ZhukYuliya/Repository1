@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>NewNet: Error</title>
+
 </head>
 <body>
 <fmt:message key="error_message"/>
