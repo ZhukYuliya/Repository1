@@ -4,16 +4,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<link rel="shortcut icon" href="resources/img/favicon.png"
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/favicon.png"
 	type="image/png">
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/menu.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/menu.css" />
 </head>
 <fmt:setLocale value="${sessionScope.locale}" />
 
 <div >
-<form action="controller" method="post">
+1231312312${pageContext.request.contextPath}
+<form action="${pageContext.request.contextPath}/controller" method="post">
 	<input type="hidden" name="command" value="change_locale" /> 
 	<input type="hidden" name="newLocale" value="ru" /> 
 	<input type="submit" value='<fmt:message key="localization.ru_button"/>' />

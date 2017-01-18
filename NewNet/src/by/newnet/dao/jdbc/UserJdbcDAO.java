@@ -28,14 +28,17 @@ public class UserJdbcDAO implements UserDAO {
 	public static final String SUBSCRIBE_FOR_TARIFF =
 	        "update users set " + UsersTable.TARIFF + " = ? where " + UsersTable.ID + " = ?";
 	public static final String GET_USER_BY_ID =
-	        "select * from users where " + UsersTable.ID + " = ?";
+	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
+	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF
+	                + " = tariffs." + TariffsTable.ID + " where " + UsersTable.ID + " = ?";
 	public static final String GET_USER_BY_ACCOUNT =
 	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
-	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF + " = tariffs."
-	                + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
-	public static final String SAVE_PASSWORD = "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
-	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, " 
-			+ UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
+	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF
+	                + " = tariffs." + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
+	public static final String SAVE_PASSWORD =
+	        "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
+	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, "
+	        + UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
@@ -45,8 +48,8 @@ public class UserJdbcDAO implements UserDAO {
 	        + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ACCOUNT + "=?";
 	public static final String SET_CARD_BALANCE =
 	        "update cards set " + CardsTable.BALANCE + "=? where " + CardsTable.NUMBER + "=?";
-	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" +UsersTable.ACCOUNT+","
-	        +UsersTable.FIRST_NAME+","+UsersTable.SECOND_NAME+") values('?','?','?')";
+	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" + UsersTable.ACCOUNT + ","
+	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") values('?','?','?')";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
@@ -68,14 +71,26 @@ public class UserJdbcDAO implements UserDAO {
 				user.setPassword(rs.getString(UsersTable.PASSWORD));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				// convert to bigdecimal?
+				user.setPhone(rs.getString(UsersTable.PHONE));
+				// convert to bigdecimal?
 				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
-				role.setName(rs.getString(UsersTable.ROLE));
+				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
+				role.setName(rs.getString(RolesTable.NAME));
 				user.setRole(role);
 				user.setBanned(rs.getBoolean(UsersTable.BANNED));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-				tariff.setName(rs.getString(UsersTable.TARIFF));
-				user.setTariff(tariff);
+				// mb use get tariff dao method?
+				if (rs.getString(UsersTable.TARIFF) != null) {
+					tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
+					tariff.setName(rs.getString(TariffsTable.NAME));
+					tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
+					tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
+					tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
+					// boolean ok here? values 1 or 0
+					tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
+					user.setTariff(tariff);
+				}
 			}
 		} catch (SQLException | ConnectionPoolException e) {
 			throw new DAOException(e);
@@ -113,6 +128,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
 				user.setPassword(rs.getString(UsersTable.PASSWORD));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
+				user.setPhone(rs.getString(UsersTable.PHONE));
 				// convert to bigdecimal?
 				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
 				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
@@ -122,15 +138,15 @@ public class UserJdbcDAO implements UserDAO {
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
-				if(rs.getString(UsersTable.TARIFF)!=null){
-				tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
-				tariff.setName(rs.getString(TariffsTable.NAME));
-				tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
-				tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
-				tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
-				// boolean ok here? values 1 or 0
-				tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
-				user.setTariff(tariff);
+				if (rs.getString(UsersTable.TARIFF) != null) {
+					tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
+					tariff.setName(rs.getString(TariffsTable.NAME));
+					tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
+					tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
+					tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
+					// boolean ok here? values 1 or 0
+					tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
+					user.setTariff(tariff);
 				}
 				// what if user is not null but empty?
 			}
@@ -187,7 +203,7 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			savePassword(connection, userId,password);
+			savePassword(connection, userId, password);
 		} catch (ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
@@ -309,8 +325,8 @@ public class UserJdbcDAO implements UserDAO {
 				cardBalanceStatement.setString(2, cardDB.getNumber());
 				cardBalanceStatement.executeUpdate();
 				connection.commit();
-			} else{
-				//smthg else
+			} else {
+				// smthg else
 				throw new DAOException();
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -337,8 +353,8 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void register(int userId, String password, String reenterPassword, String phone, String email)
-	        throws DAOException {
+	public void register(int userId, String password, String reenterPassword, String phone,
+	        String email) throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
@@ -360,7 +376,8 @@ public class UserJdbcDAO implements UserDAO {
 		}
 	}
 
-	private void savePassword(Connection connection, int userId, String password) throws DAOException {
+	private void savePassword(Connection connection, int userId, String password)
+	        throws DAOException {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(SAVE_PASSWORD);
@@ -421,7 +438,7 @@ public class UserJdbcDAO implements UserDAO {
 				addContractStatement.setString(3, secondName);
 				addContractStatement.executeUpdate();
 				connection.commit();
-			} else{
+			} else {
 				// do smthg else!!
 				throw new DAOException();
 			}
