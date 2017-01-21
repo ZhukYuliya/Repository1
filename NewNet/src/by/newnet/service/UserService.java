@@ -23,5 +23,6 @@ public interface UserService {
 	//List<String> getAccountInfo(int userId) throws ServiceException;
 	List<User> showUsers() throws ServiceException;
 	void addContract(String contract, String firstName, String secondName)  throws ServiceException;
+	void saveUser(User user)  throws ServiceException;
 
 }

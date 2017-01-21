@@ -39,6 +39,10 @@ public class UserJdbcDAO implements UserDAO {
 	        "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
 	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, "
 	        + UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
+	public static final String UPDATE_USER =
+	        "update users set " + UsersTable.ACCOUNT + "=?, " + UsersTable.FIRST_NAME + "=?, "
+	                + UsersTable.SECOND_NAME + "=?, " + UsersTable.ROLE + "=?, " + UsersTable.TARIFF
+	                + "=?, " + UsersTable.BANNED + " where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
@@ -463,64 +467,38 @@ public class UserJdbcDAO implements UserDAO {
 
 	}
 
-	/*
-	 * public static final String SHOW_ACCOUNT_INFO = "select users." +
-	 * UsersTable.ACCOUNT + " , " + "users." + UsersTable.ACCOUNT_BALANCE +
-	 * UsersTable.BANNED + TariffsTable.NAME +
-	 * " from users join tariffs on users.tariff_id = tariffs.id where users.id = ?"
-	 * ;
-	 */
-	/*
-	 * @Override public User checkAuthorisationData(User user) throws
-	 * DAOException { Connection connection = null; PreparedStatement statement
-	 * = null; try { connection = ConnectionPool.getInstance().takeConnection();
-	 * statement = connection.prepareStatement(CHECK_CREDENTIALS);
-	 * statement.setString(1, user.getAccount()); statement.setString(2,
-	 * user.getPassword()); ResultSet rs = statement.executeQuery(); User
-	 * loggedUser = null; if (rs.next()) { loggedUser = new User();
-	 * loggedUser.setId(rs.getInt(UsersTable.ID));
-	 * loggedUser.setAccount(rs.getString(UsersTable.ACCOUNT));
-	 * loggedUser.setPassword(rs.getString(UsersTable.PASSWORD));
-	 * loggedUser.setEmail(rs.getString(UsersTable.EMAIL));
-	 * loggedUser.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE)
-	 * ); // set id or name? Role role = new Role();
-	 * role.setId(rs.getInt(UsersTable.ROLE));
-	 * //role.setName(rs.getString(UsersTable.ROLE)); user.setRole(role);
-	 * user.setBanned(rs.getBoolean(UsersTable.BANNED));
-	 * user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-	 * user.setSecondName(rs.getString(UsersTable.SECOND_NAME)); Tariff tariff =
-	 * new Tariff(); // need to creat tariff or just set tariff id?
-	 * tariff.setName(rs.getString(UsersTable.TARIFF)); user.setTariff(tariff);
-	 * loggedUser.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-	 * loggedUser.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-	 * loggedUser.setPhone(rs.getString(UsersTable.PHONE)); } return loggedUser;
-	 * } catch (SQLException | ConnectionPoolException e) { throw new
-	 * DAOException(e); } finally { try { if (statement != null) {
-	 * statement.close(); } if (connection != null) {
-	 * ConnectionPool.getInstance().releaseConnection(connection); } } catch
-	 * (ConnectionPoolException | SQLException e) { throw new DAOException(e); }
-	 * } }
-	 */
-
-	/*
-	 * @Override public boolean registerUser(User user) throws DAOException {
-	 * Connection connection = null; PreparedStatement statement = null;
-	 * PreparedStatement statement2 = null; try { connection =
-	 * ConnectionPool.getInstance().takeConnection();
-	 * connection.setAutoCommit(false); statement =
-	 * connection.prepareStatement(CHECK_USER); statement.setString(1,
-	 * user.getAccount()); ResultSet rs = statement.executeQuery(); if
-	 * (rs.next()) { connection.commit(); return false; }
-	 * 
-	 * statement2 = connection.prepareStatement(REGISTER_USER);
-	 * statement2.setString(1, user.getAccount()); statement2.setString(2,
-	 * user.getPassword()); statement2.setString(3, user.getFirstName());
-	 * statement2.executeUpdate(); connection.commit(); } catch (SQLException |
-	 * ConnectionPoolException e) { throw new DAOException(e); } finally { try {
-	 * if (statement != null) { statement.close(); } if (statement2 != null) {
-	 * statement2.close(); } if (connection != null) { // connection.rollback();
-	 * ConnectionPool.getInstance().releaseConnection(connection); } } catch
-	 * (ConnectionPoolException | SQLException e) { throw new DAOException(e); }
-	 * } return true; }
-	 */
+	@Override
+	public void saveUser(User user) throws DAOException {
+		Connection connection = null;
+		PreparedStatement updateUserStatement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			connection.setAutoCommit(false);
+			updateUserStatement = connection.prepareStatement(UPDATE_USER);
+			updateUserStatement.setString(1, user.getAccount());
+			updateUserStatement.setString(2, user.getFirstName());
+			updateUserStatement.setString(3, user.getSecondName());
+			updateUserStatement.setInt(4, user.getRole().getId());
+			updateUserStatement.setInt(5, user.getTariff().getId());
+			updateUserStatement.setBoolean(6, user.isBanned());
+			updateUserStatement.setInt(7, user.getId());
+			updateUserStatement.executeUpdate();
+			saveContacts(connection, user.getId(), user.getPhone(), user.getEmail());
+			connection.commit();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (updateUserStatement != null) {
+					updateUserStatement.close();
+				}
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
 }

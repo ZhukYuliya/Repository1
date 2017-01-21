@@ -14,7 +14,6 @@ import by.newnet.service.exception.ServiceException;
 
 public class ShowTariffs implements Command {
 
-		public static final String TARIFFS_LIST = "tariffsList";
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
@@ -25,9 +24,7 @@ public class ShowTariffs implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
-		request.setAttribute(TARIFFS_LIST, tariffsList);
-	
+		request.setAttribute(Constants.TARIFFS_LIST, tariffsList);
 		return PageNames.TARIFFS;
 	}
 

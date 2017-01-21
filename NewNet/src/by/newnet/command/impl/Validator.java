@@ -25,7 +25,7 @@ public class Validator {
 	public static final Pattern PASSWORD_PATTERN =
 	        Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,40}");
 	public static final Pattern TARIFF_NAME_PATTERN =
-	        Pattern.compile("^[A-Z][a-z//d{Punct}]{1,40}");
+	        Pattern.compile("[A-Z]([a-z//d{Space}{Punct}]){1,40}");
 	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("\\d\\.\\d{2}");
 	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("^[1-9]\\d?");
 	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|(^[1-9]\\d?)");
@@ -113,9 +113,15 @@ public class Validator {
 		return null;
 	}
 
-	public static String comparePasswords(String password, String reenterPassword) {
+	public static String compareNewPasswords(String password, String reenterPassword) {
 		if (!password.equals(reenterPassword)) {
 			return "different_passwords";
+		}
+		return null;
+	}
+	public static String compareOldNewPasswords(String oldpassword, String newPassword) {
+		if (oldpassword.equals(newPassword)) {
+			return "old_new_passwords_must_be_different";
 		}
 		return null;
 	}
@@ -125,18 +131,112 @@ public class Validator {
 		String message = checkEmptyFields(password, reenterPassword, phone, email);
 		if (message == null) {
 			message = validatePassword(password);
-			if (message == null) {
-				message = comparePasswords(password, reenterPassword);
-			}
-			if (message == null) {
-				message = validatePhone(phone);
-			}
-			if (message == null) {
-				message = validatePhone(phone);
-			}
-			if (message == null) {
-				message = validateEmail(email);
-			}
+		}
+		if (message == null) {
+			message = compareNewPasswords(password, reenterPassword);
+		}
+		if (message == null) {
+			message = validatePhone(phone);
+		}
+		if (message == null) {
+			message = validatePhone(phone);
+		}
+		if (message == null) {
+			message = validateEmail(email);
+		}
+		return message;
+	}
+
+	public static String validateNewContract(String contract, String firstName, String secondName) {
+		String message = checkEmptyFields(contract, firstName, secondName);
+		if (message == null) {
+			message = validatePassword(contract);
+		}
+		if (message == null) {
+			message = validateName(firstName);
+		}
+		if (message == null) {
+			message = validateName(secondName);
+		}
+		return message;
+	}
+
+	public static String validateSaveUser(String account, String firstName, String secondName,
+	        String phone, String email) {
+		String message = checkEmptyFields(account, firstName, secondName, phone, email);
+		if (message == null) {
+			message = validateContract(account);
+		}
+		if (message == null) {
+			message = validateName(firstName);
+		}
+		if (message == null) {
+			message = validateName(secondName);
+		}
+		if (message == null) {
+			message = validatePhone(phone);
+		}
+		if (message == null) {
+			message = validateEmail(email);
+		}
+		return message;
+	}
+
+	public static String validateRequest(String firstName, String email, String phone,
+	        String address) {
+		String message = checkEmptyFields(firstName, email, phone, address);
+		if (message == null) {
+			message = validateName(firstName);
+		}
+		if (message == null) {
+			message = validateEmail(email);
+		}
+		if (message == null) {
+			message = validatePhone(phone);
+		}
+		return message;
+	}
+
+	public static String validateTariff(String name, String priceParameter, String speedParameter,
+	        String trafficParameter) {
+		String message = checkEmptyFields(name, priceParameter, speedParameter, trafficParameter);
+		if (message == null) {
+			message = validateTariffName(name);
+		}
+		if (message == null) {
+			message = validateBynAmount(priceParameter);
+		}
+		if (message == null) {
+			message = validateSpeed(speedParameter);
+		}
+		if (message == null) {
+			message = validateTraffic(trafficParameter);
+		}
+		return message;
+	}
+
+	public static String validateContacts(String phone, String email) {
+		String message = checkEmptyFields(phone, email);
+		if (message == null) {
+			message = validatePhone(phone);
+		}
+		if (message == null) {
+			message = validateEmail(email);
+		}
+		return message;
+	}
+
+	public static String validatePasswordUpdate(String oldPassword, String newPassword,
+	        String reenterNewPassword) {
+		String message = checkEmptyFields(oldPassword, newPassword, reenterNewPassword);
+		if (message == null) {
+			message = validatePassword(newPassword);
+		}
+		if (message == null) {
+			message = compareOldNewPasswords(oldPassword, newPassword);
+		}
+		if (message == null) {
+			message = compareNewPasswords(newPassword, reenterNewPassword);
 		}
 		return message;
 	}

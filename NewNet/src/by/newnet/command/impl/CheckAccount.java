@@ -1,7 +1,5 @@
 package by.newnet.command.impl;
 
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,17 +12,13 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
 public class CheckAccount implements Command {
-	private static final String ACCOUNT = "account";
-	private static final String CHECK_ACCOUNT_MESSAGE = "checkAccountMessage";
-	public static final String USER = "user";
-	public static final Pattern CONTRACT_PATTERN = Pattern.compile("^[1-9]\\d{11}");
-
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String account;
-		account = request.getParameter(ACCOUNT);
+		account = request.getParameter(Constants.ACCOUNT);
 		String message = Validator.checkEmptyFields(account);
 		if(message == null){
 			message=Validator.validateContract(account);
@@ -42,16 +36,16 @@ public class CheckAccount implements Command {
 			if (user != null) {
 				if (user.getPassword() != null) {
 					message = "account_exists";
-					request.setAttribute(CHECK_ACCOUNT_MESSAGE, message);
+					request.setAttribute(Constants.CHECK_ACCOUNT_MESSAGE, message);
 					page = PageNames.INDEX;
 				} else {
 					HttpSession session = request.getSession();
-					session.setAttribute(USER, user);
+					session.setAttribute(Constants.USER, user);
 					page = PageNames.REGISTRATION;
 				}
 			}
 		} else {
-			request.setAttribute(CHECK_ACCOUNT_MESSAGE, message);
+			request.setAttribute(Constants.CHECK_ACCOUNT_MESSAGE, message);
 			page = PageNames.INDEX;
 		}
 		return page;

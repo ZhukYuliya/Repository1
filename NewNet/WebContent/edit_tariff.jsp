@@ -13,24 +13,42 @@
 	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
-		<fmt:message key="edit_tariff" />
+		<fmt:message key="fill_tariff_details" />:
 	</h1>
-	
+	<br>
 	<form action="controller" method="post">
-		<input name="name" value="${tariff.name}" class="text" /> <input
-			name="price" value="${tariff.price}" class="text" /> <input
-			name="speed" value="${tariff.speed}" class="text" /> <input
-			name="traffic" value="${tariff.traffic}" class="text" /> 
-			<select name="inactive">
-			<option value="true"><fmt:message key="inactive" /></option>
-			<option value="false"><fmt:message key="active" /></option>
-			<option value="3"><fmt:message key="customer" /></option>
-		</select> 
-		
-		<input type="hidden" name="command" value="edit_tariff" /> <input
-			type="submit" class="submit"
-			value='<fmt:message key="change_button"/> ' />
+		<table>
+			<tr>
+				<td><fmt:message key="tariff_name" />:</td>
+				<td><input type="text" name="name" value="${tariff.name}" /></td>
+			</tr>
+			<tr>
+				<td><fmt:message key="tariff_price" />, BYN :</td>
+				<td><input type="text" name="price" value="${tariff.price}" /></td>
+			</tr>
+			<tr>
+				<td><fmt:message key="tariff_speed" />:</td>
+				<td><input type="text" name="speed" value="${tariff.speed}" /></td>
+			</tr>
+			<tr>
+				<td><fmt:message key="tariff_traffic" />:</td>
+				<td><input type="text" name="traffic" value="${tariff.traffic}" /></td>
+			</tr>
+			<tr>
+				<td><fmt:message key="tariff_inactive" />:</td>
+				<td><select name="inactive">
+						<option value="false"><fmt:message key="active" /></option>
+						<option value="true"><fmt:message key="inactive" /></option>
+				</select></td>
+			</tr>
+		</table>
+		<input type="hidden" name="command" value="save_tariff" />
+		<input type="submit" value='<fmt:message key="save_button"/> ' />
 	</form>
+	<br>
+	<c:if test="${not empty saveTariffMessage}">
+		<fmt:message key="${saveTariffMessage}" />
+	</c:if>
 </body>
 </html>
 

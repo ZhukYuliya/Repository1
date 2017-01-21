@@ -22,5 +22,6 @@ public interface UserDAO {
 
 	List<User> showUsers() throws DAOException;
 	void addContract(String contract, String firstName, String secondName) throws DAOException;
+	void saveUser(User user) throws DAOException;
 
 }

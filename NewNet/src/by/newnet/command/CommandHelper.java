@@ -16,9 +16,11 @@ import by.newnet.command.impl.PostRequest;
 import by.newnet.command.impl.Registration;
 import by.newnet.command.impl.SetContacts;
 import by.newnet.command.impl.SetPassword;
-import by.newnet.command.impl.ShowAccountInfo;
+import by.newnet.command.impl.ShowAccount;
 import by.newnet.command.impl.ShowRequests;
+import by.newnet.command.impl.ShowTariff;
 import by.newnet.command.impl.ShowTariffs;
+import by.newnet.command.impl.ShowUser;
 import by.newnet.command.impl.ShowUsers;
 import by.newnet.command.impl.Subscribe;
 import by.newnet.command.impl.ToPayment;
@@ -33,13 +35,15 @@ public class CommandHelper {
 			commands.put(CommandName.ADD_NEW_CONTRACT, new AddNewContract());		
 
 			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());
+			commands.put(CommandName.SHOW_TARIFF, new ShowTariff());
 			commands.put(CommandName.SHOW_USERS, new ShowUsers());	
+			commands.put(CommandName.SHOW_USER, new ShowUser());	
 			//commands.put(CommandName.SHOW_OPERATIONS, new ShowOperations());	
 
 			commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
 			commands.put(CommandName.LOG_OUT, new LogOut());
 			commands.put(CommandName.SHOW_REQUESTS, new ShowRequests());
-			commands.put(CommandName.SHOW_ACCOUNT_INFO, new ShowAccountInfo());
+			commands.put(CommandName.SHOW_ACCOUNT, new ShowAccount());
 			commands.put(CommandName.CHANGE_PERSONAL_DETAILS, new ChangePersonalDetails());
 			commands.put(CommandName.SET_PASSWORD, new SetPassword());
 			commands.put(CommandName.SET_CONTACTS, new SetContacts());

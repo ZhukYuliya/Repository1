@@ -17,6 +17,27 @@ public class User implements Serializable{
 	private String phone;
 	private Tariff tariff;
 	
+	public boolean isAdmin(){
+		if(role.getId() == 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public boolean isOperator(){
+		if(role.getId() == 2){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public boolean isCustomer(){
+		if(role.getId() == 3){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	public Tariff getTariff() {
 		return tariff;

@@ -1,32 +1,32 @@
 package by.newnet.command.impl;
 
-import java.util.Collections;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Request;
-import by.newnet.service.RequestService;
+import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
+import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowRequests implements Command {
+public class ShowUser implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-		RequestService requestService = ServiceFactory.getInstance().getRequestService();
-		List<Request> requestsList = null;
+		
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		int userId = ((User)request.getSession().getAttribute(Constants.USER)).getId();
+		User user = null;
 		try {
-			requestsList = requestService.showRequests();
+			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		Collections.sort(requestsList);
-		request.setAttribute(Constants.REQUESTS_LIST, requestsList);
-		return PageNames.REQUESTS;
+		
+		request.setAttribute(Constants.USER, user);
+	
+		return PageNames.EDIT_USER;
 	}
 
 }

@@ -12,7 +12,7 @@ public class LogOut implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user")!= null){
+		if (session.getAttribute(Constants.USER)!= null){
 			session.invalidate();
 		}
 		return PageNames.INDEX;

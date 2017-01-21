@@ -12,9 +12,10 @@
 </head>
 <fmt:setLocale value="${sessionScope.locale}" />
 
+<c:set var="context" scope="request" value="${pageContext.request.contextPath}"/>
+
 <div >
-1231312312${pageContext.request.contextPath}
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form action="${context}/controller" method="post">
 	<input type="hidden" name="command" value="change_locale" /> 
 	<input type="hidden" name="newLocale" value="ru" /> 
 	<input type="submit" value='<fmt:message key="localization.ru_button"/>' />

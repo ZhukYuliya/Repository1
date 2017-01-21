@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.CommandName;
 import by.newnet.command.impl.Authentication;
+import by.newnet.command.impl.Constants;
 import by.newnet.controller.Controller;
 
 public class AccessFilter implements Filter {
@@ -36,7 +37,7 @@ public class AccessFilter implements Filter {
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		if( httpRequest.getSession().getAttribute(Authentication.USER)!= null){
+		if( httpRequest.getSession().getAttribute(Constants.USER)!= null){
 			chain.doFilter(request, response);
 		}else{
 			String uri = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());

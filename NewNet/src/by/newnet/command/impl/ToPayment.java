@@ -12,22 +12,18 @@ import by.newnet.service.exception.ServiceException;
 
 public class ToPayment implements Command {
 
-		public static final String USER = "user";
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		int userId = ((User)request.getSession().getAttribute(USER)).getId();
+		int userId = ((User)request.getSession().getAttribute(Constants.USER)).getId();
 		User user = null;
 		try {
 			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
-		request.setAttribute(USER, user);
-	
+		request.setAttribute(Constants.USER, user);
 		return PageNames.PAYMENT;
 	}
 

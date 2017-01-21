@@ -18,14 +18,6 @@ import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class SetContacts implements Command {
-	private static final String PHONE = "phone";
-	private static final String EMAIL = "email";
-	private static final String USER = "user";
-	private static final String REGISTRATION_MESSAGE = "registrationMessage";
-	public static final Pattern EMAIL_PATTERN =
-	        Pattern.compile("[A-z0-9]+@[A-z0-9]+]\\.[A-z]");
-	public static final Pattern PHONE_PATTERN =
-	        Pattern.compile("\\d{9}");
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -34,12 +26,12 @@ public class SetContacts implements Command {
 		String phone;
 		String email;
 
-		phone = request.getParameter(PHONE);
-		email = request.getParameter(EMAIL);
+		phone = request.getParameter(Constants.PHONE);
+		email = request.getParameter(Constants.EMAIL);
 
-		int userId = ((User) request.getSession().getAttribute(USER)).getId();
+		int userId = ((User) request.getSession().getAttribute(Constants.USER)).getId();
 
-		String message = validation(phone, email);
+		String message = Validator.validateContacts(phone, email);
 
 		if (message == null) {
 
@@ -47,31 +39,13 @@ public class SetContacts implements Command {
 
 			try {
 				userService.setContacts(userId, phone, email);
-				message = "password_changed";
+				message = "contacts_updated";
 				// other exception with wrong password
-			} catch (ServiceAuthorizationException e) {
-				message = "user_already_existing";
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(REGISTRATION_MESSAGE, message);
+		request.setAttribute(Constants.SET_CONTACTS_MESSAGE, message);
 		return PageNames.PERSONAL_DETAILS;
-
-	}
-
-	private String validation(String phone, String email) {
-		if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
-			return "empty_fields";
-		}
-		Matcher phoneMatcher = PHONE_PATTERN.matcher(phone);
-		if (!phoneMatcher.matches()) {
-			return "incorrect_phone";
-		}
-		Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
-		if (!emailMatcher.matches()) {
-			return "incorrect_email";
-		}
-		return null;
 	}
 }

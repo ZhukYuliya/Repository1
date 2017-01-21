@@ -14,7 +14,6 @@ import by.newnet.service.exception.ServiceException;
 
 public class ShowUsers implements Command {
 
-		public static final String USERS_LIST = "usersList";
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
@@ -25,9 +24,7 @@ public class ShowUsers implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
-		request.setAttribute(USERS_LIST, usersList);
-	
+		request.setAttribute(Constants.USERS_LIST, usersList);
 		return PageNames.USERS;
 	}
 

@@ -15,13 +15,13 @@ import by.newnet.domain.Tariff;
 
 public class TariffJdbcDAO implements TariffDAO {
     public static final String SHOW_TARIFFS = "select * from tariffs";
-
-    public static final String MODIFY_TARIFF = "update tariffs set " + TariffsTable.NAME + "=?, " + TariffsTable.PRICE + "=?, "
+    public static final String UPDATE_TARIFF = "update tariffs set " + TariffsTable.NAME + "=?, " + TariffsTable.PRICE + "=?, "
             + TariffsTable.SPEED + "=?, " + TariffsTable.TRAFFIC + "=?, " + TariffsTable.INACTIVE + "=?, where"
             		+ TariffsTable.ID + "=?";
     public static final String ADD_TARIFF = "insert into tariffs (" + TariffsTable.NAME + "," + TariffsTable.PRICE + ","
             + TariffsTable.SPEED + "," + TariffsTable.TRAFFIC + "," + TariffsTable.INACTIVE + ") values (?,?,?,?,?)";
-    public static final String GET_TARIFF = "select * from tariffs where " + TariffsTable.NAME + " = ? ";
+    public static final String GET_TARIFF_BY_NAME = "select * from tariffs where " + TariffsTable.NAME + " = ? ";
+    public static final String GET_TARIFF_BY_ID = "select * from tariffs where " + TariffsTable.ID + " = ? ";
 
     @Override
     public List<Tariff> showTariffs() throws DAOException {
@@ -60,16 +60,17 @@ public class TariffJdbcDAO implements TariffDAO {
     }
 
     @Override
-    public Tariff getTariff(String tariffName) throws DAOException {
+    public Tariff getTariffByName(String tariffName) throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
         Tariff tariff = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            statement = connection.prepareStatement(GET_TARIFF);
+            statement = connection.prepareStatement(GET_TARIFF_BY_NAME);
             statement.setString(1, tariffName);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
+            	tariff = new Tariff();
                 tariff.setId(rs.getInt(TariffsTable.ID));
                 tariff.setName(rs.getString(TariffsTable.NAME));
                 tariff.setPrice(rs.getBigDecimal(TariffsTable.PRICE));
@@ -85,7 +86,7 @@ public class TariffJdbcDAO implements TariffDAO {
                     statement.close();
                 }
                 if (connection != null) {
-                    connection.rollback();
+                    //connection.rollback();
                     ConnectionPool.getInstance().releaseConnection(connection);
                 }
 
@@ -118,7 +119,7 @@ public class TariffJdbcDAO implements TariffDAO {
                     statement.close();
                 }
                 if (connection != null) {
-                    connection.rollback();
+                    //connection.rollback();
                     ConnectionPool.getInstance().releaseConnection(connection);
                 }
 
@@ -130,12 +131,12 @@ public class TariffJdbcDAO implements TariffDAO {
     }
     
     @Override
-    public void modifyTariff(Tariff tariff) throws DAOException {
+    public void updateTariff(Tariff tariff) throws DAOException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            statement = connection.prepareStatement(MODIFY_TARIFF);
+            statement = connection.prepareStatement(UPDATE_TARIFF);
             statement.setString(1, tariff.getName());
             statement.setBigDecimal(2, tariff.getPrice());
             statement.setInt(3, tariff.getSpeed());
@@ -152,7 +153,7 @@ public class TariffJdbcDAO implements TariffDAO {
                     statement.close();
                 }
                 if (connection != null) {
-                    connection.rollback();
+                    //connection.rollback();
                     ConnectionPool.getInstance().releaseConnection(connection);
                 }
 
@@ -162,5 +163,43 @@ public class TariffJdbcDAO implements TariffDAO {
         }
 
     }
+
+	@Override
+	public Tariff getTariffById(int tariffId) throws DAOException {
+		Connection connection = null;
+        PreparedStatement statement = null;
+        Tariff tariff = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statement = connection.prepareStatement(GET_TARIFF_BY_ID);
+            statement.setInt(1, tariffId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+            	tariff = new Tariff();
+                tariff.setId(rs.getInt(TariffsTable.ID));
+                tariff.setName(rs.getString(TariffsTable.NAME));
+                tariff.setPrice(rs.getBigDecimal(TariffsTable.PRICE));
+                tariff.setSpeed(rs.getInt(TariffsTable.SPEED));
+                tariff.setTraffic(rs.getInt(TariffsTable.TRAFFIC));
+                tariff.setInactive(rs.getBoolean(TariffsTable.INACTIVE));
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    //connection.rollback();
+                    ConnectionPool.getInstance().releaseConnection(connection);
+                }
+
+            } catch (ConnectionPoolException | SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+        return tariff;
+	}
 
 }

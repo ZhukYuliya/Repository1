@@ -11,12 +11,6 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
 public class Registration implements Command {
-	private static final String USER = "user";
-	private static final String PASSWORD = "password";
-	private static final String REENTER_PASSWORD = "reenterPassword";
-	private static final String PHONE = "phone";
-	private static final String EMAIL = "email";
-	private static final String REGISTRATION_MESSAGE = "registrationMessage";
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -27,11 +21,11 @@ public class Registration implements Command {
 		String phone;
 		String email;
 		
-		int userId = ((User)request.getSession().getAttribute(USER)).getId();
-		password = request.getParameter(PASSWORD);
-		reenterPassword = request.getParameter(REENTER_PASSWORD);
-		phone = request.getParameter(PHONE);
-		email = request.getParameter(EMAIL);
+		int userId = ((User)request.getSession().getAttribute(Constants.USER)).getId();
+		password = request.getParameter(Constants.PASSWORD);
+		reenterPassword = request.getParameter(Constants.REENTER_PASSWORD);
+		phone = request.getParameter(Constants.PHONE);
+		email = request.getParameter(Constants.EMAIL);
 		String message = Validator.validateRegistration(password, reenterPassword, phone, email);
 		String page = null;
 		if (message == null) {
@@ -48,7 +42,7 @@ public class Registration implements Command {
 		}else{
 			page = PageNames.REGISTRATION;
 		}
-		request.setAttribute(REGISTRATION_MESSAGE, message);
+		request.setAttribute(Constants.REGISTRATION_MESSAGE, message);
 		return page;
 	}
 }

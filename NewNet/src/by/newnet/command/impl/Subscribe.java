@@ -11,22 +11,16 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
 public class Subscribe implements Command {
-	private static final String NEW_TARIFF = "newTariff";
-	private static final String SUBSCRIPTION_MESSAGE = "subscriptionMessage";
-	private static final String USER = "user";
-	public static final String ADMIN = "admin";
-	public static final String CUSTOMER = "customer";
-	public static final String OPERATOR = "operator";
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		int newTariffId;
-		newTariffId = Integer.valueOf(request.getParameter(NEW_TARIFF));
+		newTariffId = Integer.valueOf(request.getParameter(Constants.NEW_TARIFF));
 		// get session(true) not needed?
 		// user or int parameter?
-		User user = (User) request.getSession().getAttribute(USER);
+		User user = (User) request.getSession().getAttribute(Constants.USER);
 		int userId = user.getId();
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		// hard code message?
@@ -38,22 +32,15 @@ public class Subscribe implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(SUBSCRIPTION_MESSAGE, message);
+		request.setAttribute(Constants.SUBSCRIPTION_MESSAGE, message);
 		String page = null;
-		String role = user.getRole().getName();
-		switch (role) {
-		// is show account command needed?
-		case CUSTOMER:
-			page = PageNames.SHOW_ACCOUNT_COMMAND;
-		case OPERATOR:
-			page = PageNames.OPERATOR;
-		case ADMIN:
+		if(user.isAdmin()){
 			page = PageNames.ADMIN;
-		// return to the page from which this request was sent
-		// return to tariffs or home
-
+		} else if (user.isOperator()){
+			page = PageNames.OPERATOR;
+		} else {
+			page = PageNames.HOME;
 		}
 		return page;
-
 	}
 }

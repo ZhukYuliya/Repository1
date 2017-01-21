@@ -20,29 +20,34 @@
 		<fmt:message key="change_password" />
 	</h2>
 	<form action="controller" method="post">
-			<input name="password" value="" placeholder='<fmt:message key="old_password" />'
+			<input name="oldPassword" value="" type="password" placeholder='<fmt:message key="old_password" />'
 				class="text" /> 
-				<input name="newPassword" value=""
+				<input name="newPassword" value="" type="password"
 				placeholder='<fmt:message key="new_password" />' class="text" /> 
 				<input name="reenterNewPassword"
-				value="" placeholder='<fmt:message key="reenter_new_password" />' class="text" /> 
+				value="" placeholder='<fmt:message key="reenter_new_password" />' type="password" class="text" /> 
 				<input type="hidden" name="command" value="set_password" /> 
 				<input type="submit" class="submit" value='<fmt:message key="change_button"/> ' />
 		</form>
-		
+		<c:if test="${not empty setPasswordMessage}">
+			<fmt:message key="${setPasswordMessage}" />
+		</c:if>
 	<h2>
 		<fmt:message key="change_contacts" />
 	</h2>
 	<p><fmt:message key="current_contacts" />: ${user.phone}, ${user.email}</p>
 	<form action="controller" method="post">
-			<input name="newPhone" value="${user.phone}" placeholder='<fmt:message key="new_phone" />'
+			<input name="phone" value="${user.phone}" placeholder='<fmt:message key="new_phone" />'
 				class="text" /> 
-				<input name="newEmail" value="${user.email}"
+				<input name="email" value="${user.email}"
 				placeholder='<fmt:message key="new_email" />' class="text" />
 								<input type="hidden" name="command" value="set_contacts" /> 
 				 
 				<input type="submit" class="submit" value='<fmt:message key="change_button"/> ' />
 		</form>
+		<c:if test="${not empty setContactsMessage}">
+			<fmt:message key="${setContactsMessage}" />
+		</c:if>
 </body>
 </html>
 
