@@ -24,7 +24,7 @@ public class ShowUsers implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(Constants.USERS_LIST, usersList);
+		request.setAttribute(RequestConstants.USERS_LIST, usersList);
 		return PageNames.USERS;
 	}
 

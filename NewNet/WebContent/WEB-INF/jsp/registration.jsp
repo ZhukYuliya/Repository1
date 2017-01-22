@@ -6,11 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>NewNet:<fmt:message key="account_creation" /></title>
+<title>NewNet:<fmt:message key="registration" /></title>
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="welcome" />
@@ -48,7 +48,7 @@
 	<c:if test="${not empty registrationMessage}">
 					<fmt:message key="${registrationMessage}" />
 				</c:if>
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 
 </body>
 </html>

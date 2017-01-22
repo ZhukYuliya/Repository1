@@ -17,10 +17,10 @@ public class Subscribe implements Command {
 	        throws CommandException {
 
 		int newTariffId;
-		newTariffId = Integer.valueOf(request.getParameter(Constants.NEW_TARIFF));
+		newTariffId = Integer.valueOf(request.getParameter(RequestConstants.NEW_TARIFF));
 		// get session(true) not needed?
 		// user or int parameter?
-		User user = (User) request.getSession().getAttribute(Constants.USER);
+		User user = (User) request.getSession().getAttribute(RequestConstants.USER);
 		int userId = user.getId();
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		// hard code message?
@@ -32,7 +32,7 @@ public class Subscribe implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(Constants.SUBSCRIPTION_MESSAGE, message);
+		request.setAttribute(RequestConstants.SUBSCRIPTION_MESSAGE, message);
 		String page = null;
 		if(user.isAdmin()){
 			page = PageNames.ADMIN;

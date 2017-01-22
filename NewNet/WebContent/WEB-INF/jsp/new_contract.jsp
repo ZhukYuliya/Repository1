@@ -6,17 +6,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Title</title>
+<title>NewNet: <fmt:message key="new_contract"/></title>
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="new_user" />
 	</h1>
 	<form action="controller" method="post">
-		<input type="hidden" name="command" value="add_new_contract" />
+		<table>
 		<tr>
 			<td><fmt:message key="first_name" /></td>
 			<td><input name="firstName" value="" type="text" class="text" /></td>
@@ -27,13 +27,16 @@
 		</tr>
 		<tr>
 			<td><fmt:message key="account_number" /></td>
-			<td><input name="account" value="" type="text" class="text" /></td>
+			<td><input name="contract" value="" type="text" class="text" /></td>
 		</tr>
+		</table>
+				<input type="hidden" name="command" value="save_new_contract" />
+		
 		<input type="submit" class="submit"
-			value='<fmt:message key="pay_button"/> ' />
+			value='<fmt:message key="save_button"/> ' />
 	</form>
-	<c:if test="${not empty paymentMessage}">
-		<fmt:message key="${payment_message}" />
+	<c:if test="${not empty saveContractMessage}">
+		<fmt:message key="${saveContractMessage}" />
 	</c:if>
 
 </body>

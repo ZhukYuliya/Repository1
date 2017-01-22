@@ -2,7 +2,7 @@ package by.newnet.command.impl;
 
 import java.util.regex.Pattern;
 
-public class Constants {
+public class RequestConstants {
 	public static final String USER = "user";
 	public static final String ADMIN = "admin";
 	public static final String CUSTOMER = "customer";
@@ -21,7 +21,7 @@ public class Constants {
 	public static final String ROLE = "role";
 	public static final String TARIFF = "tariff";
 	public static final String CONTRACT = "contract";
-	public static final String ADD_CONTRACT_MESSAGE = "addContractMessage";
+	public static final String SAVE_CONTRACT_MESSAGE = "saveContractMessage";
 	public static final String AUTHENTICATION_FAILED = "authenticationFailed";
 	public static final String AUTHENTICATION_MESSAGE = "authenticationMessage";
 	public static final String CHECK_ACCOUNT_MESSAGE = "checkAccountMessage";
@@ -51,7 +51,12 @@ public class Constants {
 	public static final String USERS_LIST = "usersList";
 	public static final String NEW_TARIFF = "newTariff";
 	public static final String SUBSCRIPTION_MESSAGE = "subscriptionMessage";
-	
+	public static final String STATUS = "status";
+	public static final String NEW = "NEW";
+	public static final String AFTER_CALL = "AFTER_CALL";
+	public static final String CHANGE_STATUS_MESSAGE = "changeStatusMessage";
+	public static final String AFTER_CONTRACT = "AFTER_CONTRACT";
+
 
 	
 

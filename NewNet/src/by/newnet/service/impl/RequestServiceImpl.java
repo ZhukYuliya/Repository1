@@ -6,6 +6,7 @@ import by.newnet.dao.DAOFactory;
 import by.newnet.dao.RequestDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.domain.Request;
+import by.newnet.domain.RequestStatus;
 import by.newnet.service.RequestService;
 import by.newnet.service.exception.ServiceException;
 
@@ -40,6 +41,19 @@ public class RequestServiceImpl implements RequestService {
 			throw new ServiceException(e);
 		}
 
+	}
+
+	@Override
+	public void setStatus(int requestId, RequestStatus status) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		RequestDAO requestDAO = daoFactory.getRequestDAO();
+
+		try {
+			requestDAO.setStatus(requestId, status);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		
 	}
 
 }

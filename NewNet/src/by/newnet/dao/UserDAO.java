@@ -17,11 +17,12 @@ public interface UserDAO {
 
 	void setPassword(int userId, String newPassword) throws DAOException;
 	void setContacts(int userId, String phone, String email)throws DAOException;
+	void applyDailyFee()throws DAOException;
 
 	void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException;
 
 	List<User> showUsers() throws DAOException;
-	void addContract(String contract, String firstName, String secondName) throws DAOException;
+	void saveContract(String contract, String firstName, String secondName) throws DAOException;
 	void saveUser(User user) throws DAOException;
 
 }

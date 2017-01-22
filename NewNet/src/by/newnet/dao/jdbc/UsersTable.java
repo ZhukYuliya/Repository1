@@ -10,7 +10,7 @@ public class UsersTable {
 	public static final String PASSWORD = "password";
 	public static final String ROLE = "role_id";
 	public static final String ACCOUNT_BALANCE = "account_balance";
-	public static final String BANNED = "banned";
+	public static final String BLOCKED = "blocked";
 	public static final String TARIFF = "tariff_id";
 	public static final String PHONE = "phone";
 

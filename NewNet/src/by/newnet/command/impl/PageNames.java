@@ -21,6 +21,7 @@ public class PageNames {
 	public static final String PAYMENT = "/payment.jsp";
 	public static final String SHOW_REQUESTS_COMMAND = "/controller?command=" + CommandName.SHOW_REQUESTS;
 	public static final String SHOW_USERS_COMMAND = "/controller?command=" + CommandName.SHOW_USERS;
+	public static final String NEW_CONTRACT = "/new_contract.jsp";
 
 	private PageNames(){}
 	

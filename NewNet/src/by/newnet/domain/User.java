@@ -13,7 +13,7 @@ public class User implements Serializable{
 	private String secondName;
 	private BigDecimal accountBalance;
 	private Role role;
-	private boolean banned;
+	private boolean blocked;
 	private String phone;
 	private Tariff tariff;
 	
@@ -93,11 +93,11 @@ public class User implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public boolean isBanned() {
-		return banned;
+	public boolean isBlocked() {
+		return blocked;
 	}
-	public void setBanned(boolean banned) {
-		this.banned = banned;
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 	public String getPhone() {
 		return phone;

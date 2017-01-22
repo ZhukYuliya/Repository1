@@ -9,7 +9,7 @@
 <title>NewNet: <fmt:message key="tariffs" /></title>
 </head>
 <body>
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 	<br>
 	<br>
 	<table border="1">
@@ -69,7 +69,7 @@
 	<br>
 	<fmt:message key="choose_tariff" />:
 	<c:if test="${not empty sessionScope.user}">
-		<form action="controller" method="get">
+		<form action="controller" method="post">
 			<select name="newTariff">
 				<c:forEach var="tariff" items="${tariffsList}">
 					<option value="${tariff.id}">${tariff.name}</option>
@@ -79,7 +79,7 @@
 		</form>
 	</c:if>
 	
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 
 </body>
 </html>

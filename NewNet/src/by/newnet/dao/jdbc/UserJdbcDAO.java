@@ -1,6 +1,7 @@
 package by.newnet.dao.jdbc;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,12 +38,18 @@ public class UserJdbcDAO implements UserDAO {
 	                + " = tariffs." + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
 	public static final String SAVE_PASSWORD =
 	        "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
+	public static final String SET_BALANCE =
+	        "update users set " + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ID + "=?";
 	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, "
 	        + UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
+	public static final String BLOCK_USER =
+	        "update users set " + UsersTable.BLOCKED + "=true where " + UsersTable.ID + "=?";
+	public static final String UNBLOCK_USER =
+	        "update users set " + UsersTable.BLOCKED + "=false where " + UsersTable.ID + "=?";
 	public static final String UPDATE_USER =
 	        "update users set " + UsersTable.ACCOUNT + "=?, " + UsersTable.FIRST_NAME + "=?, "
 	                + UsersTable.SECOND_NAME + "=?, " + UsersTable.ROLE + "=?, " + UsersTable.TARIFF
-	                + "=?, " + UsersTable.BANNED + " where " + UsersTable.ID + "=?";
+	                + "=?, " + UsersTable.BLOCKED + " where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
@@ -52,8 +59,8 @@ public class UserJdbcDAO implements UserDAO {
 	        + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ACCOUNT + "=?";
 	public static final String SET_CARD_BALANCE =
 	        "update cards set " + CardsTable.BALANCE + "=? where " + CardsTable.NUMBER + "=?";
-	public static final String ADD_NEW_CONTRACT = "INSERT INTO users (" + UsersTable.ACCOUNT + ","
-	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") values('?','?','?')";
+	public static final String SAVE_NEW_CONTRACT = "INSERT INTO users (" + UsersTable.ACCOUNT + ","
+	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") values(?,?,?)";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
@@ -81,7 +88,7 @@ public class UserJdbcDAO implements UserDAO {
 				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
 				role.setName(rs.getString(RolesTable.NAME));
 				user.setRole(role);
-				user.setBanned(rs.getBoolean(UsersTable.BANNED));
+				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
@@ -138,7 +145,7 @@ public class UserJdbcDAO implements UserDAO {
 				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
 				role.setName(rs.getString(RolesTable.NAME));
 				user.setRole(role);
-				user.setBanned(rs.getBoolean(UsersTable.BANNED));
+				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
@@ -265,7 +272,7 @@ public class UserJdbcDAO implements UserDAO {
 				role.setName(rs.getString(RolesTable.NAME));
 				user.setRole(role);
 				user.setAccountBalance(rs.getBigDecimal((UsersTable.ACCOUNT_BALANCE)));
-				user.setBanned(rs.getBoolean(UsersTable.BANNED));
+				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
 				user.setPhone(rs.getString(UsersTable.PHONE));
 				Tariff tariff = new Tariff();
 				tariff.setId(rs.getInt(TariffsTable.ID));
@@ -424,7 +431,7 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void addContract(String contract, String firstName, String secondName)
+	public void saveContract(String contract, String firstName, String secondName)
 	        throws DAOException {
 		Connection connection = null;
 		PreparedStatement getUserStatement = null;
@@ -436,7 +443,7 @@ public class UserJdbcDAO implements UserDAO {
 			getUserStatement.setString(1, contract);
 			ResultSet rs = getUserStatement.executeQuery();
 			if (!rs.next()) {
-				addContractStatement = connection.prepareStatement(ADD_NEW_CONTRACT);
+				addContractStatement = connection.prepareStatement(SAVE_NEW_CONTRACT);
 				addContractStatement.setString(1, contract);
 				addContractStatement.setString(2, firstName);
 				addContractStatement.setString(3, secondName);
@@ -480,7 +487,7 @@ public class UserJdbcDAO implements UserDAO {
 			updateUserStatement.setString(3, user.getSecondName());
 			updateUserStatement.setInt(4, user.getRole().getId());
 			updateUserStatement.setInt(5, user.getTariff().getId());
-			updateUserStatement.setBoolean(6, user.isBanned());
+			updateUserStatement.setBoolean(6, user.isBlocked());
 			updateUserStatement.setInt(7, user.getId());
 			updateUserStatement.executeUpdate();
 			saveContacts(connection, user.getId(), user.getPhone(), user.getEmail());
@@ -491,6 +498,69 @@ public class UserJdbcDAO implements UserDAO {
 			try {
 				if (updateUserStatement != null) {
 					updateUserStatement.close();
+				}
+				if (connection != null) {
+					// connection.rollback();
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void applyDailyFee() throws DAOException {
+		Connection connection = null;
+		PreparedStatement setBalanceStatement = null;
+		PreparedStatement deductStatement = null;
+		PreparedStatement blockStatement = null;
+		PreparedStatement unblockStatement = null;
+		List<User> usersList = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			connection.setAutoCommit(false);
+			usersList = showUsers();
+			for (User user : usersList) {
+				BigDecimal balance = user.getAccountBalance();
+				BigDecimal tariffDaylyFee = user.getTariff().getPrice().divide(new BigDecimal(30),2, RoundingMode.HALF_UP);
+				if (balance.compareTo(tariffDaylyFee) >= 0) {
+					setBalanceStatement = connection.prepareStatement(SET_BALANCE);
+					setBalanceStatement.setBigDecimal(1, balance.subtract(tariffDaylyFee));
+					setBalanceStatement.setInt(2, user.getId());
+					setBalanceStatement.addBatch();
+					if (user.isBlocked() == true) {
+						unblockStatement = connection.prepareStatement(UNBLOCK_USER);
+						unblockStatement.setInt(1, user.getId());
+						unblockStatement.addBatch();
+					}
+				} else {
+					blockStatement = connection.prepareStatement(BLOCK_USER);
+					blockStatement.setInt(1, user.getId());
+					blockStatement.addBatch();
+				}
+			}
+			if(setBalanceStatement != null){
+				setBalanceStatement.executeBatch();
+			}
+			if(unblockStatement != null){
+				unblockStatement.executeBatch();
+			}if(blockStatement != null){
+				blockStatement.executeBatch();
+			}
+			connection.commit();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (deductStatement != null) {
+					deductStatement.close();
+				}
+				if (unblockStatement != null) {
+					unblockStatement.close();
+				}
+				if (blockStatement != null) {
+					blockStatement.close();
 				}
 				if (connection != null) {
 					// connection.rollback();

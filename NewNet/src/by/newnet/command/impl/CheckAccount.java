@@ -18,7 +18,7 @@ public class CheckAccount implements Command {
 	        throws CommandException {
 
 		String account;
-		account = request.getParameter(Constants.ACCOUNT);
+		account = request.getParameter(RequestConstants.ACCOUNT);
 		String message = Validator.checkEmptyFields(account);
 		if(message == null){
 			message=Validator.validateContract(account);
@@ -36,16 +36,16 @@ public class CheckAccount implements Command {
 			if (user != null) {
 				if (user.getPassword() != null) {
 					message = "account_exists";
-					request.setAttribute(Constants.CHECK_ACCOUNT_MESSAGE, message);
+					request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 					page = PageNames.INDEX;
 				} else {
 					HttpSession session = request.getSession();
-					session.setAttribute(Constants.USER, user);
+					session.setAttribute(RequestConstants.USER, user);
 					page = PageNames.REGISTRATION;
 				}
 			}
 		} else {
-			request.setAttribute(Constants.CHECK_ACCOUNT_MESSAGE, message);
+			request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 			page = PageNames.INDEX;
 		}
 		return page;

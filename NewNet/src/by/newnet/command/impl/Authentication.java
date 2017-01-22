@@ -23,8 +23,8 @@ public class Authentication implements Command {
 		String account;
 		String password;
 
-		account = request.getParameter(Constants.ACCOUNT);
-		password = request.getParameter(Constants.PASSWORD);
+		account = request.getParameter(RequestConstants.ACCOUNT);
+		password = request.getParameter(RequestConstants.PASSWORD);
 
 		String message = Validator.checkEmptyFields(account, password);
 		String page = null;
@@ -36,19 +36,19 @@ public class Authentication implements Command {
 				loggedUser = userService.authenticate(account, password);
 			} catch (ServiceAuthorizationException e) {
 				message = "wrong_credentials";
-				request.setAttribute(Constants.AUTHENTICATION_FAILED, true);
+				request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 			if (loggedUser != null) {
 				HttpSession session = request.getSession();
-				session.setAttribute(Constants.USER, loggedUser);
+				session.setAttribute(RequestConstants.USER, loggedUser);
 				page = PageNames.SHOW_ACCOUNT_COMMAND;
 			}
 		} else {
 			message = "wrong_credentials";
-			request.setAttribute(Constants.AUTHENTICATION_FAILED, true);
-			request.setAttribute(Constants.AUTHENTICATION_MESSAGE,message);
+			request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
+			request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE,message);
 			page = PageNames.INDEX;
 		}
 		return page;

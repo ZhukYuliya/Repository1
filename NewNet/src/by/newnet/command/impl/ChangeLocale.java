@@ -13,8 +13,8 @@ public class ChangeLocale implements Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		String locale = null;
-		locale = request.getParameter(Constants.NEW_LOCALE);
-		request.getSession(true).setAttribute(Constants.LOCALE, locale);
+		locale = request.getParameter(RequestConstants.NEW_LOCALE);
+		request.getSession(true).setAttribute(RequestConstants.LOCALE, locale);
 		//check!!!
 		//HttpSession session = request.getSession();
 		try {

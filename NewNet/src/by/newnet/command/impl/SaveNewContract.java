@@ -8,27 +8,27 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class AddNewContract implements Command {
+public class SaveNewContract implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		String contract = request.getParameter(Constants.CONTRACT);
-		String firstName = request.getParameter(Constants.FIRST_NAME);
-		String secondName = request.getParameter(Constants.SECOND_NAME);
-	
+		String contract = request.getParameter(RequestConstants.CONTRACT);
+		String firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		String secondName = request.getParameter(RequestConstants.SECOND_NAME);
+
 		String message = Validator.validateNewContract(contract, firstName, secondName);
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
-				userService.addContract(contract, firstName, secondName);
-				message = "contract_added";
+				userService.saveContract(contract, firstName, secondName);
+				message = "contract_saved";
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
-			request.setAttribute(Constants.ADD_CONTRACT_MESSAGE,message);
 		}
-		return PageNames.SHOW_REQUESTS_COMMAND;
+		request.setAttribute(RequestConstants.SAVE_CONTRACT_MESSAGE, message);
+		return PageNames.NEW_CONTRACT;
 	}
 }

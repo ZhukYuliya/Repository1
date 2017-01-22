@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="fill_tariff_details" />:

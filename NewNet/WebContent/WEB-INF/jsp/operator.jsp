@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="welcome" />
@@ -21,10 +21,10 @@
 		<input type="hidden" name="command" value="show_requests" /> <input
 			type="submit" value='<fmt:message key="show_all_requests"/> ' /> <br />
 	</form>
+	<a href="${context}/new_contract.jsp"><fmt:message key="register_new_contract" /></a>
+	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
 
-	<%@include file="WEB-INF/jsp_fragments/account.jsp"%>
-
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 </body>
 </html>
 

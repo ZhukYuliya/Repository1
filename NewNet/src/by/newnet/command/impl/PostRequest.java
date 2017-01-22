@@ -22,10 +22,10 @@ public class PostRequest implements Command {
 		String phone;
 		String address;
 
-		firstName = request.getParameter(Constants.FIRST_NAME);
-		email = request.getParameter(Constants.EMAIL);
-		phone = request.getParameter(Constants.PHONE);
-		address = request.getParameter(Constants.ADDRESS);
+		firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		email = request.getParameter(RequestConstants.EMAIL);
+		phone = request.getParameter(RequestConstants.PHONE);
+		address = request.getParameter(RequestConstants.ADDRESS);
 		// what validation needed?
 		String message = Validator.validateRequest(firstName, email, phone, address);
 
@@ -48,7 +48,7 @@ public class PostRequest implements Command {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(Constants.POST_REQUEST_MESSAGE, message);
+		request.setAttribute(RequestConstants.POST_REQUEST_MESSAGE, message);
 		return PageNames.SHOW_REQUESTS_COMMAND;
 	}
 }

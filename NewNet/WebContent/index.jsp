@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <link rel="shortcut icon" href="resources/img/favicon.png"
 	type="image/png">
-<title>NewNet</title>
+<title>NewNet: <fmt:message key="internet_provider" /></title>
 
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="resources/css/style.css" />

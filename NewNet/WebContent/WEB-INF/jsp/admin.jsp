@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="welcome" /> , ${user.firstName}
@@ -33,9 +33,9 @@
 	</ul>
 	</nav>
 	
-	<%@include file="WEB-INF/jsp_fragments/account.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
 	
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 </body>
 </html>
 

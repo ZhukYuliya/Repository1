@@ -10,6 +10,10 @@
 
 </head>
 <body>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+
 <fmt:message key="error_message"/>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+
 </body>
 </html>

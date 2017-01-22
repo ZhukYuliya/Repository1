@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import by.newnet.command.impl.SaveTariff;
-import by.newnet.command.impl.AddNewContract;
+import by.newnet.command.impl.SaveNewContract;
 import by.newnet.command.impl.Authentication;
 import by.newnet.command.impl.ChangeLocale;
 import by.newnet.command.impl.ChangePersonalDetails;
@@ -16,6 +16,7 @@ import by.newnet.command.impl.PostRequest;
 import by.newnet.command.impl.Registration;
 import by.newnet.command.impl.SetContacts;
 import by.newnet.command.impl.SetPassword;
+import by.newnet.command.impl.SetRequestStatus;
 import by.newnet.command.impl.ShowAccount;
 import by.newnet.command.impl.ShowRequests;
 import by.newnet.command.impl.ShowTariff;
@@ -32,12 +33,14 @@ public class CommandHelper {
 			commands.put(CommandName.AUTHENTICATION, new Authentication());
 			commands.put(CommandName.REGISTRATION, new Registration());
 			commands.put(CommandName.CHECK_ACCOUNT, new CheckAccount());		
-			commands.put(CommandName.ADD_NEW_CONTRACT, new AddNewContract());		
+			commands.put(CommandName.SAVE_NEW_CONTRACT, new SaveNewContract());		
 
 			commands.put(CommandName.SHOW_TARIFFS, new ShowTariffs());
 			commands.put(CommandName.SHOW_TARIFF, new ShowTariff());
 			commands.put(CommandName.SHOW_USERS, new ShowUsers());	
 			commands.put(CommandName.SHOW_USER, new ShowUser());	
+			commands.put(CommandName.SET_REQUEST_STATUS, new SetRequestStatus());	
+
 			//commands.put(CommandName.SHOW_OPERATIONS, new ShowOperations());	
 
 			commands.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
@@ -57,8 +60,7 @@ public class CommandHelper {
 
 
 		}
-		
-		
+	
 		public Command getCommand(String name){
 			CommandName commandName = CommandName.valueOf(name.toUpperCase());
 			Command command = commands.get(commandName);

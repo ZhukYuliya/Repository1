@@ -16,19 +16,22 @@ public class Validator {
 
 	// card details validation needed?
 	// check all the patterns on regex
-	public static final Pattern CONTRACT_PATTERN = Pattern.compile("^[1-9]\\d{11}");
-	public static final Pattern NAME_PATTERN = Pattern.compile("^[A-Z][a-z]{1,40}");
+	public static final Pattern CONTRACT_PATTERN = Pattern.compile("[1-9]\\d{11}");
+	public static final Pattern NAME_PATTERN = Pattern.compile("[À-ß¨][à-ÿ¸]{1,40}");
 	public static final Pattern EMAIL_PATTERN =
-	        Pattern.compile("^[A-z0-9]+@[A-z0-9]+\\.[A-z]{2,}$");
-	public static final Pattern PHONE_PATTERN = Pattern.compile("\\d{9,13}");
-	// todo
+	        Pattern.compile("[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}");
+	public static final Pattern PHONE_PATTERN = Pattern.compile("[1-9]\\d{8,12}");
+	// min 6 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character
+	//check number
 	public static final Pattern PASSWORD_PATTERN =
-	        Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,40}");
+	        Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}");
+
+	        //Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,40}");
 	public static final Pattern TARIFF_NAME_PATTERN =
-	        Pattern.compile("[A-Z]([a-z//d{Space}{Punct}]){1,40}");
-	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("\\d\\.\\d{2}");
-	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("^[1-9]\\d?");
-	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|(^[1-9]\\d?)");
+	        Pattern.compile("[A-ZÀ-ß¨]([A-zÀ-ÿ¨¸\\d ]){1,40}");
+	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("\\d+\\.\\d{2}");
+	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("[1-9]\\d?");
+	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|([1-9]\\d?)");
 
 	public static String checkEmptyFields(String... parameters) {
 		String message = null;
@@ -150,7 +153,7 @@ public class Validator {
 	public static String validateNewContract(String contract, String firstName, String secondName) {
 		String message = checkEmptyFields(contract, firstName, secondName);
 		if (message == null) {
-			message = validatePassword(contract);
+			message = validateContract(contract);
 		}
 		if (message == null) {
 			message = validateName(firstName);

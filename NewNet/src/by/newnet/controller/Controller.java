@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
 			
 				throw new ServletException (e);
 			}
-			
+			System.out.println(command + ":" +page);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 			

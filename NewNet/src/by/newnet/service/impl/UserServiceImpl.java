@@ -186,12 +186,12 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	@Override
-	public void addContract(String contract, String firstName, String secondName)
+	public void saveContract(String contract, String firstName, String secondName)
 	        throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
-			userDAO.addContract(contract, firstName, secondName);
+			userDAO.saveContract(contract, firstName, secondName);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -203,6 +203,16 @@ public class UserServiceImpl implements UserService {
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
 			userDAO.saveUser(user);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}		
+	}
+	@Override
+	public void applyDailyFee() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		try {
+			userDAO.applyDailyFee();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}		

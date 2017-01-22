@@ -14,6 +14,7 @@ import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.Request;
+import by.newnet.domain.RequestStatus;
 import by.newnet.domain.Role;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
@@ -23,7 +24,9 @@ public class RequestJdbcDAO implements RequestDAO {
 	        "INSERT INTO requests (firstName, email, phone, address) values(?, ?, ?, ?)";
 	// request
 	public static final String SHOW_REQUESTS = "select * from requests";
-	
+	public static final String SAVE_STATUS =
+	        "update requests set " + RequestsTable.STATUS + "=? where " + RequestsTable.ID + "=?";
+
 	@Override
 	public boolean postRequest(Request clientRequest) throws DAOException {
 		Connection connection = null;
@@ -75,9 +78,9 @@ public class RequestJdbcDAO implements RequestDAO {
 				clientRequest.setPhone(rs.getString(RequestsTable.PHONE));
 				clientRequest.setAddress(rs.getString(RequestsTable.ADDRESS));
 				// change from numbers to string
-				//RequestStatus status;
-				//int intStatus = rs.getInt(RequestsTable.STATUS);
-				clientRequest.setStatus(rs.getInt(RequestsTable.STATUS));
+				// RequestStatus status;
+				// int intStatus = rs.getInt(RequestsTable.STATUS);
+				clientRequest.setStatus(RequestStatus.valueOf((rs.getString(RequestsTable.STATUS))));
 				// set handled?
 				requestsList.add(clientRequest);
 			}
@@ -90,6 +93,34 @@ public class RequestJdbcDAO implements RequestDAO {
 					statement.close();
 				}
 				if (connection != null) {
+					ConnectionPool.getInstance().releaseConnection(connection);
+				}
+			} catch (ConnectionPoolException | SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public void setStatus(int requestId, RequestStatus status) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = ConnectionPool.getInstance().takeConnection();
+			statement = connection.prepareStatement(SAVE_STATUS);
+			statement.setString(1, status.toString());
+			statement.setInt(2, requestId);
+			statement.executeUpdate();
+		} catch (SQLException | ConnectionPoolException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+				if (connection != null) {
+					// why rollback? set autocommit true needed?
+					// connection.rollback();
 					ConnectionPool.getInstance().releaseConnection(connection);
 				}
 			} catch (ConnectionPoolException | SQLException e) {

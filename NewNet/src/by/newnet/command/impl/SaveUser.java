@@ -24,12 +24,12 @@ public class SaveUser implements Command {
 		String phone;
 		String email;
 		
-		int id = Integer.valueOf(request.getParameter(Constants.ID));
-		account = request.getParameter(Constants.ACCOUNT);
-		firstName = request.getParameter(Constants.FIRST_NAME);
-		secondName = request.getParameter(Constants.SECOND_NAME);
-		phone = request.getParameter(Constants.PHONE);
-		email = request.getParameter(Constants.EMAIL);
+		int id = Integer.valueOf(request.getParameter(RequestConstants.ID));
+		account = request.getParameter(RequestConstants.ACCOUNT);
+		firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		secondName = request.getParameter(RequestConstants.SECOND_NAME);
+		phone = request.getParameter(RequestConstants.PHONE);
+		email = request.getParameter(RequestConstants.EMAIL);
 		//check if epty tariff id, role id, banned?
 		String message = Validator.validateSaveUser(account, firstName,secondName, phone, email);
 		String page = null;
@@ -42,10 +42,10 @@ public class SaveUser implements Command {
 			user.setPhone(phone);
 			user.setEmail(email);
 			Role role = new Role();
-			role.setId(Integer.valueOf(request.getParameter(Constants.ROLE)));
+			role.setId(Integer.valueOf(request.getParameter(RequestConstants.ROLE)));
 			user.setRole(role);
 			Tariff tariff = new Tariff();
-			tariff.setId(Integer.valueOf(request.getParameter(Constants.TARIFF)));
+			tariff.setId(Integer.valueOf(request.getParameter(RequestConstants.TARIFF)));
 			user.setTariff(tariff);
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
@@ -61,7 +61,7 @@ public class SaveUser implements Command {
 			//send redirect to the same editing page?
 			page = PageNames.EDIT_USER;
 		}
-		request.setAttribute(Constants.USER_EDITING_MESSAGE, message);
+		request.setAttribute(RequestConstants.USER_EDITING_MESSAGE, message);
 		return page;
 	}
 }

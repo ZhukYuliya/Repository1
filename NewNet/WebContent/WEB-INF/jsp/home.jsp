@@ -10,14 +10,14 @@
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 
 	<h1>
 		<fmt:message key="welcome" />
 		, ${user.firstName} ${user.secondName}
 	</h1>
 
-	<%@include file="WEB-INF/jsp_fragments/account.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
 	<c:if test="${not empty paymentMessage}">
 		<fmt:message key="${paymentMessage}" />
 	</c:if>
@@ -34,7 +34,7 @@
 	</form>
 
 
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 
 
 </body>

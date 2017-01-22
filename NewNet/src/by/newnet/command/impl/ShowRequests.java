@@ -25,7 +25,7 @@ public class ShowRequests implements Command {
 			throw new CommandException(e);
 		}
 		Collections.sort(requestsList);
-		request.setAttribute(Constants.REQUESTS_LIST, requestsList);
+		request.setAttribute(RequestConstants.REQUESTS_LIST, requestsList);
 		return PageNames.REQUESTS;
 	}
 

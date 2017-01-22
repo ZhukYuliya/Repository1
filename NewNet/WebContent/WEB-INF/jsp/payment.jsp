@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 	<p>
 		<fmt:message key="current_balance" />:${user.accountBalance}<br>
 	</p>

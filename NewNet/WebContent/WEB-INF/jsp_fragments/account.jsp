@@ -19,7 +19,7 @@
 		<td>${user.accountBalance},BYN</td>
 		<td>${user.tariff.name}</td>
 		<td><c:choose>
-				<c:when test="${user.banned}">
+				<c:when test="${user.blocked}">
 					<fmt:message key="${blocked}" />
 				</c:when>
 				<c:otherwise>

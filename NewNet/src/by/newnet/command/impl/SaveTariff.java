@@ -28,7 +28,7 @@ public class SaveTariff implements Command {
 
 		boolean newlyAdded;
 
-		idParameter = request.getParameter(Constants.ID);
+		idParameter = request.getParameter(RequestConstants.ID);
 		int id = 0;
 		if (idParameter == null) {
 			newlyAdded = true;
@@ -36,10 +36,10 @@ public class SaveTariff implements Command {
 			id = Integer.valueOf(idParameter);
 			newlyAdded = false;
 		}
-		name = request.getParameter(Constants.NAME);
-		priceParameter = request.getParameter(Constants.PRICE);
-		speedParameter = request.getParameter(Constants.SPEED);
-		trafficParameter = request.getParameter(Constants.TRAFFIC);
+		name = request.getParameter(RequestConstants.NAME);
+		priceParameter = request.getParameter(RequestConstants.PRICE);
+		speedParameter = request.getParameter(RequestConstants.SPEED);
+		trafficParameter = request.getParameter(RequestConstants.TRAFFIC);
 		String page = null;
 		String message =
 		        Validator.validateTariff(name, priceParameter, speedParameter, trafficParameter);
@@ -49,10 +49,10 @@ public class SaveTariff implements Command {
 			int traffic = 0;
 			boolean inactive = false;
 			try {
-				price = new BigDecimal(request.getParameter(Constants.PRICE));
-				speed = Integer.valueOf(request.getParameter(Constants.SPEED));
-				traffic = Integer.valueOf(request.getParameter(Constants.TRAFFIC));
-				inactive = Boolean.valueOf(request.getParameter(Constants.INACTIVE));
+				price = new BigDecimal(request.getParameter(RequestConstants.PRICE));
+				speed = Integer.valueOf(request.getParameter(RequestConstants.SPEED));
+				traffic = Integer.valueOf(request.getParameter(RequestConstants.TRAFFIC));
+				inactive = Boolean.valueOf(request.getParameter(RequestConstants.INACTIVE));
 			} catch (NumberFormatException e) {
 				// needed? its already validated
 				message = "incorrect input";
@@ -80,7 +80,7 @@ public class SaveTariff implements Command {
 		} else{
 			page = PageNames.EDIT_TARIFF;
 		}
-		request.setAttribute(Constants.SAVE_TARIFF_MESSAGE, message);
+		request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
 		return page;
 	}
 }

@@ -16,7 +16,7 @@ public class ChangePersonalDetails implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		int userId = ((User)request.getSession().getAttribute(Constants.USER)).getId();
+		int userId = ((User)request.getSession().getAttribute(RequestConstants.USER)).getId();
 		User user = null;
 		try {
 			user = userService.getUserById(userId);
@@ -24,7 +24,7 @@ public class ChangePersonalDetails implements Command {
 			throw new CommandException(e);
 		}
 		
-		request.setAttribute(Constants.USER, user);
+		request.setAttribute(RequestConstants.USER, user);
 	
 		return PageNames.PERSONAL_DETAILS;
 	}

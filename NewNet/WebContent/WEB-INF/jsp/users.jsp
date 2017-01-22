@@ -6,10 +6,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Title</title>
+<title>NewNet: <fmt:message key="users" /></title>
 </head>
 <body>
-	<%@include file="WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 	<br>
 	<br>
 	<table border="1">
@@ -34,13 +34,13 @@
 				<td>${user.accountBalance}</td>
 				<td>${user.tariff.name}</td>
 				<td>${user.role.name}</td>
-				<td>${user.banned}</td>
+				<td>${user.blocked}</td>
 				<td>${user.email}</td>
 				<td>${user.phone}</td>				
 			</tr>
 		</c:forEach>
 	</table>
-	<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 
 </body>
 </html>

@@ -19,16 +19,16 @@ public class Pay implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		int userId = ((User)request.getSession().getAttribute(Constants.USER)).getId();
-		BigDecimal amount = new BigDecimal(request.getParameter(Constants.AMOUNT));
+		int userId = ((User)request.getSession().getAttribute(RequestConstants.USER)).getId();
+		BigDecimal amount = new BigDecimal(request.getParameter(RequestConstants.AMOUNT));
 		String message = null;
 		CreditCard card = new CreditCard();
-		card.setNumber(request.getParameter(Constants.NUMBER));
-		card.setExpirationMonth(request.getParameter(Constants.EXPIRATION_MONTH));
-		card.setExpirationYear(request.getParameter(Constants.EXPIRATION_YEAR));
-		card.setSecurityCode(request.getParameter(Constants.SECURITY_CODE));
-		card.setFirstName(request.getParameter(Constants.FIRST_NAME));
-		card.setSecondName(request.getParameter(Constants.SECOND_NAME));
+		card.setNumber(request.getParameter(RequestConstants.NUMBER));
+		card.setExpirationMonth(request.getParameter(RequestConstants.EXPIRATION_MONTH));
+		card.setExpirationYear(request.getParameter(RequestConstants.EXPIRATION_YEAR));
+		card.setSecurityCode(request.getParameter(RequestConstants.SECURITY_CODE));
+		card.setFirstName(request.getParameter(RequestConstants.FIRST_NAME));
+		card.setSecondName(request.getParameter(RequestConstants.SECOND_NAME));
 
 		try {
 			userService.pay(userId, card, amount);
@@ -37,7 +37,7 @@ public class Pay implements Command {
 			throw new CommandException(e);
 		}
 		
-		request.setAttribute(Constants.PAYMENT_MESSAGE, message);
+		request.setAttribute(RequestConstants.PAYMENT_MESSAGE, message);
 	
 		return PageNames.SHOW_ACCOUNT_COMMAND;
 	}

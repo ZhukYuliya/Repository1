@@ -17,14 +17,14 @@ public class ShowAccount implements Command {
 	        throws CommandException {
 
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		User user = (User) request.getSession().getAttribute(Constants.USER);
+		User user = (User) request.getSession().getAttribute(RequestConstants.USER);
 		int userId = user.getId();
 		try {
 			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(Constants.USER, user);
+		request.setAttribute(RequestConstants.USER, user);
 		// what to do for operator , admin?
 		String page = null;
 		if(user.isAdmin()){

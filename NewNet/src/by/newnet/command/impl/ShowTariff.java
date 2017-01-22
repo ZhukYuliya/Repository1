@@ -16,7 +16,7 @@ public class ShowTariff implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		TariffService TariffService = ServiceFactory.getInstance().getTariffService();
-		int tariffId = Integer.valueOf(request.getParameter(Constants.ID));
+		int tariffId = Integer.valueOf(request.getParameter(RequestConstants.ID));
 		Tariff tariff = null;
 		try {
 			tariff = TariffService.getTariffById(tariffId);
@@ -24,7 +24,7 @@ public class ShowTariff implements Command {
 			throw new CommandException(e);
 		}
 		
-		request.setAttribute(Constants.TARIFF, tariff);
+		request.setAttribute(RequestConstants.TARIFF, tariff);
 	
 		return PageNames.EDIT_TARIFF;
 	}

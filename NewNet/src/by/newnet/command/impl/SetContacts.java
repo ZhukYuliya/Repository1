@@ -26,10 +26,10 @@ public class SetContacts implements Command {
 		String phone;
 		String email;
 
-		phone = request.getParameter(Constants.PHONE);
-		email = request.getParameter(Constants.EMAIL);
+		phone = request.getParameter(RequestConstants.PHONE);
+		email = request.getParameter(RequestConstants.EMAIL);
 
-		int userId = ((User) request.getSession().getAttribute(Constants.USER)).getId();
+		int userId = ((User) request.getSession().getAttribute(RequestConstants.USER)).getId();
 
 		String message = Validator.validateContacts(phone, email);
 
@@ -45,7 +45,7 @@ public class SetContacts implements Command {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(Constants.SET_CONTACTS_MESSAGE, message);
+		request.setAttribute(RequestConstants.SET_CONTACTS_MESSAGE, message);
 		return PageNames.PERSONAL_DETAILS;
 	}
 }

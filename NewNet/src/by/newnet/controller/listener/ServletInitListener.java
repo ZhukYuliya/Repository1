@@ -5,25 +5,31 @@ import javax.servlet.ServletContextListener;
 
 import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
+import by.newnet.timer.DailyFeeScheduler;
 
 public class ServletInitListener implements ServletContextListener {
 
     public ServletInitListener() {
         
     }
-
-    public void contextDestroyed(ServletContextEvent arg0)  { 
-    	 ConnectionPool.getInstance().dispose();
- 		
-    }
-
+// can a field be in listener
+    DailyFeeScheduler scheduler;
     public void contextInitialized(ServletContextEvent arg0)  { 
     	 try {
 			ConnectionPool.getInstance().initPoolData();
-		} catch (ConnectionPoolException e) {
+			 scheduler = new DailyFeeScheduler();
+			scheduler.startTask();
+		} catch (ConnectionPoolException  e) {
 			new RuntimeException(e);
 		}
+  
         
+    }
+
+    public void contextDestroyed(ServletContextEvent arg0)  { 
+    	 ConnectionPool.getInstance().dispose();
+ 		//close scheduler
+    	 scheduler.stopTask();
     }
 	
 }

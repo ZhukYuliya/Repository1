@@ -24,7 +24,7 @@ public class ShowTariffs implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(Constants.TARIFFS_LIST, tariffsList);
+		request.setAttribute(RequestConstants.TARIFFS_LIST, tariffsList);
 		return PageNames.TARIFFS;
 	}
 
