@@ -24,11 +24,6 @@ public class ChangeLocale implements Command{
 			e.printStackTrace();
 		}
 		return null;
-		/*if(session.getAttribute(Constants.USER)!= null){
-			return PageNames.HOME;
-		}else{
-			return PageNames.INDEX;
-		}*/
 	}
 
 }

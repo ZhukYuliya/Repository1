@@ -5,26 +5,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
 <title>NewNet: <fmt:message key="operator"/></title>
 </head>
 <body>
-
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-
+	<main>
 	<h1>
 		<fmt:message key="welcome" />
 		, ${user.firstName}
 	</h1>
-
-	<form action="controller" method="get">
+	<form action="${contextPath}/controller" method="get">
 		<input type="hidden" name="command" value="show_requests" /> <input
 			type="submit" value='<fmt:message key="show_all_requests"/> ' /> <br />
 	</form>
-	<a href="${context}/new_contract.jsp"><fmt:message key="register_new_contract" /></a>
+	<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="register_new_contract" /> <input
+			type="submit" value='<fmt:message key="register_new_contract"/> ' /> <br />
+	</form>
+	<form action="${contextPath}/controller" method="get">
+	<input type="hidden" name="command" value="show_tariffs" /> <input
+		type="submit" value='<fmt:message key="show_tariffs"/> ' />
+</form>
+	
 	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
-
 	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	</main>
 </body>
 </html>
 

@@ -17,21 +17,21 @@ public class PostRequest implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		String firstName;
+		String name;
 		String email;
 		String phone;
 		String address;
 
-		firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		name = request.getParameter(RequestConstants.NAME);
 		email = request.getParameter(RequestConstants.EMAIL);
 		phone = request.getParameter(RequestConstants.PHONE);
 		address = request.getParameter(RequestConstants.ADDRESS);
 		// what validation needed?
-		String message = Validator.validateRequest(firstName, email, phone, address);
+		String message = Validator.validateRequest(name, email, phone, address);
 
 		if (message == null) {
 			Request clientRequest = new Request();
-			clientRequest.setFirstName(firstName);
+			clientRequest.setFirstName(name);
 			clientRequest.setEmail(email);
 			clientRequest.setPhone(phone);
 			clientRequest.setAddress(address);
@@ -42,13 +42,11 @@ public class PostRequest implements Command {
 				requestService.postRequest(clientRequest);
 				message = "request_posted";
 				// some other excepion
-			} catch (UserAlreadyExistingException e) {
-				message = "user_already_existing";
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
 		request.setAttribute(RequestConstants.POST_REQUEST_MESSAGE, message);
-		return PageNames.SHOW_REQUESTS_COMMAND;
+		return PageNames.AFTER_POST_REQUEST;
 	}
 }

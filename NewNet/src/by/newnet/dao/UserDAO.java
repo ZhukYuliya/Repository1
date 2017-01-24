@@ -10,12 +10,12 @@ import by.newnet.domain.User;
 public interface UserDAO {
 	
 	//User checkAuthorisationData(User user) throws DAOException;
-	void register(int userId, String password, String reenterPassword, String phone, String email) throws DAOException;
+	void register(int userId, int hashPassword, String phone, String email) throws DAOException;
 	void subscribeTariff(int userId, int newTariffId) throws DAOException;
 	User getUserById (int userId) throws DAOException;
 	User getUserByAccount (String accountNumber) throws DAOException;
 
-	void setPassword(int userId, String newPassword) throws DAOException;
+	void setPassword(int userId, int hashPassword) throws DAOException;
 	void setContacts(int userId, String phone, String email)throws DAOException;
 	void applyDailyFee()throws DAOException;
 

@@ -32,7 +32,7 @@ public class TariffServiceImpl implements TariffService {
 	public void saveTariff(Tariff tariff, boolean newlyAdded) throws ServiceException, DuplicateTariffServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		TariffDAO tariffDAO = daoFactory.getTariffDAO();
-
+//as transaction?
 		try {
 			if (newlyAdded == true) {
 				if (tariffDAO.getTariffByName(tariff.getName()) == null) {

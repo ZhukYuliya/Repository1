@@ -16,29 +16,40 @@ import by.newnet.service.exception.ServiceException;
 public class Pay implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-		
-		UserService userService = ServiceFactory.getInstance().getUserService();
-		int userId = ((User)request.getSession().getAttribute(RequestConstants.USER)).getId();
-		BigDecimal amount = new BigDecimal(request.getParameter(RequestConstants.AMOUNT));
-		String message = null;
-		CreditCard card = new CreditCard();
-		card.setNumber(request.getParameter(RequestConstants.NUMBER));
-		card.setExpirationMonth(request.getParameter(RequestConstants.EXPIRATION_MONTH));
-		card.setExpirationYear(request.getParameter(RequestConstants.EXPIRATION_YEAR));
-		card.setSecurityCode(request.getParameter(RequestConstants.SECURITY_CODE));
-		card.setFirstName(request.getParameter(RequestConstants.FIRST_NAME));
-		card.setSecondName(request.getParameter(RequestConstants.SECOND_NAME));
+	public String execute(HttpServletRequest request, HttpServletResponse response)
+	        throws CommandException {
 
-		try {
-			userService.pay(userId, card, amount);
-			message = "successful_payment";
-		} catch (ServiceException e) {
-			throw new CommandException(e);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		int userId = ((User) request.getSession().getAttribute(RequestConstants.USER)).getId();
+		String number = request.getParameter(RequestConstants.NUMBER);
+		String expirationMonth = request.getParameter(RequestConstants.EXPIRATION_MONTH);
+		String expirationYear = request.getParameter(RequestConstants.EXPIRATION_YEAR);
+		String securityCode = request.getParameter(RequestConstants.SECURITY_CODE);
+		String firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		String secondName = request.getParameter(RequestConstants.SECOND_NAME);
+		String amountString = request.getParameter(RequestConstants.AMOUNT);
+		CreditCard card;
+		String message = null;
+		message = Validator.validateCardDetails(number, expirationMonth, expirationYear,
+		        securityCode, firstName, secondName, amountString);
+		if (message == null) {
+			BigDecimal amount = new BigDecimal(request.getParameter(RequestConstants.AMOUNT));
+			card = new CreditCard();
+			card.setNumber(number);
+			card.setExpirationMonth(expirationMonth);
+			card.setExpirationYear(expirationYear);
+			card.setSecurityCode(securityCode);
+			card.setFirstName(firstName);
+			card.setSecondName(secondName);
+			try {
+				userService.pay(userId, card, amount);
+				message = "successful_payment";
+			} catch (ServiceException e) {
+				throw new CommandException(e);
+			}
 		}
-		
 		request.setAttribute(RequestConstants.PAYMENT_MESSAGE, message);
-	
+
 		return PageNames.SHOW_ACCOUNT_COMMAND;
 	}
 

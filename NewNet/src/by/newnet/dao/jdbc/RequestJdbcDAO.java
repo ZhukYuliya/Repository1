@@ -9,19 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.newnet.dao.RequestDAO;
-import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.Request;
 import by.newnet.domain.RequestStatus;
-import by.newnet.domain.Role;
-import by.newnet.domain.Tariff;
-import by.newnet.domain.User;
 
 public class RequestJdbcDAO implements RequestDAO {
 	public static final String POST_REQUEST =
-	        "INSERT INTO requests (firstName, email, phone, address) values(?, ?, ?, ?)";
+	        "INSERT INTO requests (" + RequestsTable.FIRST_NAME + "," + RequestsTable.EMAIL + "," 
+	+ RequestsTable.PHONE + "," + RequestsTable.ADDRESS + ") values(?, ?, ?, ?)";
 	// request
 	public static final String SHOW_REQUESTS = "select * from requests";
 	public static final String SAVE_STATUS =

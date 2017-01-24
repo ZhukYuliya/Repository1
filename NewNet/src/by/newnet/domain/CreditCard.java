@@ -58,7 +58,7 @@ public class CreditCard {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((balance == null) ? 0 : balance.hashCode());
+		//result = prime * result + ((balance == null) ? 0 : balance.hashCode());
 		result = prime * result + ((expirationMonth == null) ? 0 : expirationMonth.hashCode());
 		result = prime * result + ((expirationYear == null) ? 0 : expirationYear.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
@@ -107,7 +107,15 @@ public class CreditCard {
 		} else if (!securityCode.equals(other.securityCode))
 			return false;
 		return true;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "CreditCard [number=" + number + ", expirationMonth=" + expirationMonth
+		        + ", expirationYear=" + expirationYear + ", securityCode=" + securityCode
+		        + ", firstName=" + firstName + ", secondName=" + secondName + ", balance=" + balance
+		        + "]";
+	}
+	
 }
 	
 	

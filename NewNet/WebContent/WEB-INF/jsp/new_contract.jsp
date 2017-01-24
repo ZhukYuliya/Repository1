@@ -5,17 +5,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
 <title>NewNet: <fmt:message key="new_contract"/></title>
 </head>
 <body>
 
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-
+<main>
 	<h1>
 		<fmt:message key="new_user" />
 	</h1>
-	<form action="controller" method="post">
+	<form action="${contextPath}/controller" method="post">
 		<table>
 		<tr>
 			<td><fmt:message key="first_name" /></td>
@@ -38,7 +38,8 @@
 	<c:if test="${not empty saveContractMessage}">
 		<fmt:message key="${saveContractMessage}" />
 	</c:if>
-
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	</main>
 </body>
 </html>
 

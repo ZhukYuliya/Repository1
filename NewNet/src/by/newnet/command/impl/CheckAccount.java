@@ -34,7 +34,7 @@ public class CheckAccount implements Command {
 				throw new CommandException(e);
 			}
 			if (user != null) {
-				if (user.getPassword() != null) {
+				if (user.getHashPassword() != 0) {
 					message = "account_exists";
 					request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 					page = PageNames.INDEX;

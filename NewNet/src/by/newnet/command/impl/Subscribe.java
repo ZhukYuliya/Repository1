@@ -33,14 +33,6 @@ public class Subscribe implements Command {
 			throw new CommandException(e);
 		}
 		request.setAttribute(RequestConstants.SUBSCRIPTION_MESSAGE, message);
-		String page = null;
-		if(user.isAdmin()){
-			page = PageNames.ADMIN;
-		} else if (user.isOperator()){
-			page = PageNames.OPERATOR;
-		} else {
-			page = PageNames.HOME;
-		}
-		return page;
+		return PageNames.SHOW_ACCOUNT_COMMAND;
 	}
 }

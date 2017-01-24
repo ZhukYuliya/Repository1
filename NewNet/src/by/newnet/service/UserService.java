@@ -11,7 +11,7 @@ public interface UserService {
 	// method name should be a verb?
 	User authenticate(String account, String password) throws ServiceException;
 	User getUserByAccount(String account) throws ServiceException;
-	void register(int userId, String password, String reenterPassword, String phone, String email) throws ServiceException;
+	void register(int userId, String password, String phone, String email) throws ServiceException;
 	
 	void subscribeTariff(int userId, int newTariffId) throws ServiceException;
 

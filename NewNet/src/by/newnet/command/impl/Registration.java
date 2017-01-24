@@ -31,7 +31,7 @@ public class Registration implements Command {
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
-				userService.register(userId, password, reenterPassword, phone, email);
+				userService.register(userId, password, phone, email);
 				message = "successful_registration";
 				page = PageNames.INDEX;
 			} catch (ServiceException e) {

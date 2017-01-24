@@ -5,13 +5,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>NewNet: <fmt:message key="home"/></title>
+<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+<title>NewNet: <fmt:message key="home" /></title>
 </head>
 <body>
 
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-
+	<main>
 	<h1>
 		<fmt:message key="welcome" />
 		, ${user.firstName} ${user.secondName}
@@ -22,21 +22,23 @@
 		<fmt:message key="${paymentMessage}" />
 	</c:if>
 
-	<form action="controller" method="get">
+	<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="show_tariffs" /> <input
+			type="submit" value='<fmt:message key="show_tariffs"/> ' />
+	</form>
+
+	<form action="${contextPath}/controller" method="get">
 		<input type="hidden" name="command" value="to_payment" /> <input
 			type="submit" value='<fmt:message key="refill_balance"/> ' />
 	</form>
 
-	<form action="controller" method="get">
+	<form action="${contextPath}/controller" method="get">
 		<input type="hidden" name="command" value="change_personal_details" />
 		<input type="submit"
 			value='<fmt:message key="change_contacts_password"/> ' />
 	</form>
-
-
+	</main>
 	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
-
-
 </body>
 </html>
 

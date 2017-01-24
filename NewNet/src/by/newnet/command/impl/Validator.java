@@ -1,5 +1,8 @@
 package by.newnet.command.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,24 +17,25 @@ public class Validator {
 	 * String EMAIL = "email"; private static final String PHONE = "phone";
 	 */
 
-	// card details validation needed?
-	// check all the patterns on regex
 	public static final Pattern CONTRACT_PATTERN = Pattern.compile("[1-9]\\d{11}");
 	public static final Pattern NAME_PATTERN = Pattern.compile("[À-ß¨][à-ÿ¸]{1,40}");
+	public static final Pattern CARDHOLDER_NAME_PATTERN = Pattern.compile("[A-z]{1,40}");
 	public static final Pattern EMAIL_PATTERN =
 	        Pattern.compile("[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}");
 	public static final Pattern PHONE_PATTERN = Pattern.compile("[1-9]\\d{8,12}");
-	// min 6 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character
-	//check number
-	public static final Pattern PASSWORD_PATTERN =
-	        Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}");
-
-	        //Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,40}");
+	// min 6 characters: at least 1 uppercase, 1 lowercase, 1 number and 1 special character
+	public static final Pattern PASSWORD_PATTERN = Pattern
+	        .compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}");
 	public static final Pattern TARIFF_NAME_PATTERN =
 	        Pattern.compile("[A-ZÀ-ß¨]([A-zÀ-ÿ¨¸\\d ]){1,40}");
-	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("\\d+\\.\\d{2}");
+	//check byn pattern
+	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("([1-9]{1}\\d*)|([1-9]\\d*)(\\.\\d{0,2})?");
 	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("[1-9]\\d?");
 	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|([1-9]\\d?)");
+	public static final Pattern CARD_NUMBER_PATTERN = Pattern.compile("\\d{16}");
+	public static final Pattern SECURITY_CODE_PATTERN = Pattern.compile("\\d{3}");
+	public static final Pattern MONTH_PATTERN = Pattern.compile("0[1-9]|1[012]");
+	public static final Pattern YEAR_PATTERN = Pattern.compile("[1-2][0-9]");
 
 	public static String checkEmptyFields(String... parameters) {
 		String message = null;
@@ -122,6 +126,7 @@ public class Validator {
 		}
 		return null;
 	}
+
 	public static String compareOldNewPasswords(String oldpassword, String newPassword) {
 		if (oldpassword.equals(newPassword)) {
 			return "old_new_passwords_must_be_different";
@@ -240,6 +245,59 @@ public class Validator {
 		}
 		if (message == null) {
 			message = compareNewPasswords(newPassword, reenterNewPassword);
+		}
+		return message;
+	}
+
+	public static String validateCardDetails(String number, String expirationMonth,
+	        String expirationYear, String securityCode, String firstName, String secondName,
+	        String amount) {
+		String message = checkEmptyFields(number, expirationMonth, expirationYear, securityCode,
+		        firstName, secondName, amount);
+		if (message == null) {
+			Matcher cardNumberMatcher = CARD_NUMBER_PATTERN.matcher(number);
+			if (!cardNumberMatcher.matches()) {
+				message = "invalid_card_number";
+			}
+		}
+		if (message == null) {
+			Matcher monthMatcher = MONTH_PATTERN.matcher(expirationMonth);
+			if (!monthMatcher.matches()) {
+				message = "invalid_month";
+			}
+		}
+		if (message == null) {
+			Matcher yearMatcher = YEAR_PATTERN.matcher(expirationYear);
+			if (!yearMatcher.matches()) {
+				message = "invalid_year";
+			}
+		}
+		if (message == null) {
+			Matcher securityCodeMatcher = SECURITY_CODE_PATTERN.matcher(securityCode);
+			if (!securityCodeMatcher.matches()) {
+				message = "invalid_security_code";
+			}
+		}
+		if (message == null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			String expirationDateString = "01-" + expirationMonth + "-20" + expirationYear;
+			Date expirationDate;
+			try {
+				expirationDate = sdf.parse(expirationDateString);
+				Date currentDate = new Date();
+				if (currentDate.after(expirationDate)) {
+					message = "expired_card";
+				}
+			} catch (ParseException e) {
+				message = "invalid_expiration_date";
+			}
+		}
+		if (message == null) {
+			Matcher cardholderFirstNameMatcher = CARDHOLDER_NAME_PATTERN.matcher(firstName);
+			Matcher cardholderSecondNameMatcher = CARDHOLDER_NAME_PATTERN.matcher(secondName);
+			if (!cardholderFirstNameMatcher.matches() || !cardholderSecondNameMatcher.matches()) {
+				message = "invalid_caldholder_name";
+			}
 		}
 		return message;
 	}

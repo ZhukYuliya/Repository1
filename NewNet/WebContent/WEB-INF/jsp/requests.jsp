@@ -5,15 +5,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
 <title>NewNet: <fmt:message key="requests" /></title>
 </head>
 <body>
 
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-
-	<c:if test="${not empty newContractMessage}">
-		<fmt:message key="${newContractMessage}" />
+<main>
+	<c:if test="${not empty changeStatusMessage}">
+		<fmt:message key="${changeStatusMessage}" />
 	</c:if>
 	
 	<table border="1">
@@ -36,7 +36,7 @@
 				<c:choose>
 						<c:when test="${request.isNew()}">
 						<fmt:message key="new_request" />
-							<form action="controller" method="post">
+							<form action="${contextPath}/controller" method="post">
 								<input type="hidden" name="id" value="${request.id}" /> <input
 									type="hidden" name="status" value="AFTER_CALL" /> <input type="hidden"
 									name="command" value="set_request_status" /> <input
@@ -45,7 +45,7 @@
 						</c:when>
 						<c:when test="${request.isAfterCall()}">
 						<fmt:message key="after_call_request" />
-							<form action="controller" method="post">
+							<form action="${contextPath}/controller" method="post">
 								<input type="hidden" name="id" value="${request.id}" /> <input
 									type="hidden" name="status" value="AFTER_CONTRACT" /> <input type="hidden"
 									name="command" value="set_request_status" /> <input
@@ -59,8 +59,8 @@
 	</table>
 
 	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
-
 	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	</main>
 </body>
 </html>
 

@@ -79,7 +79,7 @@ public class UserJdbcDAO implements UserDAO {
 			while (rs.next()) {
 				user.setId(rs.getInt(UsersTable.ID));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setPassword(rs.getString(UsersTable.PASSWORD));
+				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				// convert to bigdecimal?
 				user.setPhone(rs.getString(UsersTable.PHONE));
@@ -137,7 +137,7 @@ public class UserJdbcDAO implements UserDAO {
 			while (rs.next()) {
 				user.setId(rs.getInt(UsersTable.ID));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setPassword(rs.getString(UsersTable.PASSWORD));
+				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				user.setPhone(rs.getString(UsersTable.PHONE));
 				// convert to bigdecimal?
@@ -210,11 +210,11 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void setPassword(int userId, String password) throws DAOException {
+	public void setPassword(int userId, int hashPassword) throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
-			savePassword(connection, userId, password);
+			savePassword(connection, userId, hashPassword);
 		} catch (ConnectionPoolException e) {
 			throw new DAOException(e);
 		} finally {
@@ -265,8 +265,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setPassword(rs.getString(UsersTable.PASSWORD));
-				user.setPassword(rs.getString(UsersTable.PASSWORD));
+				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
 				Role role = new Role();
 				role.setId(rs.getInt(RolesTable.ID));
 				role.setName(rs.getString(RolesTable.NAME));
@@ -364,13 +363,13 @@ public class UserJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void register(int userId, String password, String reenterPassword, String phone,
+	public void register(int userId, int hashPassword, String phone,
 	        String email) throws DAOException {
 		Connection connection = null;
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
 			connection.setAutoCommit(false);
-			savePassword(connection, userId, password);
+			savePassword(connection, userId, hashPassword);
 			saveContacts(connection, userId, phone, email);
 			connection.commit();
 		} catch (ConnectionPoolException | SQLException e) {
@@ -387,12 +386,12 @@ public class UserJdbcDAO implements UserDAO {
 		}
 	}
 
-	private void savePassword(Connection connection, int userId, String password)
+	private void savePassword(Connection connection, int userId, int hashPassword)
 	        throws DAOException {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(SAVE_PASSWORD);
-			statement.setString(1, password);
+			statement.setInt(1, hashPassword);
 			statement.setInt(2, userId);
 			statement.executeUpdate();
 		} catch (SQLException e) {

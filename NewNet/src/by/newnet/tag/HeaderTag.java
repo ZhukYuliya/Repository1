@@ -15,12 +15,15 @@ public class HeaderTag extends TagSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public final static String htmlContent = "<p>%s %s %s</p>"
+	public final static String htmlContent = "<div class='right'><span>%s %s %s</span>"
+			+"<form action='controller' method='get'>"
+			+"<input type='hidden' name='command' value='show_account' /> "
+			+"<input type='submit' value='%s' /></form>"
 			+"<form action='controller' method='get'>"
 			+"<input type='hidden' name='command' value='log_out' /> "
-			+"<input type='submit' value='%s' />"
-			+"</form><a href='/controller/show_account'>%s</a>";
-@Override
+			+"<input type='submit' value='%s' /></form></div>";
+			
+			@Override
 public int doStartTag() throws JspException {
 	User user = (User)pageContext.getSession().getAttribute(RequestConstants.USER);
 	if(user != null){

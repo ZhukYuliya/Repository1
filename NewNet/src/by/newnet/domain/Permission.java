@@ -3,7 +3,7 @@ package by.newnet.domain;
 
 public class Permission {	
 	
-	private int id;
+/*	private int id;
 	private String name;
 	public int getId() {
 		return id;
@@ -17,5 +17,5 @@ public class Permission {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	*/
 }

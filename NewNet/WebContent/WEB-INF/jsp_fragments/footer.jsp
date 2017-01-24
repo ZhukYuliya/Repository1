@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib prefix="n" uri="/WEB-INF/tlds/copyright" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
-<footer>
+<%-- <fmt:setLocale value="${sessionScope.locale}" />
+ --%><footer>
 	<n:copyright styleClass="copy"/>
 	<div class="social" id="social">
 		<p>

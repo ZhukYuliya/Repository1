@@ -14,8 +14,6 @@ import by.newnet.service.exception.ServiceException;
 
 public class Authentication implements Command {
 
-	
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
@@ -27,7 +25,7 @@ public class Authentication implements Command {
 		password = request.getParameter(RequestConstants.PASSWORD);
 
 		String message = Validator.checkEmptyFields(account, password);
-		String page = null;
+		String page = PageNames.INDEX;
 
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
@@ -37,6 +35,7 @@ public class Authentication implements Command {
 			} catch (ServiceAuthorizationException e) {
 				message = "wrong_credentials";
 				request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
+				page = PageNames.INDEX;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
@@ -44,13 +43,13 @@ public class Authentication implements Command {
 				HttpSession session = request.getSession();
 				session.setAttribute(RequestConstants.USER, loggedUser);
 				page = PageNames.SHOW_ACCOUNT_COMMAND;
+			} else{
+				message = "wrong_credentials";
+				request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
+				page = PageNames.INDEX;
 			}
-		} else {
-			message = "wrong_credentials";
-			request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
-			request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE,message);
-			page = PageNames.INDEX;
 		}
+		request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE,message);
 		return page;
 	}
 }

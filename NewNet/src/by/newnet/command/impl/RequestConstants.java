@@ -1,8 +1,7 @@
 package by.newnet.command.impl;
 
-import java.util.regex.Pattern;
-
 public class RequestConstants {
+	public static final String CONTROLLER = "/controller";
 	public static final String USER = "user";
 	public static final String ADMIN = "admin";
 	public static final String CUSTOMER = "customer";
@@ -32,7 +31,7 @@ public class RequestConstants {
 	public static final String SECURITY_CODE = "securityCode";
 	public static final String PAYMENT_MESSAGE = "paymentMessage";
 	public static final String ADDRESS = "address";
-	public static final String POST_REQUEST_MESSAGE = "registrationMessage";
+	public static final String POST_REQUEST_MESSAGE = "postRequestMessage";
 	
 	public static final String NAME = "name";
 	public static final String PRICE = "price";

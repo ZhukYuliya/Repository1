@@ -6,20 +6,15 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<link rel="shortcut icon" href="resources/img/favicon.png"
-	type="image/png">
+<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
 <title>NewNet: <fmt:message key="internet_provider" /></title>
-
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/menu.css" />
 </head>
 <body>
-	<%@include file="WEB-INF/jsp_fragments/start_header.jsp"%>
-
-	<main> <section id="wrappertop">
+	<header> <%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jsp_fragments/menu.jsp"%>
+	</header>
+	<main> 	<c:if test="${empty user}">
+	<section id="wrappertop">
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://newnet.by/" title="Логотип"> <img
@@ -29,7 +24,7 @@
 			<div class="subtitle">
 				<fmt:message key="sign_in_message" />
 			</div>
-			<form action="controller" method="post">
+			<form action="${contextPath}/controller" method="post">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
 				<input name="password" type="password" value=""
@@ -38,7 +33,7 @@
 					type="submit" class="submit"
 					value='<fmt:message key="sign_in_button"/> ' /> <br>
 				<c:if test="${not empty authenticationMessage}">
-					<fmt:message key="${authentication_message}" />
+					<fmt:message key="${authenticationMessage}" />
 				</c:if>
 				<c:if test="${loginFailed == true}">
 					<fmt:message key="loginFailed" />
@@ -49,7 +44,7 @@
 			<div class="subtitle">
 				<fmt:message key="register" />
 			</div>
-			<form action="controller" method="post">
+			<form action="${contextPath}/controller" method="post">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
 				<input type="hidden" name="command" value="check_account" /> <input
@@ -68,7 +63,7 @@
 			<br /> <span class="small"><fmt:message key="slogan_small" /></span>
 		</div>
 	</div>
-	</section> <a name="about-company"></a> <section id="internettop">
+	</section></c:if> <a name="about-company"></a> <section id="internettop">
 	<div class="wrapper">
 		<div class="img">
 			<img src="resources/img/globe.jpg" />
@@ -108,54 +103,80 @@
 	</div>
 	</section> <section id="order">
 	<div class="wrapper">
-		<div class="contact">
+		<%-- <div class="contact">
 			<a class="phone" href="tel:+375(29) 222-22-22">(29) 222-22-22</a> <a
 				class="phone" href="tel:+375(29) 444-44-44">(29) 444-44-44</a>
 			<div class="text">
-				<fmt:message key="call_message" />
-			</div>
-			<div class="top_title">
-				Оставьте заявку на подключение<br />к сети Интернет с NewNet
-			</div>
-			<div class="small">Наш специалист свяжется с вами в течение 5
-				минут для уточнения деталей</div>
-			<form method="post">
-				<input name="name" value="" placeholder="Ваше имя" class="text" />
-				<input name="email" value="" placeholder="Ваша почта" class="text" />
-				<input name="phone" value="" placeholder="Ваш телефон" class="text" />
-				<input name="address" value="" placeholder="Адрес подключения"
-					class="text" /> <input type="hidden" name="command"
-					value="post_request" /> <input type="submit" class="submit"
-					value='<fmt:message key="post_request_button"/> ' />
-			</form>
+				<fmt:message key="call_message"/>
+			</div> --%>
+		<div class="top_title">
+			<fmt:message key="place_order" />
+
 		</div>
+		<div class="small">
+			<fmt:message key="call_for_details" />
+		</div>
+		<form action="${contextPath}/controller" method="post">
+			<input name="name" value=""
+				placeholder="<fmt:message key="your_name"/>" class="text" /> <input
+				name="email" value="" placeholder="<fmt:message key="your_email"/>"
+				class="text" /> <input name="phone" value=""
+				placeholder="<fmt:message key='your_phone'/> 375XXXXXXXXX" class="text" /> <input
+				name="address" value=""
+				placeholder="<fmt:message key="your_address"/>" class="text" /> <input
+				type="hidden" name="command" value="post_request" /> <input
+				type="submit" class="submit"
+				value='<fmt:message key="post_request_button"/> ' />
+		</form>
+		<c:if test="${not empty postRequestMessage}">
+				<fmt:message key="${postRequestMessage}" />
+			</c:if>
+	</div>
 	</section> <a name="tariffs"></a> <section id="tariffs">
 	<div class="wrapper">
-		<div class="top_title">Тарифные планы</div>
-		<div class="item">
-			<div class="title">Телефония</div>
-			<div class="price">
-				<span class="num">от 3</span><br /> <span class="small">BYN/месяц</span>
-			</div>
-			<div class="descr">Городские телефонные номера.</div>
+		<div class="top_title">
+			<fmt:message key="tariffs" />
 		</div>
 		<div class="item">
-			<div class="title">Интернет</div>
+			<div class="title">
+				<fmt:message key="unlim_tariffs" />
+			</div>
 			<div class="price">
-				<span class="num">от 5</span><br /> <span class="small">BYN/месяц</span>
+				<span class="num"><fmt:message key="from" /> 12</span><br /> <span
+					class="small">BYN/<fmt:message key="month" /></span>
 			</div>
 			<div class="descr">
-				Скорость доступа до <br />100 Мбит/c
+				<fmt:message key="speed_up_to" />
+				100
+				<fmt:message key="mbps" />
 			</div>
 		</div>
 		<div class="item">
-			<div class="title">Телевидение</div>
-			<div class="price">
-				<span class="num">от 5,5</span><br /> <span class="small">BYN/месяц</span>
+			<div class="title">
+				<fmt:message key="limit_tariffs" />
 			</div>
-			<div class="descr">Более 150 каналов</div>
+			<div class="price">
+				<span class="num"><fmt:message key="from" /> 7.99</span><br /> <span
+					class="small">BYN/<fmt:message key="month" /></span>
+			</div>
+			<div class="descr">
+				<fmt:message key="variants" />
+			</div>
 		</div>
-		<a href="/alltariffs"></br>Кликните для просмотра всех тарифов </a>
+		<div class="item">
+			<div class="title">
+				<fmt:message key="for_business" />
+			</div>
+			<div class="price">
+				<span class="num"><fmt:message key="from" /> 20</span><br /> <span
+					class="small">BYN/<fmt:message key="month" /></span>
+			</div>
+			<div class="descr">
+				<fmt:message key="discounts_for_business" />
+			</div>
+		</div>
+		<a href="${contextPath}/controller?command=show_tariffs"></br>
+		<fmt:message key="click_for_tariffs" /> </a>
 	</div>
 	</section> <a name="subscribe"></a> <section id="scheme">
 	<div class="wrapper">
@@ -204,7 +225,7 @@
 
 
 
-<%@include file="WEB-INF/jsp_fragments/footer.jsp"%>
+<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 
 </body>
 </html>

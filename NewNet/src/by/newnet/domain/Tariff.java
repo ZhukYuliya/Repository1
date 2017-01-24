@@ -45,8 +45,52 @@ public class Tariff {
 	public void setInactive(boolean inactive) {
 		this.inactive = inactive;
 	}
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + (inactive ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + speed;
+		result = prime * result + traffic;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tariff other = (Tariff) obj;
+		if (id != other.id)
+			return false;
+		if (inactive != other.inactive)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (speed != other.speed)
+			return false;
+		if (traffic != other.traffic)
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "Tariff [id=" + id + ", name=" + name + ", price=" + price + ", speed=" + speed
+		        + ", traffic=" + traffic + ", inactive=" + inactive + "]";
+	}
 }
 	
 	

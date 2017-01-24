@@ -3,14 +3,31 @@
     src: url(../fonts/Exo2.0-Regular.otf);
     font-style: normal;
 }
-
+html{
+	height: 100vh; 
+/* 	position:relative; 
+ */}
 body,input{
     font-family: ExoRegular; 
     color:#262626;
 }
 body { 
+	top:80px;
     width:auto; 
-    height:auto !important; 
+    min-height: 100%;
+    position: relative;
+    
+}
+main { 
+	position:relative;
+	margin-bottom: -90px;  
+}
+main:after {
+  content: "";
+  display: block;
+}
+main:after {
+  height: 90px; 
 }
 body .wrapper{
     position:relative;
@@ -322,20 +339,23 @@ body .wrapper{
 
 footer{ 
     width:auto; 
-    height: 100px; 
+    height: 90px; 
     margin: auto; 
-    padding: 5px; 
-    position: relative; 
+    padding: 0px; 
     font-size:12px; 
     background:url(../img/footer.png) no-repeat center; 
-    color:#fff; 
+    color:#fff;
+    position:relative; 
+    bottom:0; 
 }
+
 footer .copy{ 
     position:absolute; 
     top:7px; 
-    left:0px;  
+    left:10px;  
 }
 footer .social{
+	padding-right:10px;  
     float: right;
     }
 footer a{ 

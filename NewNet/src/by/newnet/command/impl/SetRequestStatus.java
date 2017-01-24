@@ -17,6 +17,7 @@ public class SetRequestStatus implements Command {
 		RequestService requestService = ServiceFactory.getInstance().getRequestService();
 		int requestId = Integer.valueOf(request.getParameter(RequestConstants.ID));
 		String statusParameter = (request.getParameter(RequestConstants.STATUS));
+		//check exc?
 		RequestStatus status = RequestStatus.valueOf(statusParameter);
 		try {
 			requestService.setStatus(requestId, status);
@@ -29,12 +30,13 @@ public class SetRequestStatus implements Command {
 		case RequestConstants.AFTER_CALL:
 			page = PageNames.SHOW_REQUESTS_COMMAND;
 			message = "request_processed";
+			break;
 		case RequestConstants.AFTER_CONTRACT:
 			page = PageNames.NEW_CONTRACT;
+			break;
 		}
-		// default
+		// default?
 		request.setAttribute(RequestConstants.CHANGE_STATUS_MESSAGE, message);
-
 		return page;
 	}
 
