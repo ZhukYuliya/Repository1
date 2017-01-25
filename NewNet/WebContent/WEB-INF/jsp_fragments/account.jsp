@@ -3,16 +3,17 @@
 
 <%-- <fmt:setLocale value="${sessionScope.locale}" />
  --%>
-<p>
+ <section id="account">
+<span>
 	<fmt:message key="account_info" />
-</p>
+</span>
 
-<table border="1">
+<table>
 	<tr>
-		<td><fmt:message key="account_number"/></td>
-		<td><fmt:message key="account_balance"/>, BYN</td>
-		<td><fmt:message key="current_tariff"/></td>
-		<td><fmt:message key="blocked"/></td>
+		<th><fmt:message key="account_number"/></th>
+		<th><fmt:message key="account_balance"/>, BYN</th>
+		<th><fmt:message key="current_tariff"/></th>
+		<th><fmt:message key="blocked"/></th>
 	</tr>
 	<tr>
 		<td>${user.account}</td>
@@ -28,9 +29,9 @@
 			</c:choose></td>
 	</tr>
 </table>
-
+<span>
 <c:if test="${not empty subscriptionMessage}">
 	<fmt:message key="successfull_subscription" />
 </c:if>
-
-
+</span>
+</section>

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 
-public class ChangeLocale implements Command{
+public class ChangeLocaleCommand implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

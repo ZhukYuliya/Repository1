@@ -10,7 +10,7 @@ import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
-public class SetRequestStatus implements Command {
+public class SetRequestStatusCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

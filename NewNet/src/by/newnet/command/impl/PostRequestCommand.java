@@ -11,7 +11,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
-public class PostRequest implements Command {
+public class PostRequestCommand implements Command {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

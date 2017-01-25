@@ -10,9 +10,10 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-	<main>
-	<br>
-	<br>
+	<main> <br>
+	<c:if test="${not empty userEditingMessage}">
+		<fmt:message key="${userEditingMessage}" />
+	</c:if> <br>
 	<table border="1">
 		<tr>
 			<td><fmt:message key="click_user_id" /></td>
@@ -35,7 +36,8 @@
 				<td>${user.account}</td>
 				<td>${user.accountBalance}</td>
 				<td>${user.tariff.name}</td>
-				<td><c:choose>
+				<td>${user.role.name}
+				<%-- <c:choose>
 						<c:when test="${user.isAdmin()}">
 							<fmt:message key="${admin}" />
 						</c:when>
@@ -45,7 +47,7 @@
 						<c:otherwise>
 							<fmt:message key="${customer}" />
 						</c:otherwise>
-					</c:choose></td>
+					</c:choose> --%></td>
 				<td><c:choose>
 						<c:when test="${user.blocked}">
 							<fmt:message key="${blocked}" />
@@ -60,7 +62,7 @@
 		</c:forEach>
 	</table>
 	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
-</main>
+	</main>
 </body>
 </html>
 

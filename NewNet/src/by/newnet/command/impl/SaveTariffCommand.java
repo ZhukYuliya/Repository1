@@ -13,7 +13,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.DuplicateTariffServiceException;
 import by.newnet.service.exception.ServiceException;
 
-public class SaveTariff implements Command {
+public class SaveTariffCommand implements Command {
 
 	// TODO: change to set tariff and use both for adding and changing tariff?
 	@Override

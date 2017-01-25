@@ -2,7 +2,7 @@ package by.newnet.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
+// no hashcode of role?
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -19,21 +19,21 @@ public class User implements Serializable{
 	private Tariff tariff;
 	
 	public boolean isAdmin(){
-		if(role.getId() == 1){
+		if(role.equals(Role.ADMIN)){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	public boolean isOperator(){
-		if(role.getId() == 2){
+		if(role.equals(Role.OPERATOR)){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	public boolean isCustomer(){
-		if(role.getId() == 3){
+		if(role.equals(Role.CUSTOMER)){
 			return true;
 		}else{
 			return false;
@@ -119,7 +119,7 @@ public class User implements Serializable{
 		result = prime * result + hashPassword;
 		result = prime * result + id;
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		//result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((secondName == null) ? 0 : secondName.hashCode());
 		result = prime * result + ((tariff == null) ? 0 : tariff.hashCode());
 		return result;

@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
 	private static final ConnectionPool instance = new ConnectionPool();
-	
+
 	private BlockingQueue<Connection> connectionQueue;
 	private BlockingQueue<Connection> givenAwayConQueue;
 
@@ -17,8 +17,8 @@ public class ConnectionPool {
 	private String user;
 	private String password;
 	private int poolSize;
-	
-	public static ConnectionPool getInstance(){
+
+	public static ConnectionPool getInstance() {
 		return instance;
 	}
 
@@ -32,13 +32,14 @@ public class ConnectionPool {
 		try {
 			this.poolSize = Integer.parseInt(dbResourseManager.getValue(DBParameter.DB_POOL_SIZE));
 		} catch (NumberFormatException e) {
-			poolSize = 100;
+			poolSize = 5;
 		}
 	}
 
 	public void initPoolData() throws ConnectionPoolException {
 
 		try {
+			// change class for name
 			Class.forName(driverName);
 			givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
 			connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
@@ -48,14 +49,9 @@ public class ConnectionPool {
 				connectionQueue.add(connection);
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			throw new ConnectionPoolException();
-		
-		} catch (ClassNotFoundException e) {
-			throw new ConnectionPoolException();
-			
 		}
-
 	}
 
 	public void dispose() {
@@ -74,7 +70,7 @@ public class ConnectionPool {
 			try {
 				con.close();
 			} catch (SQLException e) {
-			
+
 			}
 		}
 	}
@@ -85,8 +81,8 @@ public class ConnectionPool {
 			connection = connectionQueue.take();
 			givenAwayConQueue.add(connection);
 		} catch (InterruptedException e) {
-			
-			 throw new ConnectionPoolException();
+
+			throw new ConnectionPoolException();
 		}
 		return connection;
 	}

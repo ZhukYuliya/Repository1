@@ -13,7 +13,7 @@ import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowRequests implements Command {
+public class ShowRequestsCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

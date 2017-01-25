@@ -2,10 +2,11 @@
 <taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
   <tlib-version>1.0</tlib-version>
   <short-name>headertag</short-name>
-  <uri>/WEB-INF/tlds/headertag</uri>
+  <uri>/WEB-INF/tlds/localization</uri>
   <tag>
-      <name>headertag</name>
-      <tag-class>by.newnet.tag.HeaderTag</tag-class>
+      <name>localization</name>
+      <tag-class>by.newnet.tag.LocalizationTag</tag-class>
       <body-content>empty</body-content>
-  </tag>
+<!--       add attributes!!
+ -->  </tag>
 </taglib>

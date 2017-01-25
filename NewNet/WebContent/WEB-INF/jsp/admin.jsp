@@ -12,11 +12,11 @@
 
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
 	<main>
+	<section id="home">
 	<h1>
-		<fmt:message key="welcome" />
-		, ${user.firstName}
+		<fmt:message key="welcome"/>, ${user.firstName}
 	</h1>
-
+	<div class="options">
 	<form action="${contextPath}/controller" method="get">
 		<input type="hidden" name="command" value="show_users" /> <input
 			type="submit" value='<fmt:message key="show_users"/> ' />
@@ -25,9 +25,12 @@
 		<input type="hidden" name="command" value="show_tariffs" /> <input
 			type="submit" value='<fmt:message key="show_tariffs"/> ' />
 	</form>
+	</div>
+	</section>
 	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 	</main>
+		<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	
 </body>
 </html>
 

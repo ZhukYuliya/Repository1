@@ -1,9 +1,23 @@
 package by.newnet.command.exception;
 
-@SuppressWarnings("serial")
 public class CommandException extends Exception{
 
-	public CommandException(Exception e){
+private static final long serialVersionUID = 1L;
+	
+	public CommandException() {
+	}
+
+	public CommandException(String message) {
+		super(message);
+
+	}
+	public CommandException(String message, Exception e) {
+		super(message, e);
+
+	}
+	
+	public CommandException(Exception e) {
 		super(e);
+
 	}
 }

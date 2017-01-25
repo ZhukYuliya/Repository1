@@ -10,7 +10,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ChangePersonalDetails implements Command {
+public class ToPaymentCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -23,10 +23,8 @@ public class ChangePersonalDetails implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
 		request.setAttribute(RequestConstants.USER, user);
-	
-		return PageNames.PERSONAL_DETAILS;
+		return PageNames.PAYMENT;
 	}
 
 }

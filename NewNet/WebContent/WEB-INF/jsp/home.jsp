@@ -11,32 +11,33 @@
 <body>
 
 	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-	<main>
+	<main> <section id="home">
 	<h1>
 		<fmt:message key="welcome" />
-		, ${user.firstName} ${user.secondName}
+		, ${user.firstName}
 	</h1>
+	<div class="options">
+		<span></span><c:if test="${not empty paymentMessage}">
+			<fmt:message key="${paymentMessage}" />
+		</c:if></span>
 
-	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
-	<c:if test="${not empty paymentMessage}">
-		<fmt:message key="${paymentMessage}" />
-	</c:if>
+		<form action="${contextPath}/controller" method="get">
+			<input type="hidden" name="command" value="show_tariffs" /> <input
+				type="submit" value='<fmt:message key="show_tariffs"/> ' />
+		</form>
 
-	<form action="${contextPath}/controller" method="get">
-		<input type="hidden" name="command" value="show_tariffs" /> <input
-			type="submit" value='<fmt:message key="show_tariffs"/> ' />
-	</form>
+		<form action="${contextPath}/controller" method="get">
+			<input type="hidden" name="command" value="to_payment" /> <input
+				type="submit" value='<fmt:message key="refill_balance"/> ' />
+		</form>
 
-	<form action="${contextPath}/controller" method="get">
-		<input type="hidden" name="command" value="to_payment" /> <input
-			type="submit" value='<fmt:message key="refill_balance"/> ' />
-	</form>
-
-	<form action="${contextPath}/controller" method="get">
-		<input type="hidden" name="command" value="change_personal_details" />
-		<input type="submit"
-			value='<fmt:message key="change_contacts_password"/> ' />
-	</form>
+		<form action="${contextPath}/controller" method="get">
+			<input type="hidden" name="command" value="change_personal_details" />
+			<input type="submit"
+				value='<fmt:message key="change_contacts_password"/> ' />
+		</form>
+	</div>
+	</section> <%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
 	</main>
 	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
 </body>

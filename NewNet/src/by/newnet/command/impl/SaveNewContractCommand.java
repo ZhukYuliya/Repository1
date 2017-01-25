@@ -8,7 +8,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class SaveNewContract implements Command {
+public class SaveNewContractCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

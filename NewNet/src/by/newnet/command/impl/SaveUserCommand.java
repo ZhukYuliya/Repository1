@@ -12,7 +12,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class SaveUser implements Command {
+public class SaveUserCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -41,9 +41,9 @@ public class SaveUser implements Command {
 			user.setSecondName(secondName);
 			user.setPhone(phone);
 			user.setEmail(email);
-			Role role = new Role();
+			/*Role role = new Role();
 			role.setId(Integer.valueOf(request.getParameter(RequestConstants.ROLE)));
-			user.setRole(role);
+			user.setRole(role);*/
 			Tariff tariff = new Tariff();
 			tariff.setId(Integer.valueOf(request.getParameter(RequestConstants.TARIFF)));
 			user.setTariff(tariff);

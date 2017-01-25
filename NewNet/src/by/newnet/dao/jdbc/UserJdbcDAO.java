@@ -48,8 +48,8 @@ public class UserJdbcDAO implements UserDAO {
 	        "update users set " + UsersTable.BLOCKED + "=false where " + UsersTable.ID + "=?";
 	public static final String UPDATE_USER =
 	        "update users set " + UsersTable.ACCOUNT + "=?, " + UsersTable.FIRST_NAME + "=?, "
-	                + UsersTable.SECOND_NAME + "=?, " + UsersTable.ROLE + "=?, " + UsersTable.TARIFF
-	                + "=?, " + UsersTable.BLOCKED + " where " + UsersTable.ID + "=?";
+	                + UsersTable.SECOND_NAME + "=?, " /*+ UsersTable.ROLE + "=?, " */+ UsersTable.TARIFF
+	                + "=?, " + UsersTable.BLOCKED + "=? " + " where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
@@ -67,7 +67,6 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		User user = new User();
-		Role role = new Role();
 		Tariff tariff = new Tariff();
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
@@ -85,8 +84,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setPhone(rs.getString(UsersTable.PHONE));
 				// convert to bigdecimal?
 				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
-				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
-				role.setName(rs.getString(RolesTable.NAME));
+				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
@@ -125,7 +123,6 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		User user = new User();
-		Role role = new Role();
 		Tariff tariff = new Tariff();
 		try {
 			connection = ConnectionPool.getInstance().takeConnection();
@@ -142,8 +139,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setPhone(rs.getString(UsersTable.PHONE));
 				// convert to bigdecimal?
 				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
-				role.setId(Integer.valueOf(rs.getString(RolesTable.ID)));
-				role.setName(rs.getString(RolesTable.NAME));
+				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
@@ -266,9 +262,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
 				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
-				Role role = new Role();
-				role.setId(rs.getInt(RolesTable.ID));
-				role.setName(rs.getString(RolesTable.NAME));
+				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setAccountBalance(rs.getBigDecimal((UsersTable.ACCOUNT_BALANCE)));
 				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
@@ -484,10 +478,10 @@ public class UserJdbcDAO implements UserDAO {
 			updateUserStatement.setString(1, user.getAccount());
 			updateUserStatement.setString(2, user.getFirstName());
 			updateUserStatement.setString(3, user.getSecondName());
-			updateUserStatement.setInt(4, user.getRole().getId());
-			updateUserStatement.setInt(5, user.getTariff().getId());
-			updateUserStatement.setBoolean(6, user.isBlocked());
-			updateUserStatement.setInt(7, user.getId());
+			//updateUserStatement.setInt(4, user.getRole().getId());
+			updateUserStatement.setInt(4, user.getTariff().getId());
+			updateUserStatement.setBoolean(5, user.isBlocked());
+			updateUserStatement.setInt(6, user.getId());
 			updateUserStatement.executeUpdate();
 			saveContacts(connection, user.getId(), user.getPhone(), user.getEmail());
 			connection.commit();

@@ -34,13 +34,16 @@ public class Controller extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
 			String name = request.getParameter(COMMAND);
-			Command command = commandHelper.getCommand(name);
+			Command command = null;
 			String page = null;
 			try {
+				command = commandHelper.getCommand(name);
 				page = command.execute(request, response);
+				//illegal command exc too?
 			} catch (CommandException e) {
-			
+				//page,not exception
 				throw new ServletException (e);
+				//log
 			}
 			System.out.println(command + ":" +page);
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);

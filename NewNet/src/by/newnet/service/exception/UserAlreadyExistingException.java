@@ -1,9 +1,23 @@
 package by.newnet.service.exception;
 
-@SuppressWarnings("serial")
 public class UserAlreadyExistingException extends ServiceException{
-	public UserAlreadyExistingException (){}
-	public UserAlreadyExistingException (Exception e){
-		super (e);
+
+private static final long serialVersionUID = 1L;
+	
+	public UserAlreadyExistingException() {
+	}
+
+	public UserAlreadyExistingException(String message) {
+		super(message);
+
+	}
+	public UserAlreadyExistingException(String message, Exception e) {
+		super(message, e);
+
+	}
+	
+	public UserAlreadyExistingException(Exception e) {
+		super(e);
+
 	}
 }

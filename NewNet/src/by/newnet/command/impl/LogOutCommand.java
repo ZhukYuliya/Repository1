@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import by.newnet.command.Command;
 
-public class LogOut implements Command {
+public class LogOutCommand implements Command {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {

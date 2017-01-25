@@ -12,7 +12,7 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
 
-public class Authentication implements Command {
+public class AuthenticationCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

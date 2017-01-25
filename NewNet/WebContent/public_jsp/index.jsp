@@ -219,15 +219,11 @@
 		<div class="clearfix"></div>
 	</div>
 	</section> </main>
+	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	
 </body>
 </html>
 
 
-
-
-<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
-
-</body>
-</html>
 
 
