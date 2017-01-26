@@ -20,7 +20,7 @@ body {
 }
 main { 
 	position:relative;
-	margin-bottom: -90px;  
+	margin-bottom: -180px;  
 }
 main:after {
   content: "";
@@ -337,7 +337,7 @@ body .wrapper{
     clear:both;
 }
 
-#account, #home { 
+#account, #home, #edit, #view  { 
     width:100%; 
     height:100%; 
     left:0px; 
@@ -374,15 +374,30 @@ body .wrapper{
 #account table {
     border-collapse: collapse;
 }
-#account table, th, td { 
+#account table /* #account th, #account td  */{ 
     width:50%; 
     text-align:center; 
     margin-left:30px;
     margin-bottom:20px;
     border: 3px solid #226494;  
 }
-
-
+#view table{
+	width:90%; 
+    text-align:left; 
+    margin-left:30px;
+    margin-bottom:20px;
+    border: 3px solid #226494;  
+}
+#view tr{
+nth-child(even) {background-color: #BCD0E4}
+}
+#edit table{
+	width:60%; 
+    text-align:left; 
+    margin-left:30px;
+    margin-bottom:20px;
+    border: 3px solid #226494;  
+}
 footer{ 
     width:auto; 
     height: 90px; 

@@ -2,8 +2,11 @@ package by.newnet.command.impl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
@@ -11,7 +14,7 @@ import by.newnet.service.exception.ServiceException;
 public class SaveNewContractCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String contract = request.getParameter(RequestConstants.CONTRACT);
@@ -29,6 +32,6 @@ public class SaveNewContractCommand implements Command {
 			}
 		}
 		request.setAttribute(RequestConstants.SAVE_CONTRACT_MESSAGE, message);
-		return PageNames.NEW_CONTRACT;
+		return new ControllerSendRedirect(PageNames.NEW_CONTRACT);
 	}
 }

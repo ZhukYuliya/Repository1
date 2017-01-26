@@ -5,20 +5,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <title>NewNet: <fmt:message key="payment" /></title>
 </head>
 <body>
-	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main>
-	<p>
+	<section id="edit">
+	<span>
 		<fmt:message key="current_balance" />
 		:${user.accountBalance} ${byn}<br>
-	</p>
-	<p>
+	</span>
+	<span>
 		<fmt:message key="card_details" />
-	</p>
-	<form action="${contextPath}/controller" method="post">
+	</span>
+	<form action="${contextPath}/controller" method="post" name="payment" 
+			onsubmit="return validatePaymentForm()">
 		<input type="hidden" name="command" value="pay" />
 		<table>
 			<tr>
@@ -50,7 +52,8 @@
 		:<input name="amount" value="" type="text" class="text" /> <input
 			type="submit" class="submit" value='<fmt:message key="pay_button"/> ' />
 	</form>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	</section>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 <main/></body>
 </html>
 

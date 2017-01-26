@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -14,7 +16,7 @@ import by.newnet.service.exception.ServiceException;
 public class SetPasswordCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String oldPassword;
@@ -42,6 +44,6 @@ public class SetPasswordCommand implements Command {
 			}
 		}
 		request.setAttribute(RequestConstants.SET_PASSWORD_MESSAGE, message);
-		return PageNames.PERSONAL_DETAILS;
+		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS);
 	}
 }

@@ -5,13 +5,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+	<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <title>NewNet: <fmt:message key="requests" /></title>
 </head>
 <body>
 
-	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jspf/header.jspf"%>
 <main>
+<section id="view">
 	<c:if test="${not empty changeStatusMessage}">
 		<fmt:message key="${changeStatusMessage}" />
 	</c:if>
@@ -57,9 +58,9 @@
 			</tr>
 		</c:forEach>
 	</table>
-
-	<%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+</section>
+	<%@include file="/WEB-INF/jspf/account.jspf"%>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 	</main>
 </body>
 </html>

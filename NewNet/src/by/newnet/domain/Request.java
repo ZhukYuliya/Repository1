@@ -1,7 +1,5 @@
 package by.newnet.domain;
 
-import java.io.Serializable;
-
 public class Request implements Comparable<Request> {
 	// private static final long serialVersionUID = 1L;
 	private int id;

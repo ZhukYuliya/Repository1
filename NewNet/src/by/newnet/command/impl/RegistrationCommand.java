@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -13,8 +16,9 @@ import by.newnet.service.exception.ServiceException;
 public class RegistrationCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
+		ControllerAction controllerAction = null;
 
 		String password;
 		String reenterPassword;
@@ -34,6 +38,7 @@ public class RegistrationCommand implements Command {
 				userService.register(userId, password, phone, email);
 				message = "successful_registration";
 				page = PageNames.INDEX;
+				controllerAction = new ControllerSendRedirect(page);
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				message = "??";
@@ -41,8 +46,9 @@ public class RegistrationCommand implements Command {
 			}
 		}else{
 			page = PageNames.REGISTRATION;
+			controllerAction = new ControllerForward(page);
 		}
 		request.setAttribute(RequestConstants.REGISTRATION_MESSAGE, message);
-		return page;
+		return controllerAction;
 	}
 }

@@ -1,12 +1,17 @@
 package by.newnet.controller.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import by.newnet.command.impl.RequestConstants;
 
 public class CharacterFilter implements Filter {
 
@@ -24,6 +29,16 @@ public class CharacterFilter implements Filter {
 			throws IOException, ServletException {
 		request.setCharacterEncoding(ENCODING);
 		response.setCharacterEncoding(ENCODING);
+		HttpServletRequest request1 = (HttpServletRequest) request;
+		if (request1.getMethod().equals("GET")) {
+			HttpSession session = request1.getSession();
+			StringBuffer url = request1.getRequestURL();
+			if (request1.getQueryString() != null){
+				url.append("?").append(request1.getQueryString()).toString();
+			}
+			session.setAttribute(RequestConstants.LAST_REQUEST_GET_URL, url.toString());
+		}
+
 		chain.doFilter(request, response);
 	}
 

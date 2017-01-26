@@ -6,7 +6,7 @@
 <c:set var="contextPath" scope="request" value="${pageContext.request.contextPath}"/>
 <c:set var="byn" value="BYN"/>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <link rel="shortcut icon" href="${contextPath}/resources/img/favicon.png" type="image/png">
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css" />

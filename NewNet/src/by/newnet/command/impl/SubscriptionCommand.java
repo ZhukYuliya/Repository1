@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -13,7 +15,7 @@ import by.newnet.service.exception.ServiceException;
 public class SubscriptionCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		int newTariffId;
@@ -33,6 +35,6 @@ public class SubscriptionCommand implements Command {
 			throw new CommandException(e);
 		}
 		request.setAttribute(RequestConstants.SUBSCRIPTION_MESSAGE, message);
-		return PageNames.SHOW_ACCOUNT_COMMAND;
+		return new ControllerForward(PageNames.SHOW_ACCOUNT_COMMAND);
 	}
 }

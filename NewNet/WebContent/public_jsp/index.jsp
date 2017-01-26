@@ -6,12 +6,13 @@
 
 <html>
 <head>
-<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
-<title>NewNet: <fmt:message key="internet_provider" /></title>
+<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<title>NewNet:${sessionScope.locale} <fmt:message key="internet_provider" /></title>
 </head>
 <body>
-	<header> <%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
-	<%@include file="/WEB-INF/jsp_fragments/menu.jsp"%>
+	<header> <%@include file="/WEB-INF/jspf/header.jspf"%>
+	<%@include file="/WEB-INF/jspf/menu.jspf"%>
 	</header>
 	<main> 	<c:if test="${empty user}">
 	<section id="wrappertop">
@@ -24,7 +25,8 @@
 			<div class="subtitle">
 				<fmt:message key="sign_in_message" />
 			</div>
-			<form action="${contextPath}/controller" method="post">
+			<form action="${contextPath}/controller" method="post" name="authentication" 
+			onsubmit="return validateAuthenticationForm()">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
 				<input name="password" type="password" value=""
@@ -44,7 +46,8 @@
 			<div class="subtitle">
 				<fmt:message key="register" />
 			</div>
-			<form action="${contextPath}/controller" method="post">
+			<form action="${contextPath}/controller" method="post" name="checkAccount" 
+			onsubmit="return validatecheckAccountForm()">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
 				<input type="hidden" name="command" value="check_account" /> <input
@@ -116,14 +119,15 @@
 		<div class="small">
 			<fmt:message key="call_for_details" />
 		</div>
-		<form action="${contextPath}/controller" method="post">
+		<form action="${contextPath}/controller" method="post" name="request" 
+			onsubmit="return validateRequestForm()">
 			<input name="name" value=""
-				placeholder="<fmt:message key="your_name"/>" class="text" /> <input
-				name="email" value="" placeholder="<fmt:message key="your_email"/>"
+				placeholder="<fmt:message key="your_name"/> *" class="text" /> <input
+				name="email" value="" placeholder="<fmt:message key="your_email"/> *"
 				class="text" /> <input name="phone" value=""
-				placeholder="<fmt:message key='your_phone'/> 375XXXXXXXXX" class="text" /> <input
+				placeholder="<fmt:message key='your_phone'/> 375XXXXXXXXX *" class="text" /> <input
 				name="address" value=""
-				placeholder="<fmt:message key="your_address"/>" class="text" /> <input
+				placeholder="<fmt:message key="your_address"/> *" class="text" /> <input
 				type="hidden" name="command" value="post_request" /> <input
 				type="submit" class="submit"
 				value='<fmt:message key="post_request_button"/> ' />
@@ -219,7 +223,7 @@
 		<div class="clearfix"></div>
 	</div>
 	</section> </main>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 	
 </body>
 </html>

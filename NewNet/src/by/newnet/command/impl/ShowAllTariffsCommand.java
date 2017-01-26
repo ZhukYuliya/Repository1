@@ -7,15 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.Tariff;
-import by.newnet.service.TariffService;
 import by.newnet.service.ServiceFactory;
+import by.newnet.service.TariffService;
 import by.newnet.service.exception.ServiceException;
 
 public class ShowAllTariffsCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		TariffService tariffService = ServiceFactory.getInstance().getTariffService();
 		List<Tariff> tariffsList = null;
@@ -25,7 +27,7 @@ public class ShowAllTariffsCommand implements Command {
 			throw new CommandException(e);
 		}
 		request.setAttribute(RequestConstants.TARIFFS_LIST, tariffsList);
-		return PageNames.TARIFFS;
+		return new ControllerForward(PageNames.TARIFFS);
 	}
 
 }

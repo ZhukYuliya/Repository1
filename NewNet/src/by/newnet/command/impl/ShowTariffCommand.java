@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.Tariff;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.TariffService;
@@ -13,7 +15,7 @@ import by.newnet.service.exception.ServiceException;
 public class ShowTariffCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		TariffService TariffService = ServiceFactory.getInstance().getTariffService();
 		int tariffId = Integer.valueOf(request.getParameter(RequestConstants.ID));
@@ -26,7 +28,7 @@ public class ShowTariffCommand implements Command {
 		
 		request.setAttribute(RequestConstants.TARIFF, tariff);
 	
-		return PageNames.EDIT_TARIFF;
+		return new ControllerForward(PageNames.EDIT_TARIFF);
 	}
 
 }

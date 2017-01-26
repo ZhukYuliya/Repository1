@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
-import by.newnet.domain.Role;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
@@ -15,7 +16,7 @@ import by.newnet.service.exception.ServiceException;
 public class SaveUserCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 	
 		String account;
@@ -51,7 +52,7 @@ public class SaveUserCommand implements Command {
 			try {
 				userService.saveUser(user);
 				message = "successful_user_editing";
-				page = PageNames.SHOW_USERS_COMMAND;
+				page = PageNames.SHOW_CUSTOMERS_COMMAND;
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				message = "??";
@@ -62,6 +63,6 @@ public class SaveUserCommand implements Command {
 			page = PageNames.EDIT_USER;
 		}
 		request.setAttribute(RequestConstants.USER_EDITING_MESSAGE, message);
-		return page;
+		return new ControllerSendRedirect(page);
 	}
 }

@@ -3,7 +3,7 @@ package by.newnet.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 // no hashcode of role?
-public class User implements Serializable{
+public class User implements Serializable, Comparable<User>{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String account;
@@ -187,6 +187,10 @@ public class User implements Serializable{
 		        + ", email=" + email + ", firstName=" + firstName + ", secondName=" + secondName
 		        + ", accountBalance=" + accountBalance + ", role=" + role + ", blocked=" + blocked
 		        + ", phone=" + phone + ", tariff=" + tariff + "]";
+	}
+	@Override
+	public int compareTo(User user) {
+		return this.getSecondName().compareTo(user.getSecondName());
 	}
 	
 }

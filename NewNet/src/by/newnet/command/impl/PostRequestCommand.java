@@ -5,16 +5,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.Request;
 import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class PostRequestCommand implements Command {
 	
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String name;
@@ -47,6 +48,6 @@ public class PostRequestCommand implements Command {
 			}
 		}
 		request.setAttribute(RequestConstants.POST_REQUEST_MESSAGE, message);
-		return PageNames.AFTER_POST_REQUEST;
+		return new ControllerSendRedirect(PageNames.AFTER_POST_REQUEST);
 	}
 }

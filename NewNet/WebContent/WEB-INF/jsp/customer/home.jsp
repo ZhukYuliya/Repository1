@@ -5,19 +5,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <title>NewNet: <fmt:message key="home" /></title>
 </head>
 <body>
 
-	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main> <section id="home">
 	<h1>
 		<fmt:message key="welcome" />
 		, ${user.firstName}
 	</h1>
 	<div class="options">
-		<span></span><c:if test="${not empty paymentMessage}">
+		<span><c:if test="${not empty paymentMessage}">
 			<fmt:message key="${paymentMessage}" />
 		</c:if></span>
 
@@ -37,9 +37,9 @@
 				value='<fmt:message key="change_contacts_password"/> ' />
 		</form>
 	</div>
-	</section> <%@include file="/WEB-INF/jsp_fragments/account.jsp"%>
+	</section> <%@include file="/WEB-INF/jspf/account.jspf"%>
 	</main>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>
 

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.Request;
 import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
@@ -16,7 +18,7 @@ import by.newnet.service.exception.ServiceException;
 public class ShowRequestsCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		RequestService requestService = ServiceFactory.getInstance().getRequestService();
 		List<Request> requestsList = null;
 		try {
@@ -26,7 +28,7 @@ public class ShowRequestsCommand implements Command {
 		}
 		Collections.sort(requestsList);
 		request.setAttribute(RequestConstants.REQUESTS_LIST, requestsList);
-		return PageNames.REQUESTS;
+		return new ControllerForward(PageNames.REQUESTS);
 	}
 
 }

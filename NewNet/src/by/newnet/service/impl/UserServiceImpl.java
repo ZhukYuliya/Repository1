@@ -1,20 +1,17 @@
 package by.newnet.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import by.newnet.dao.DAOFactory;
-import by.newnet.dao.TariffDAO;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.domain.CreditCard;
-import by.newnet.domain.Request;
-import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class UserServiceImpl implements UserService {
 
@@ -111,12 +108,52 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> showUsers() throws ServiceException {
+	public List<User> showCustomers() throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
 			List<User> usersList = userDAO.showUsers();
-			return usersList;
+			List<User> customersList = new ArrayList<>();
+			for(User user : usersList){
+				if(user.isCustomer()){
+					customersList.add(user);
+				}
+			}
+			return customersList;
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	@Override
+	public List<User> showOperators() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		try {
+			List<User> usersList = userDAO.showUsers();
+			List<User> operatorsList = new ArrayList<>();
+			for(User user : usersList){
+				if(user.isOperator()){
+					operatorsList.add(user);
+				}
+			}
+			return operatorsList;
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	@Override
+	public List<User> showAdmins() throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		try {
+			List<User> usersList = userDAO.showUsers();
+			List<User> adminsList = new ArrayList<>();
+			for(User user : usersList){
+				if(user.isAdmin()){
+					adminsList.add(user);
+				}
+			}
+			return adminsList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

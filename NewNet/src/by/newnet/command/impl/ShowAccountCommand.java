@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -13,7 +15,7 @@ import by.newnet.service.exception.ServiceException;
 public class ShowAccountCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		UserService userService = ServiceFactory.getInstance().getUserService();
@@ -34,6 +36,6 @@ public class ShowAccountCommand implements Command {
 		} else {
 			page = PageNames.HOME;
 		}
-		return page;
+		return new ControllerForward(page);
 	}
 }

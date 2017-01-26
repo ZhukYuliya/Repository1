@@ -4,9 +4,7 @@ import java.util.List;
 
 import by.newnet.dao.DAOFactory;
 import by.newnet.dao.TariffDAO;
-import by.newnet.dao.TariffDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.Tariff;
 import by.newnet.domain.Tariff;
 import by.newnet.service.TariffService;
 import by.newnet.service.exception.DuplicateTariffServiceException;

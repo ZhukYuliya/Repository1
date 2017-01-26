@@ -21,7 +21,9 @@ public interface UserService {
 
 	void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException;
 	//List<String> getAccountInfo(int userId) throws ServiceException;
-	List<User> showUsers() throws ServiceException;
+	List<User> showCustomers() throws ServiceException;
+	List<User> showOperators() throws ServiceException;
+	List<User> showAdmins() throws ServiceException;
 	void saveContract(String contract, String firstName, String secondName)  throws ServiceException;
 	void saveUser(User user)  throws ServiceException;
 	void applyDailyFee() throws ServiceException;

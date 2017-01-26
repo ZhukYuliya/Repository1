@@ -147,9 +147,6 @@ public class Validator {
 			message = validatePhone(phone);
 		}
 		if (message == null) {
-			message = validatePhone(phone);
-		}
-		if (message == null) {
 			message = validateEmail(email);
 		}
 		return message;
@@ -298,6 +295,9 @@ public class Validator {
 			if (!cardholderFirstNameMatcher.matches() || !cardholderSecondNameMatcher.matches()) {
 				message = "invalid_caldholder_name";
 			}
+		}
+		if (message == null){
+			message = validateBynAmount(amount);
 		}
 		return message;
 	}

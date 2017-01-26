@@ -9,35 +9,25 @@ import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
-import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
-import by.newnet.service.TariffService;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowUserCommand implements Command {
+public class ShowCustomersCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		TariffService tariffService = ServiceFactory.getInstance().getTariffService();
-
-		int userId = (Integer.valueOf(request.getParameter(RequestConstants.ID)));
-		User user = null;
-		List<Tariff> tariffsList = null;
+		List<User> usersList = null;
 		try {
-			user = userService.getUserById(userId);
-			tariffsList = tariffService.showTariffs();
+			usersList = userService.showCustomers();
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
-		request.setAttribute(RequestConstants.USER, user);
-		request.setAttribute(RequestConstants.TARIFFS_LIST, tariffsList);
-
-		return new ControllerForward(PageNames.EDIT_USER);
+		request.setAttribute(RequestConstants.USERS_LIST, usersList);
+		return new ControllerForward(PageNames.USERS);
 	}
 
 }

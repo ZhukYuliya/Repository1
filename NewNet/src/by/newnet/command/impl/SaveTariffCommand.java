@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.Tariff;
-import by.newnet.service.TariffService;
 import by.newnet.service.ServiceFactory;
+import by.newnet.service.TariffService;
 import by.newnet.service.exception.DuplicateTariffServiceException;
 import by.newnet.service.exception.ServiceException;
 
@@ -17,7 +19,7 @@ public class SaveTariffCommand implements Command {
 
 	// TODO: change to set tariff and use both for adding and changing tariff?
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String idParameter;
@@ -81,6 +83,6 @@ public class SaveTariffCommand implements Command {
 			page = PageNames.EDIT_TARIFF;
 		}
 		request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
-		return page;
+		return new ControllerForward(page);
 	}
 }

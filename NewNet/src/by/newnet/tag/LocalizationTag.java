@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -18,12 +19,12 @@ public class LocalizationTag extends TagSupport {
 	public final static String htmlContent =
 	        // repeating code
 			//no attributes?
-	        "'<form action='${contextPath}/controller' method='post'>"
+	        "'<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='ru'/>"
 	                + "<input type='submit' value='%s'/>'/></form>"
 
-	                + "<form action='${contextPath}/controller' method='post'>"
+	                + "<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='en'/>"
 	                + "<input type='submit' value='%s'/></form>";
@@ -31,13 +32,14 @@ public class LocalizationTag extends TagSupport {
 	@Override
 	public int doStartTag() throws JspException {
 		try {
-			Locale locale = (Locale) pageContext.getSession().getAttribute(RequestConstants.LOCALE);
+			String locale = (String)pageContext.getSession().getAttribute(RequestConstants.LOCALE);
 			ResourceBundle resourseBundle =
 			        locale == null ? ResourceBundle.getBundle("resources.localization")
-			                : ResourceBundle.getBundle("resources.localization", locale);
+			                : ResourceBundle.getBundle("resources.localization", new Locale(locale));
 			String ruMessage = resourseBundle.getString("localization.ru_button");
 			String enMessage = resourseBundle.getString("localization.en_button");
-			String htmlOutput = String.format(htmlContent, ruMessage, enMessage);
+			String contextPath = ((HttpServletRequest)pageContext.getRequest()).getContextPath();
+			String htmlOutput = String.format(htmlContent, contextPath, ruMessage, contextPath, enMessage);
 			pageContext.getOut().print(htmlOutput);
 		} catch (IOException e) {
 			throw new JspException(e);

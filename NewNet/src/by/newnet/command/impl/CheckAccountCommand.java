@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -14,7 +16,7 @@ import by.newnet.service.exception.ServiceException;
 public class CheckAccountCommand implements Command {
 	
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String account;
@@ -48,6 +50,6 @@ public class CheckAccountCommand implements Command {
 			request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 			page = PageNames.INDEX;
 		}
-		return page;
+		return new ControllerForward(page);
 	}
 }

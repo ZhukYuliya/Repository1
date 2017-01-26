@@ -5,19 +5,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <title>NewNet: <fmt:message key="user_editing" /></title>
 </head>
 <body>
 
-	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main>
+<section id="edit">
 
 	<h1>
 		<fmt:message key="edit_user" />
 	</h1>
 
-	<form action="${contextPath}/controller" method="post">
+	<form action="${contextPath}/controller" method="post" name="editUser" 
+			onsubmit="return validateEditUserForm()">
 		<table border="1">
 			<tr>
 				<td>ID</td>
@@ -25,27 +27,27 @@
 					placeholder="${user.id}" readonly type="text" class="text" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="second_name" /></td>
+				<td><fmt:message key="second_name" /> *</td>
 				<td><input name="secondName" value="${user.secondName}"
 					placeholder="${user.secondName}" type="text" class="text" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="first_name" /></td>
+				<td><fmt:message key="first_name" /> *</td>
 				<td><input name="firstName" value="${user.firstName}"
 					placeholder="${user.firstName}" type="text" class="text" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="account_number" /></td>
+				<td><fmt:message key="account_number" /> *</td>
 				<td><input name="account" value="${user.account}"
 					placeholder="${user.account}" type="text" class="text" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="phone" /></td>
+				<td><fmt:message key="phone" /> *</td>
 				<td><input name="phone" value="${user.phone}"
 					placeholder="${user.phone}" type="text" class="text" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="email" /></td>
+				<td><fmt:message key="email" /> *</td>
 				<td><input name="email" value="${user.email}"
 					placeholder="${user.email}" type="text" class="text" /></td>
 			</tr>
@@ -86,13 +88,13 @@
 		<input type="hidden" name="command" value="show_users" /> <input
 			type="submit" value='<fmt:message key="back_to_users"/> ' />
 	</form>
-
+</section>
 	<%-- <select
 			name="role">
 			<option value="1"><fmt:message key="admin" /></option>
 			<option value="2"><fmt:message key="operator" /></option>
 			<option value="3"><fmt:message key="customer" /></option>
-		</select> --%> <%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+		</select> --%> <%@include file="/WEB-INF/jspf/footer.jspf"%>
 	</main>
 
 </body>

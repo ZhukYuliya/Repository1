@@ -5,13 +5,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="/WEB-INF/jsp_fragments/head_tag.jsp"%>
+<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <title>NewNet: <fmt:message key="personal_details" /></title>
 </head>
 <body>
 
-	<%@include file="/WEB-INF/jsp_fragments/header.jsp"%>
+	<%@include file="/WEB-INF/jspf/header.jspf"%>
 <main>
+<section id="edit">
 	<h1>
 		<fmt:message key="change_details" />
 	</h1>
@@ -19,7 +20,8 @@
 	<h2>
 		<fmt:message key="change_password" />
 	</h2>
-	<form action="${contextPath}/controller" method="post">
+	<form action="${contextPath}/controller" method="post" name="changePassword" 
+			onsubmit="return validateChangePasswordForm()">
 		<input name="oldPassword" value="" type="password"
 			placeholder='<fmt:message key="old_password" />' class="text" /> <input
 			name="newPassword" value="" type="password"
@@ -40,7 +42,8 @@
 		<fmt:message key="current_contacts" />
 		: ${user.phone}, ${user.email}
 	</p>
-	<form action="${contextPath}/controller" method="post">
+	<form action="${contextPath}/controller" method="post" name="setContacts" 
+			onsubmit="return validateSetContactsForm()">
 		<input name="phone" value="${user.phone}"
 			placeholder='<fmt:message key="new_phone" />' class="text" /> <input
 			name="email" value="${user.email}"
@@ -52,7 +55,8 @@
 	<c:if test="${not empty setContactsMessage}">
 		<fmt:message key="${setContactsMessage}" />
 	</c:if>
-	<%@include file="/WEB-INF/jsp_fragments/footer.jsp"%>
+	</section>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </main>
 </body>
 </html>

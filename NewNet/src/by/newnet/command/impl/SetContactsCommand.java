@@ -1,26 +1,21 @@
 package by.newnet.command.impl;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
+import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
-import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class SetContactsCommand implements Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
+	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
 		String phone;
@@ -46,6 +41,6 @@ public class SetContactsCommand implements Command {
 			}
 		}
 		request.setAttribute(RequestConstants.SET_CONTACTS_MESSAGE, message);
-		return PageNames.PERSONAL_DETAILS;
+		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS);
 	}
 }
