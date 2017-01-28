@@ -83,11 +83,18 @@
 			value='<fmt:message key="save_button"/> ' />
 	</form>
 
+<c:if test="${user.isOperator()}">
+<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="show_operators" /> <input
+			type="submit" value='<fmt:message key="back_to_operators"/>'/>
+	</form>	</c:if> 
+<c:if test="${user.isCustomer()}">
+<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="show_customers" /> <input
+			type="submit" value='<fmt:message key="back_to_customers"/>'/>
+	</form>	</c:if> 
 
-	<form action="${contextPath}/controller" method="get">
-		<input type="hidden" name="command" value="show_users" /> <input
-			type="submit" value='<fmt:message key="back_to_users"/> ' />
-	</form>
+	
 </section>
 	<%-- <select
 			name="role">

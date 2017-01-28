@@ -8,7 +8,7 @@
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
-<title>NewNet:${sessionScope.locale} <fmt:message key="internet_provider" /></title>
+<title> ${lastRequestUrl} NewNet:${sessionScope.locale} <fmt:message key="internet_provider" /></title>
 </head>
 <body>
 	<header> <%@include file="/WEB-INF/jspf/header.jspf"%>

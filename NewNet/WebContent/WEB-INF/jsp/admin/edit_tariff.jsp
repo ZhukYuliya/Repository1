@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>NewNet: <fmt:message key="tariff_editing" /></title>
+<title>${lastRequestUrl} NewNet: <fmt:message key="tariff_editing" /></title>
 </head>
 <body>
 

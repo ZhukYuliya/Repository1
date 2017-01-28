@@ -46,7 +46,7 @@ public class AccessFilter implements Filter {
 
 		customerCommands = new HashSet<String>();
 		customerCommands.addAll(loggedUserCommands);
-		customerCommands.add(CommandName.PAY.toString());
+		customerCommands.add(CommandName.PAYMENT.toString());
 		customerCommands.add(CommandName.TO_PAYMENT.toString());
 
 		operatorCommands = new HashSet<String>();

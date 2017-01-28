@@ -36,7 +36,7 @@ public class CharacterFilter implements Filter {
 			if (request1.getQueryString() != null){
 				url.append("?").append(request1.getQueryString()).toString();
 			}
-			session.setAttribute(RequestConstants.LAST_REQUEST_GET_URL, url.toString());
+			session.setAttribute(RequestConstants.LAST_GET_REQUEST_URL, url.toString());
 		}
 
 		chain.doFilter(request, response);

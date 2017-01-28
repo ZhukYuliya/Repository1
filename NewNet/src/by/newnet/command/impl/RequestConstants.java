@@ -2,7 +2,7 @@ package by.newnet.command.impl;
 
 public class RequestConstants {
 	public static final String CONTROLLER = "/controller";
-	public static final String LAST_REQUEST_GET_URL = "lastRequestUrl";
+	public static final String LAST_GET_REQUEST_URL = "lastRequestUrl";
 	public static final String USER = "user";
 	public static final String ADMIN = "admin";
 	public static final String CUSTOMER = "customer";

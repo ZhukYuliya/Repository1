@@ -2,6 +2,7 @@ package by.newnet.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import by.newnet.dao.DAOFactory;
@@ -119,6 +120,7 @@ public class UserServiceImpl implements UserService {
 					customersList.add(user);
 				}
 			}
+			Collections.sort(customersList);
 			return customersList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -136,6 +138,7 @@ public class UserServiceImpl implements UserService {
 					operatorsList.add(user);
 				}
 			}
+			Collections.sort(operatorsList);
 			return operatorsList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -153,6 +156,7 @@ public class UserServiceImpl implements UserService {
 					adminsList.add(user);
 				}
 			}
+			Collections.sort(adminsList);
 			return adminsList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);

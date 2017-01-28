@@ -23,7 +23,7 @@ public enum CommandName {
 	SHOW_USER,
 	SUBSCRIBE,
 	TO_PAYMENT,
-	PAY,
+	PAYMENT,
 	SAVE_TARIFF,
 	SAVE_USER,
 	}

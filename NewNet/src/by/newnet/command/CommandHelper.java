@@ -54,7 +54,7 @@ public class CommandHelper {
 		commands.put(CommandName.CHANGE_PERSONAL_DETAILS, new ChangePersonalDetailsCommand());
 		commands.put(CommandName.SET_PASSWORD, new SetPasswordCommand());
 		commands.put(CommandName.SET_CONTACTS, new SetContactsCommand());
-		commands.put(CommandName.PAY, new PaymentCommand());
+		commands.put(CommandName.PAYMENT, new PaymentCommand());
 		commands.put(CommandName.TO_PAYMENT, new ToPaymentCommand());
 		commands.put(CommandName.POST_REQUEST, new PostRequestCommand());
 		commands.put(CommandName.SUBSCRIBE, new SubscriptionCommand());

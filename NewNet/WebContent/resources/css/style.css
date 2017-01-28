@@ -20,7 +20,7 @@ body {
 }
 main { 
 	position:relative;
-	margin-bottom: -180px;  
+	margin-bottom: -90px;  
 }
 main:after {
   content: "";

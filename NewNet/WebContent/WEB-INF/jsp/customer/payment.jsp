@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>NewNet: <fmt:message key="payment" /></title>
+<title>${lastRequestUrl} NewNet: <fmt:message key="payment" /></title>
 </head>
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
