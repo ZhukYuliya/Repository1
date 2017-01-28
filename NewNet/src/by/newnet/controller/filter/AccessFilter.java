@@ -60,9 +60,7 @@ public class AccessFilter implements Filter {
 		adminCommands.addAll(loggedUserCommands);
 		adminCommands.add(CommandName.SAVE_TARIFF.toString());
 		adminCommands.add(CommandName.SAVE_USER.toString());
-		adminCommands.add(CommandName.SHOW_CUSTOMERS.toString());
-		adminCommands.add(CommandName.SHOW_OPERATORS.toString());
-		adminCommands.add(CommandName.SHOW_ADMINS.toString());
+		adminCommands.add(CommandName.SHOW_USERS.toString());
 		adminCommands.add(CommandName.SHOW_USER.toString());
 	}
 

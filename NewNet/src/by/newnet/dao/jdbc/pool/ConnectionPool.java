@@ -34,21 +34,20 @@ public class ConnectionPool {
 		} catch (NumberFormatException e) {
 			poolSize = 5;
 		}
+		//to prevent null pointer exc
+		givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
+		connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
 	}
 
 	public void initPoolData() throws ConnectionPoolException {
 
 		try {
 			// change class for name
-			Class.forName(driverName);
-			givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
-			connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
-
+						Class.forName(driverName);
 			for (int i = 0; i < poolSize; i++) {
 				Connection connection = DriverManager.getConnection(url, user, password);
 				connectionQueue.add(connection);
 			}
-
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new ConnectionPoolException();
 		}

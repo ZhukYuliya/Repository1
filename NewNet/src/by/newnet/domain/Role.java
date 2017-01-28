@@ -2,7 +2,30 @@ package by.newnet.domain;
 
 public enum Role {
 
-	ADMIN, OPERATOR, CUSTOMER
+	ADMIN(1), OPERATOR(2), CUSTOMER(3);
+	
+	private int roleCoef;
+
+	Role() {
+	}
+
+	Role(int roleCoef) {
+		this.roleCoef = roleCoef;
+	}
+
+	public int getRoleCoef() {
+		return roleCoef;
+	}
+
+	// public?
+	public void setRoleCoef(int roleCoef) {
+		this.roleCoef = roleCoef;
+	}
+
+	@Override
+	public String toString() {
+		return name();
+	}
 }
 /*
  * private int id; private String name; //private List<Permission>

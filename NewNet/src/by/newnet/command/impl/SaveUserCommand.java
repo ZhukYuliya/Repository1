@@ -52,11 +52,7 @@ public class SaveUserCommand implements Command {
 			try {
 				userService.saveUser(user);
 				message = "successful_user_editing";
-				if(user.isOperator()){
-				page = PageNames.SHOW_CUSTOMERS_COMMAND;
-				}else{
-					page = PageNames.SHOW_OPERATORS_COMMAND;
-				}
+				page = PageNames.SHOW_USERS_COMMAND;
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				message = "??";

@@ -25,7 +25,7 @@ public class RegistrationCommand implements Command {
 		String phone;
 		String email;
 		
-		int userId = ((User)request.getSession().getAttribute(RequestConstants.USER)).getId();
+		int userId = Integer.valueOf((request.getParameter(RequestConstants.USER_ID)));
 		password = request.getParameter(RequestConstants.PASSWORD);
 		reenterPassword = request.getParameter(RequestConstants.REENTER_PASSWORD);
 		phone = request.getParameter(RequestConstants.PHONE);
@@ -38,17 +38,23 @@ public class RegistrationCommand implements Command {
 				userService.register(userId, password, phone, email);
 				message = "successful_registration";
 				page = PageNames.INDEX;
-				controllerAction = new ControllerSendRedirect(page);
+				controllerAction = new ControllerSendRedirect(page + "?" 
+				+ RequestConstants.REGISTRATION_MESSAGE + "=" + message);
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				message = "??";
 				throw new CommandException(e);
 			}
 		}else{
+			User user = new User();
+			user.setId(userId);
+			user.setSecondName(request.getParameter(RequestConstants.SECOND_NAME));
+			user.setFirstName(request.getParameter(RequestConstants.FIRST_NAME));
+			request.setAttribute(RequestConstants.USER, user);
+			request.setAttribute(RequestConstants.REGISTRATION_MESSAGE, message);
 			page = PageNames.REGISTRATION;
 			controllerAction = new ControllerForward(page);
 		}
-		request.setAttribute(RequestConstants.REGISTRATION_MESSAGE, message);
 		return controllerAction;
 	}
 }

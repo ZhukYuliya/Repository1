@@ -21,10 +21,10 @@
 		<td>${user.tariff.name}</td>
 		<td><c:choose>
 				<c:when test="${user.blocked}">
-					<fmt:message key="${blocked}" />
+					<fmt:message key="blocked" />
 				</c:when>
 				<c:otherwise>
-					<fmt:message key="${not_blocked}" />
+					<fmt:message key="not_blocked" />
 				</c:otherwise>
 			</c:choose></td>
 	</tr>

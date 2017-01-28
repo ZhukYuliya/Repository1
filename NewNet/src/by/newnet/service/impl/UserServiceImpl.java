@@ -1,8 +1,6 @@
 package by.newnet.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import by.newnet.dao.DAOFactory;
@@ -10,9 +8,11 @@ import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.domain.CreditCard;
 import by.newnet.domain.User;
+import by.newnet.domain.UserComparator;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
+import by.newnet.service.exception.UserAlreadyExistingException;
 
 public class UserServiceImpl implements UserService {
 
@@ -30,14 +30,11 @@ public class UserServiceImpl implements UserService {
 		// ok to return null here??
 		try {
 			loggedUser = userDAO.getUserByAccount(account);
-			if (loggedUser != null) {
-				if ((password.hashCode()) == (loggedUser.getHashPassword())) {
-					return loggedUser;
-				} else {
-					throw new ServiceAuthorizationException();
-				}
-			} else{
-				return null;
+			if (loggedUser != null 
+					&& (String.valueOf(password.hashCode()).equals(loggedUser.getHashPassword()))) {
+				return loggedUser;
+			} else {
+				throw new ServiceAuthorizationException();
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -79,7 +76,7 @@ public class UserServiceImpl implements UserService {
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
-		if (user.getHashPassword() != oldPassword.hashCode()) {
+		if (!user.getHashPassword().equals(oldPassword.hashCode())) {
 			throw new ServiceAuthorizationException();
 		}
 		try {
@@ -94,12 +91,10 @@ public class UserServiceImpl implements UserService {
 	public void setContacts(int userId, String phone, String email) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
-		/*User user = null;
-		try {
-			user = userDAO.getUserById(userId);
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}*/
+		/*
+		 * User user = null; try { user = userDAO.getUserById(userId); } catch
+		 * (DAOException e) { throw new ServiceException(e); }
+		 */
 		try {
 			userDAO.setContacts(userId, phone, email);
 		} catch (DAOException e) {
@@ -109,55 +104,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> showCustomers() throws ServiceException {
+	public List<User> showUsers() throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
 			List<User> usersList = userDAO.showUsers();
-			List<User> customersList = new ArrayList<>();
-			for(User user : usersList){
-				if(user.isCustomer()){
-					customersList.add(user);
-				}
-			}
-			Collections.sort(customersList);
-			return customersList;
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}
-	}
-	@Override
-	public List<User> showOperators() throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
-		UserDAO userDAO = daoFactory.getUserDAO();
-		try {
-			List<User> usersList = userDAO.showUsers();
-			List<User> operatorsList = new ArrayList<>();
-			for(User user : usersList){
-				if(user.isOperator()){
-					operatorsList.add(user);
-				}
-			}
-			Collections.sort(operatorsList);
-			return operatorsList;
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}
-	}
-	@Override
-	public List<User> showAdmins() throws ServiceException {
-		DAOFactory daoFactory = DAOFactory.getInstance();
-		UserDAO userDAO = daoFactory.getUserDAO();
-		try {
-			List<User> usersList = userDAO.showUsers();
-			List<User> adminsList = new ArrayList<>();
-			for(User user : usersList){
-				if(user.isAdmin()){
-					adminsList.add(user);
-				}
-			}
-			Collections.sort(adminsList);
-			return adminsList;
+			usersList.sort(new UserComparator());
+			return usersList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -186,10 +139,25 @@ public class UserServiceImpl implements UserService {
 		}
 		return user;
 	}
+	@Override
+	public User getUserForRegistration(String account) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		UserDAO userDAO = daoFactory.getUserDAO();
+		User user = null;
+		try {
+			user = userDAO.getUserByAccount(account);
+			if(user !=null && !user.isDraft()){
+				throw new UserAlreadyExistingException();
+			}
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return user;
+	}
 
 	@Override
-	public void register(int userId, String password, String phone,
-	        String email) throws ServiceException {
+	public void register(int userId, String password, String phone, String email)
+	        throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
@@ -225,8 +193,9 @@ public class UserServiceImpl implements UserService {
 			userDAO.saveUser(user);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		}		
+		}
 	}
+
 	@Override
 	public void applyDailyFee() throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
@@ -235,7 +204,7 @@ public class UserServiceImpl implements UserService {
 			userDAO.applyDailyFee();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		}		
+		}
 	}
 
 }

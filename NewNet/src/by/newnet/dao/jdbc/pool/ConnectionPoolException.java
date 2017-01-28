@@ -1,6 +1,8 @@
 package by.newnet.dao.jdbc.pool;
 
-public class ConnectionPoolException extends Exception {
+import by.newnet.dao.exception.DAOException;
+
+public class ConnectionPoolException extends DAOException {
 
 private static final long serialVersionUID = 1L;
 	

@@ -38,12 +38,13 @@ public class Controller extends HttpServlet {
 		String name = request.getParameter(COMMAND);
 		Command command = null;
 		ControllerAction controllerAction = null;
+		String contextPath = request.getContextPath();
 		try {
 			command = commandHelper.getCommand(name);
 			controllerAction = command.execute(request, response);
 			// illegal command exc too?
 		} catch (IllegalCommandException e) {
-			response.sendRedirect(PageNames.ERROR_404_PAGE);
+			response.sendRedirect(contextPath + PageNames.ERROR_404_PAGE);
 		} catch (CommandException e) {
 			// page,not exception
 			throw new ServletException(e);
@@ -54,7 +55,7 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			dispatcher.forward(request, response);
 		} else {
-			response.sendRedirect(url);
+			response.sendRedirect(contextPath + url);
 		}
 
 	}

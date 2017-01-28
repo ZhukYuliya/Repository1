@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
-import by.newnet.controller.ControllerForward;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
@@ -34,7 +34,7 @@ public class SubscriptionCommand implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(RequestConstants.SUBSCRIPTION_MESSAGE, message);
-		return new ControllerForward(PageNames.SHOW_ACCOUNT_COMMAND);
+		return new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND + "?" 
+		+ RequestConstants.SUBSCRIPTION_MESSAGE + "?" + message);
 	}
 }

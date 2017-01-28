@@ -3,11 +3,11 @@ package by.newnet.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 // no hashcode of role?
-public class User implements Serializable, Comparable<User>{
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String account;
-	private int hashPassword;
+	private String hashPassword;
 	private String email;
 	private String firstName;
 	private String secondName;
@@ -15,6 +15,7 @@ public class User implements Serializable, Comparable<User>{
 	private Role role;
 	private boolean blocked;
 	private String phone;
+	private boolean draft;
 	
 	private Tariff tariff;
 	
@@ -58,10 +59,10 @@ public class User implements Serializable, Comparable<User>{
 	public void setAccount(String account) {
 		this.account = account;
 	}
-	public int getHashPassword() {
+	public String getHashPassword() {
 		return hashPassword;
 	}
-	public void setHashPassword(int hashPassword) {
+	public void setHashPassword(String hashPassword) {
 		this.hashPassword = hashPassword;
 	}
 	public String getEmail() {
@@ -106,6 +107,12 @@ public class User implements Serializable, Comparable<User>{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public boolean isDraft() {
+		return draft;
+	}
+	public void setDraft(boolean draft) {
+		this.draft = draft;
+	}
 
 	@Override
 	public int hashCode() {
@@ -116,7 +123,7 @@ public class User implements Serializable, Comparable<User>{
 		result = prime * result + (blocked ? 1231 : 1237);
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + hashPassword;
+		result = prime * result + ((hashPassword == null) ? 0 : hashPassword.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		//result = prime * result + ((role == null) ? 0 : role.hashCode());
@@ -187,10 +194,6 @@ public class User implements Serializable, Comparable<User>{
 		        + ", email=" + email + ", firstName=" + firstName + ", secondName=" + secondName
 		        + ", accountBalance=" + accountBalance + ", role=" + role + ", blocked=" + blocked
 		        + ", phone=" + phone + ", tariff=" + tariff + "]";
-	}
-	@Override
-	public int compareTo(User user) {
-		return this.getSecondName().compareTo(user.getSecondName());
 	}
 	
 }

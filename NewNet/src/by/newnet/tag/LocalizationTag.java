@@ -19,10 +19,10 @@ public class LocalizationTag extends TagSupport {
 	public final static String htmlContent =
 	        // repeating code
 			//no attributes?
-	        "'<form action='%s/controller' method='post'>"
+	        "<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='ru'/>"
-	                + "<input type='submit' value='%s'/>'/></form>"
+	                + "<input type='submit' value='%s'/></form>"
 
 	                + "<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE

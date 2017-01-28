@@ -1,7 +1,5 @@
 package by.newnet.command.impl;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,20 +12,20 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowOperatorsCommand implements Command {
+public class ToRegistrationCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		
+		int userId = Integer.valueOf(request.getParameter(RequestConstants.USER_ID));
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		List<User> usersList = null;
+		User user = null;
 		try {
-			usersList = userService.showOperators();
+			user = userService.getUserById(userId);
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		request.setAttribute(RequestConstants.USERS_LIST, usersList);
-		return new ControllerForward(PageNames.USERS);
+		request.setAttribute(RequestConstants.USER, user);
+		return new ControllerForward(PageNames.REGISTRATION);
 	}
-
 }

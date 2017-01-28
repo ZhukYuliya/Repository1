@@ -6,10 +6,13 @@ import java.util.List;
 import by.newnet.domain.CreditCard;
 import by.newnet.domain.User;
 import by.newnet.service.exception.ServiceException;
+import by.newnet.service.exception.UserAlreadyExistingException;
 
 public interface UserService {
 	// method name should be a verb?
 	User authenticate(String account, String password) throws ServiceException;
+	User getUserForRegistration(String account) throws UserAlreadyExistingException, ServiceException;
+
 	User getUserByAccount(String account) throws ServiceException;
 	void register(int userId, String password, String phone, String email) throws ServiceException;
 	
@@ -21,9 +24,7 @@ public interface UserService {
 
 	void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException;
 	//List<String> getAccountInfo(int userId) throws ServiceException;
-	List<User> showCustomers() throws ServiceException;
-	List<User> showOperators() throws ServiceException;
-	List<User> showAdmins() throws ServiceException;
+	List<User> showUsers() throws ServiceException;
 	void saveContract(String contract, String firstName, String secondName)  throws ServiceException;
 	void saveUser(User user)  throws ServiceException;
 	void applyDailyFee() throws ServiceException;

@@ -21,11 +21,8 @@ public class AuthenticationCommand implements Command {
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 		ControllerAction controllerAction = null;
-		String account;
-		String password;
-
-		account = request.getParameter(RequestConstants.ACCOUNT);
-		password = request.getParameter(RequestConstants.PASSWORD);
+		String account = request.getParameter(RequestConstants.ACCOUNT);
+		String password = request.getParameter(RequestConstants.PASSWORD);
 
 		String message = Validator.checkEmptyFields(account, password);
 		String page = PageNames.INDEX;
@@ -35,26 +32,19 @@ public class AuthenticationCommand implements Command {
 			User loggedUser = null;
 			try {
 				loggedUser = userService.authenticate(account, password);
-			} catch (ServiceAuthorizationException e) {
-				message = "wrong_credentials";
-				request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
-				page = PageNames.INDEX;
-				controllerAction = new ControllerSendRedirect(page);
-			} catch (ServiceException e) {
-				throw new CommandException(e);
-			}
-			if (loggedUser != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute(RequestConstants.USER, loggedUser);
 				page = PageNames.SHOW_ACCOUNT_COMMAND;
-				controllerAction = new ControllerForward(page);
-			} else{
+				controllerAction = new ControllerSendRedirect(page);
+			} catch (ServiceAuthorizationException e) {
 				message = "wrong_credentials";
-				request.setAttribute(RequestConstants.AUTHENTICATION_FAILED, true);
+				request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE, message);
 				page = PageNames.INDEX;
+				controllerAction = new ControllerForward(page);
+			} catch (ServiceException e) {
+				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE,message);
 		return controllerAction;
 	}
 }

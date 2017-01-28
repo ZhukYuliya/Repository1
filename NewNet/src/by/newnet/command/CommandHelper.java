@@ -20,30 +20,28 @@ import by.newnet.command.impl.SetContactsCommand;
 import by.newnet.command.impl.SetPasswordCommand;
 import by.newnet.command.impl.SetRequestStatusCommand;
 import by.newnet.command.impl.ShowAccountCommand;
-import by.newnet.command.impl.ShowAdminsCommand;
 import by.newnet.command.impl.ShowAllTariffsCommand;
-import by.newnet.command.impl.ShowCustomersCommand;
-import by.newnet.command.impl.ShowOperatorsCommand;
+import by.newnet.command.impl.ShowAllUsersCommand;
 import by.newnet.command.impl.ShowRequestsCommand;
 import by.newnet.command.impl.ShowTariffCommand;
 import by.newnet.command.impl.ShowUserCommand;
 import by.newnet.command.impl.SubscriptionCommand;
 import by.newnet.command.impl.ToPaymentCommand;
+import by.newnet.command.impl.ToRegistrationCommand;
 
 public class CommandHelper {
 	private Map<CommandName, Command> commands = new HashMap<>();
 
 	public CommandHelper() {
 		commands.put(CommandName.AUTHENTICATION, new AuthenticationCommand());
+		commands.put(CommandName.TO_REGISTRATION, new ToRegistrationCommand());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.CHECK_ACCOUNT, new CheckAccountCommand());
 		commands.put(CommandName.SAVE_NEW_CONTRACT, new SaveNewContractCommand());
 		commands.put(CommandName.REGISTER_NEW_CONTRACT, new RegisterNewContractCommand());
 		commands.put(CommandName.SHOW_TARIFFS, new ShowAllTariffsCommand());
 		commands.put(CommandName.SHOW_TARIFF, new ShowTariffCommand());
-		commands.put(CommandName.SHOW_CUSTOMERS, new ShowCustomersCommand());
-		commands.put(CommandName.SHOW_OPERATORS, new ShowOperatorsCommand());
-		commands.put(CommandName.SHOW_ADMINS, new ShowAdminsCommand());
+		commands.put(CommandName.SHOW_USERS, new ShowAllUsersCommand());
 		commands.put(CommandName.SHOW_USER, new ShowUserCommand());
 		commands.put(CommandName.SAVE_USER, new SaveUserCommand());
 		commands.put(CommandName.SET_REQUEST_STATUS, new SetRequestStatusCommand());

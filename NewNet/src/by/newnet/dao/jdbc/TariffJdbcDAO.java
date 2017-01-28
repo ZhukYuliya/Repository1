@@ -9,11 +9,9 @@ import java.util.List;
 
 import by.newnet.dao.TariffDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.pool.ConnectionPool;
-import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.Tariff;
 
-public class TariffJdbcDAO implements TariffDAO {
+public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
     public static final String SHOW_TARIFFS = "select * from tariffs";
     public static final String UPDATE_TARIFF = "update tariffs set " + TariffsTable.NAME + "=?, " + TariffsTable.PRICE + "=?, "
             + TariffsTable.SPEED + "=?, " + TariffsTable.TRAFFIC + "=?, " + TariffsTable.INACTIVE + "=?, where"
@@ -28,7 +26,7 @@ public class TariffJdbcDAO implements TariffDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
+            connection = getConnection();
             statement = connection.prepareStatement(SHOW_TARIFFS);
             ResultSet rs = statement.executeQuery();
             List<Tariff> tariffsList = new ArrayList<Tariff>();
@@ -43,19 +41,10 @@ public class TariffJdbcDAO implements TariffDAO {
                 tariffsList.add(tariff);
             }
             return tariffsList;
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    ConnectionPool.getInstance().releaseConnection(connection);
-                }
-            } catch (ConnectionPoolException | SQLException e) {
-                throw new DAOException(e);
-            }
+			closeStatementsAndReleaseConnection(connection, statement);
         }
     }
 
@@ -65,7 +54,7 @@ public class TariffJdbcDAO implements TariffDAO {
         PreparedStatement statement = null;
         Tariff tariff = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
+            connection = getConnection();
             statement = connection.prepareStatement(GET_TARIFF_BY_NAME);
             statement.setString(1, tariffName);
             ResultSet rs = statement.executeQuery();
@@ -78,21 +67,10 @@ public class TariffJdbcDAO implements TariffDAO {
                 tariff.setTraffic(rs.getInt(TariffsTable.TRAFFIC));
                 tariff.setInactive(rs.getBoolean(TariffsTable.INACTIVE));
             }
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    //connection.rollback();
-                    ConnectionPool.getInstance().releaseConnection(connection);
-                }
-
-            } catch (ConnectionPoolException | SQLException e) {
-                throw new DAOException(e);
-            }
+			closeStatementsAndReleaseConnection(connection, statement);
         }
         return tariff;
     }
@@ -102,7 +80,7 @@ public class TariffJdbcDAO implements TariffDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
+            connection = getConnection();
             statement = connection.prepareStatement(ADD_TARIFF);
             statement.setString(1, tariff.getName());
             statement.setBigDecimal(2, tariff.getPrice());
@@ -111,21 +89,10 @@ public class TariffJdbcDAO implements TariffDAO {
             // bit boolean?
             statement.setBoolean(5, tariff.isInactive());
             statement.executeUpdate();
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    //connection.rollback();
-                    ConnectionPool.getInstance().releaseConnection(connection);
-                }
-
-            } catch (ConnectionPoolException | SQLException e) {
-                throw new DAOException(e);
-            }
+			closeStatementsAndReleaseConnection(connection, statement);
         }
 
     }
@@ -135,7 +102,7 @@ public class TariffJdbcDAO implements TariffDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
+            connection = getConnection();
             statement = connection.prepareStatement(UPDATE_TARIFF);
             statement.setString(1, tariff.getName());
             statement.setBigDecimal(2, tariff.getPrice());
@@ -145,21 +112,10 @@ public class TariffJdbcDAO implements TariffDAO {
             statement.setBoolean(5, tariff.isInactive());
             statement.setInt(6, tariff.getId());
             statement.executeUpdate();
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    //connection.rollback();
-                    ConnectionPool.getInstance().releaseConnection(connection);
-                }
-
-            } catch (ConnectionPoolException | SQLException e) {
-                throw new DAOException(e);
-            }
+			closeStatementsAndReleaseConnection(connection, statement);
         }
 
     }
@@ -170,7 +126,7 @@ public class TariffJdbcDAO implements TariffDAO {
         PreparedStatement statement = null;
         Tariff tariff = null;
         try {
-            connection = ConnectionPool.getInstance().takeConnection();
+            connection = getConnection();
             statement = connection.prepareStatement(GET_TARIFF_BY_ID);
             statement.setInt(1, tariffId);
             ResultSet rs = statement.executeQuery();
@@ -183,21 +139,10 @@ public class TariffJdbcDAO implements TariffDAO {
                 tariff.setTraffic(rs.getInt(TariffsTable.TRAFFIC));
                 tariff.setInactive(rs.getBoolean(TariffsTable.INACTIVE));
             }
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException  e) {
             throw new DAOException(e);
         } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    //connection.rollback();
-                    ConnectionPool.getInstance().releaseConnection(connection);
-                }
-
-            } catch (ConnectionPoolException | SQLException e) {
-                throw new DAOException(e);
-            }
+			closeStatementsAndReleaseConnection(connection, statement);
         }
         return tariff;
 	}

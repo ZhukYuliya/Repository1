@@ -2,8 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<!DOCTYPE html>
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
@@ -19,7 +18,7 @@
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://newnet.by/" title="Логотип"> <img
-				src="resources/img/logo.png" alt="NewNet" /></a>
+				src="${contextPath}/resources/img/logo.png" alt="NewNet" /></a>
 		</div>
 		<div class="login">
 			<div class="subtitle">
@@ -37,9 +36,6 @@
 				<c:if test="${not empty authenticationMessage}">
 					<fmt:message key="${authenticationMessage}" />
 				</c:if>
-				<c:if test="${loginFailed == true}">
-					<fmt:message key="loginFailed" />
-				</c:if>
 			</form>
 		</div>
 		<div class="register">
@@ -56,8 +52,8 @@
 				<c:if test="${not empty checkAccountMessage}">
 					<fmt:message key="${checkAccountMessage}" />
 				</c:if>
-				<c:if test="${not empty registrationMessage}">
-					<fmt:message key="${registrationMessage}" />
+				<c:if test="${not empty param.registrationMessage}">
+					<fmt:message key="${param.registrationMessage}" />
 				</c:if>
 			</form>
 		</div>
@@ -69,7 +65,7 @@
 	</section></c:if> <a name="about-company"></a> <section id="internettop">
 	<div class="wrapper">
 		<div class="img">
-			<img src="resources/img/globe.jpg" />
+			<img src="${contextPath}/resources/img/globe.jpg" />
 		</div>
 		<div class="text">
 			<p>
@@ -92,7 +88,7 @@
 		</div>
 		<div class="text">
 			<div class="img">
-				<img src="resources/img/advantages.png" />
+				<img src="${contextPath}/resources/img/advantages.png" />
 			</div>
 			<table>
 				<tr>
@@ -189,7 +185,7 @@
 		</div>
 		<div class="text">
 			<div class="img">
-				<img src="resources/img/scheme.png" />
+				<img src="${contextPath}/resources/img/scheme.png" />
 			</div>
 			<table>
 				<tr>
@@ -204,7 +200,7 @@
 	</section> <a name="contacts"></a> <section id="contacts" class="map">
 	<div class="wrapper">
 		<div class="img">
-			<img src="resources/img/map.png" />
+			<img src="${contextPath}/resources/img/map.png" />
 		</div>
 		<div class="block">
 			<p>

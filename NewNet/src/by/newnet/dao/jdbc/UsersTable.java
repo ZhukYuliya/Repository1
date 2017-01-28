@@ -13,5 +13,5 @@ public class UsersTable {
 	public static final String BLOCKED = "blocked";
 	public static final String TARIFF = "tariff_id";
 	public static final String PHONE = "phone";
-
+	public static final String DRAFT = "draft";
 }

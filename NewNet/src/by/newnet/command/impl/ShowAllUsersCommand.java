@@ -14,7 +14,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
-public class ShowAdminsCommand implements Command {
+public class ShowAllUsersCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -22,12 +22,12 @@ public class ShowAdminsCommand implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		List<User> usersList = null;
 		try {
-			usersList = userService.showAdmins();
+			usersList = userService.showUsers();
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
 		request.setAttribute(RequestConstants.USERS_LIST, usersList);
-		return new ControllerForward(PageNames.USERS);
+		return new ControllerForward(PageNames.SHOW_USERS_COMMAND);
 	}
 
 }

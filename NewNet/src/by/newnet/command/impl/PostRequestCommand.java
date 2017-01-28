@@ -18,15 +18,10 @@ public class PostRequestCommand implements Command {
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		String name;
-		String email;
-		String phone;
-		String address;
-
-		name = request.getParameter(RequestConstants.NAME);
-		email = request.getParameter(RequestConstants.EMAIL);
-		phone = request.getParameter(RequestConstants.PHONE);
-		address = request.getParameter(RequestConstants.ADDRESS);
+		String name = request.getParameter(RequestConstants.NAME);
+		String email = request.getParameter(RequestConstants.EMAIL);
+		String phone = request.getParameter(RequestConstants.PHONE);
+		String address = request.getParameter(RequestConstants.ADDRESS);
 		// what validation needed?
 		String message = Validator.validateRequest(name, email, phone, address);
 

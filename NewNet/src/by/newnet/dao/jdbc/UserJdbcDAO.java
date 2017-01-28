@@ -12,18 +12,16 @@ import java.util.List;
 
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.pool.ConnectionPool;
-import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.CreditCard;
 import by.newnet.domain.Role;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 
-public class UserJdbcDAO implements UserDAO {
+public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	public static final String CHECK_CREDENTIALS = "select * from users where " + UsersTable.ACCOUNT
 	        + " = ? and " + UsersTable.PASSWORD + " = ?";
 	public static final String REGISTER_USER =
-	        "INSERT INTO users (login, password, name) values(?, ?, ?)";
+	        "INSERT INTO users (login, password, name, draft) values(?, ?, ?, false)";
 	public static final String CHECK_USER =
 	        "select " + UsersTable.ACCOUNT + " from users where " + UsersTable.ACCOUNT + " = ? ";
 	public static final String SUBSCRIBE_FOR_TARIFF =
@@ -46,10 +44,10 @@ public class UserJdbcDAO implements UserDAO {
 	        "update users set " + UsersTable.BLOCKED + "=true where " + UsersTable.ID + "=?";
 	public static final String UNBLOCK_USER =
 	        "update users set " + UsersTable.BLOCKED + "=false where " + UsersTable.ID + "=?";
-	public static final String UPDATE_USER =
-	        "update users set " + UsersTable.ACCOUNT + "=?, " + UsersTable.FIRST_NAME + "=?, "
-	                + UsersTable.SECOND_NAME + "=?, " /*+ UsersTable.ROLE + "=?, " */+ UsersTable.TARIFF
-	                + "=?, " + UsersTable.BLOCKED + "=? " + " where " + UsersTable.ID + "=?";
+	public static final String UPDATE_USER = "update users set " + UsersTable.ACCOUNT + "=?, "
+	        + UsersTable.FIRST_NAME + "=?, " + UsersTable.SECOND_NAME
+	        + "=?, " /* + UsersTable.ROLE + "=?, " */ + UsersTable.TARIFF + "=?, "
+	        + UsersTable.BLOCKED + "=? " + " where " + UsersTable.ID + "=?";
 	public static final String SHOW_USERS = "select * from users join roles on users."
 	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
 	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
@@ -69,7 +67,7 @@ public class UserJdbcDAO implements UserDAO {
 		User user = new User();
 		Tariff tariff = new Tariff();
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			// not transaction?
 			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(GET_USER_BY_ID);
@@ -78,7 +76,7 @@ public class UserJdbcDAO implements UserDAO {
 			while (rs.next()) {
 				user.setId(rs.getInt(UsersTable.ID));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
+				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				// convert to bigdecimal?
 				user.setPhone(rs.getString(UsersTable.PHONE));
@@ -87,6 +85,7 @@ public class UserJdbcDAO implements UserDAO {
 				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
+				user.setDraft(rs.getBoolean(UsersTable.DRAFT));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
@@ -101,19 +100,10 @@ public class UserJdbcDAO implements UserDAO {
 					user.setTariff(tariff);
 				}
 			}
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 		return user;
 	}
@@ -125,7 +115,7 @@ public class UserJdbcDAO implements UserDAO {
 		User user = new User();
 		Tariff tariff = new Tariff();
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			// not transaction?
 			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(GET_USER_BY_ACCOUNT);
@@ -134,7 +124,7 @@ public class UserJdbcDAO implements UserDAO {
 			while (rs.next()) {
 				user.setId(rs.getInt(UsersTable.ID));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
+				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				user.setPhone(rs.getString(UsersTable.PHONE));
 				// convert to bigdecimal?
@@ -142,6 +132,7 @@ public class UserJdbcDAO implements UserDAO {
 				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
+				user.setDraft(rs.getBoolean(UsersTable.DRAFT));
 				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				// mb use get tariff dao method?
@@ -157,19 +148,10 @@ public class UserJdbcDAO implements UserDAO {
 				}
 				// what if user is not null but empty?
 			}
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException  e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 		return user;
 	}
@@ -179,29 +161,17 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			// not transaction?
 			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(SUBSCRIBE_FOR_TARIFF);
 			statement.setInt(1, newTariffId);
 			statement.setInt(2, userId);
 			statement.executeUpdate();
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					// rollback needed?
-					// why rollback?
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -209,19 +179,10 @@ public class UserJdbcDAO implements UserDAO {
 	public void setPassword(int userId, int hashPassword) throws DAOException {
 		Connection connection = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			savePassword(connection, userId, hashPassword);
-		} catch (ConnectionPoolException e) {
-			throw new DAOException(e);
 		} finally {
-			try {
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection);
 		}
 	}
 
@@ -229,19 +190,10 @@ public class UserJdbcDAO implements UserDAO {
 	public void setContacts(int userId, String phone, String email) throws DAOException {
 		Connection connection = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			saveContacts(connection, userId, phone, email);
-		} catch (ConnectionPoolException e) {
-			throw new DAOException(e);
 		} finally {
-			try {
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection);
 		}
 	}
 
@@ -250,7 +202,7 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		Statement statement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(SHOW_USERS);
 			List<User> usersList = new ArrayList<User>();
@@ -261,7 +213,7 @@ public class UserJdbcDAO implements UserDAO {
 				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
 				user.setEmail(rs.getString(UsersTable.EMAIL));
 				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(Integer.valueOf(rs.getString(UsersTable.PASSWORD)));
+				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
 				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
 				user.setRole(role);
 				user.setAccountBalance(rs.getBigDecimal((UsersTable.ACCOUNT_BALANCE)));
@@ -279,19 +231,10 @@ public class UserJdbcDAO implements UserDAO {
 				usersList.add(user);
 			}
 			return usersList;
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -302,7 +245,7 @@ public class UserJdbcDAO implements UserDAO {
 		PreparedStatement accountBalanceStatement = null;
 		PreparedStatement cardBalanceStatement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			connection.setAutoCommit(false);
 			getCardStatement = connection.prepareStatement(GET_CARD_BY_NUMBER);
 			getCardStatement.setString(1, card.getNumber());
@@ -333,50 +276,31 @@ public class UserJdbcDAO implements UserDAO {
 				// smthg else
 				throw new DAOException();
 			}
-		} catch (ConnectionPoolException | SQLException e) {
+		} catch (SQLException e) {
+			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (getCardStatement != null) {
-					getCardStatement.close();
-				}
-				if (accountBalanceStatement != null) {
-					accountBalanceStatement.close();
-				}
-				if (cardBalanceStatement != null) {
-					cardBalanceStatement.close();
-				}
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, getCardStatement,
+			        accountBalanceStatement, cardBalanceStatement);
+
 		}
 	}
 
 	@Override
-	public void register(int userId, int hashPassword, String phone,
-	        String email) throws DAOException {
+	public void register(int userId, int hashPassword, String phone, String email)
+	        throws DAOException {
 		Connection connection = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			connection.setAutoCommit(false);
 			savePassword(connection, userId, hashPassword);
 			saveContacts(connection, userId, phone, email);
 			connection.commit();
-		} catch (ConnectionPoolException | SQLException e) {
+		} catch (SQLException e) {
+			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection);
 		}
 	}
 
@@ -391,13 +315,7 @@ public class UserJdbcDAO implements UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -413,13 +331,7 @@ public class UserJdbcDAO implements UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -430,7 +342,7 @@ public class UserJdbcDAO implements UserDAO {
 		PreparedStatement getUserStatement = null;
 		PreparedStatement addContractStatement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			connection.setAutoCommit(false);
 			getUserStatement = connection.prepareStatement(GET_USER_BY_ACCOUNT);
 			getUserStatement.setString(1, contract);
@@ -446,23 +358,11 @@ public class UserJdbcDAO implements UserDAO {
 				// do smthg else!!
 				throw new DAOException();
 			}
-		} catch (ConnectionPoolException | SQLException e) {
+		} catch (SQLException e) {
+			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (getUserStatement != null) {
-					getUserStatement.close();
-				}
-				if (addContractStatement != null) {
-					addContractStatement.close();
-				}
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, addContractStatement, getUserStatement);
 		}
 
 	}
@@ -472,33 +372,24 @@ public class UserJdbcDAO implements UserDAO {
 		Connection connection = null;
 		PreparedStatement updateUserStatement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			connection.setAutoCommit(false);
 			updateUserStatement = connection.prepareStatement(UPDATE_USER);
 			updateUserStatement.setString(1, user.getAccount());
 			updateUserStatement.setString(2, user.getFirstName());
 			updateUserStatement.setString(3, user.getSecondName());
-			//updateUserStatement.setInt(4, user.getRole().getId());
+			// updateUserStatement.setInt(4, user.getRole().getId());
 			updateUserStatement.setInt(4, user.getTariff().getId());
 			updateUserStatement.setBoolean(5, user.isBlocked());
 			updateUserStatement.setInt(6, user.getId());
 			updateUserStatement.executeUpdate();
 			saveContacts(connection, user.getId(), user.getPhone(), user.getEmail());
 			connection.commit();
-		} catch (ConnectionPoolException | SQLException e) {
+		} catch (SQLException e) {
+			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (updateUserStatement != null) {
-					updateUserStatement.close();
-				}
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, updateUserStatement);
 		}
 	}
 
@@ -506,17 +397,17 @@ public class UserJdbcDAO implements UserDAO {
 	public void applyDailyFee() throws DAOException {
 		Connection connection = null;
 		PreparedStatement setBalanceStatement = null;
-		PreparedStatement deductStatement = null;
 		PreparedStatement blockStatement = null;
 		PreparedStatement unblockStatement = null;
 		List<User> usersList = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			connection.setAutoCommit(false);
 			usersList = showUsers();
 			for (User user : usersList) {
 				BigDecimal balance = user.getAccountBalance();
-				BigDecimal tariffDaylyFee = user.getTariff().getPrice().divide(new BigDecimal(30),2, RoundingMode.HALF_UP);
+				BigDecimal tariffDaylyFee = user.getTariff().getPrice().divide(new BigDecimal(30),
+				        2, RoundingMode.HALF_UP);
 				if (balance.compareTo(tariffDaylyFee) >= 0) {
 					setBalanceStatement = connection.prepareStatement(SET_BALANCE);
 					setBalanceStatement.setBigDecimal(1, balance.subtract(tariffDaylyFee));
@@ -533,35 +424,22 @@ public class UserJdbcDAO implements UserDAO {
 					blockStatement.addBatch();
 				}
 			}
-			if(setBalanceStatement != null){
+			if (setBalanceStatement != null) {
 				setBalanceStatement.executeBatch();
 			}
-			if(unblockStatement != null){
+			if (unblockStatement != null) {
 				unblockStatement.executeBatch();
-			}if(blockStatement != null){
+			}
+			if (blockStatement != null) {
 				blockStatement.executeBatch();
 			}
 			connection.commit();
-		} catch (ConnectionPoolException | SQLException e) {
+		} catch (SQLException e) {
+			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (deductStatement != null) {
-					deductStatement.close();
-				}
-				if (unblockStatement != null) {
-					unblockStatement.close();
-				}
-				if (blockStatement != null) {
-					blockStatement.close();
-				}
-				if (connection != null) {
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, setBalanceStatement, 
+					blockStatement, unblockStatement);
 		}
 	}
 }

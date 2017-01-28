@@ -17,8 +17,8 @@
 		, ${user.firstName}
 	</h1>
 	<div class="options">
-		<span><c:if test="${not empty paymentMessage}">
-			<fmt:message key="${paymentMessage}" />
+		<span><c:if test="${not empty param.paymentMessage}">
+			<fmt:message key="${param.paymentMessage}" />
 		</c:if></span>
 
 		<form action="${contextPath}/controller" method="get">

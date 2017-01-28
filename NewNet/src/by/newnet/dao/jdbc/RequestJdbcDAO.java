@@ -10,12 +10,10 @@ import java.util.List;
 
 import by.newnet.dao.RequestDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.pool.ConnectionPool;
-import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.domain.Request;
 import by.newnet.domain.RequestStatus;
 
-public class RequestJdbcDAO implements RequestDAO {
+public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
 	public static final String POST_REQUEST =
 	        "INSERT INTO requests (" + RequestsTable.FIRST_NAME + "," + RequestsTable.EMAIL + "," 
 	+ RequestsTable.PHONE + "," + RequestsTable.ADDRESS + ") values(?, ?, ?, ?)";
@@ -29,30 +27,17 @@ public class RequestJdbcDAO implements RequestDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
-			connection.setAutoCommit(false);
+			connection = getConnection();
 			statement = connection.prepareStatement(POST_REQUEST);
 			statement.setString(1, clientRequest.getFirstName());
 			statement.setString(2, clientRequest.getEmail());
 			statement.setString(3, clientRequest.getPhone());
 			statement.setString(4, clientRequest.getAddress());
 			statement.executeUpdate();
-			connection.commit();
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					// why rollback? set autocommit true needed?
-					connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 		return false;
 	}
@@ -62,7 +47,7 @@ public class RequestJdbcDAO implements RequestDAO {
 		Connection connection = null;
 		Statement statement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(SHOW_REQUESTS);
 			List<Request> requestsList = new ArrayList<Request>();
@@ -82,19 +67,10 @@ public class RequestJdbcDAO implements RequestDAO {
 				requestsList.add(clientRequest);
 			}
 			return requestsList;
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -103,26 +79,15 @@ public class RequestJdbcDAO implements RequestDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = ConnectionPool.getInstance().takeConnection();
+			connection = getConnection();
 			statement = connection.prepareStatement(SAVE_STATUS);
 			statement.setString(1, status.toString());
 			statement.setInt(2, requestId);
 			statement.executeUpdate();
-		} catch (SQLException | ConnectionPoolException e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					// why rollback? set autocommit true needed?
-					// connection.rollback();
-					ConnectionPool.getInstance().releaseConnection(connection);
-				}
-			} catch (ConnectionPoolException | SQLException e) {
-				throw new DAOException(e);
-			}
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 

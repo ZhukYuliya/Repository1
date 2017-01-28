@@ -25,10 +25,7 @@ public class ChangePersonalDetailsCommand implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
 		request.setAttribute(RequestConstants.USER, user);
-	
 		return new ControllerForward(PageNames.PERSONAL_DETAILS);
 	}
-
 }

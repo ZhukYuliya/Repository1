@@ -3,7 +3,7 @@ function validateAuthenticationForm() {
 
 	if ((form.elements['account'].value == "")
 			|| (form.elements['password'].value == "")) {
-		alert("empty_fields");
+		alert(emptyFieldsMessage);
 		return false;
 	}
 	/*
@@ -22,7 +22,7 @@ function validateCheckAccountForm() {
 		form.elements['account'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{11}/.test(form.elements['account'].value)) {
+	if (!/[1-9]\d{11}/.test(form.elements['account'].value)) {
 		alert("invalid_contract_number");
 		form.elements['account'].focus();
 		return false;
@@ -44,12 +44,12 @@ function validateRequestForm() {
 		form.elements['name'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{8,12}/.test(form.elements['phone'].value)) {
+	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
 		alert("invalid_phone");
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}/
+	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
 			.test(form.elements['email'].value)) {
 		alert("invalid_email");
 		form.elements['email'].focus();
@@ -68,23 +68,23 @@ function validateEditTariffForm() {
 		// form.elements['name'].focus();
 		return false;
 	}
-	if (!/[A-ZА-ЯЁ]([A-zА-яЁё\\d ]){1,40}/.test(form.elements['name'].value)) {
+	if (!/[A-ZА-ЯЁ]([A-zА-яЁё\d ]){1,40}/.test(form.elements['name'].value)) {
 		alert("invalid_tariff_name");
 		form.elements['name'].focus();
 		return false;
 	}
-	if (!/([1-9]{1}\\d*)|([1-9]\\d*)(\\.\\d{0,2})?/
+	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/
 			.test(form.elements['price'].value)) {
 		alert("invalid_byn_amount");
 		form.elements['price'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d?/.test(form.elements['speed'].value)) {
+	if (!/[1-9]\d?/.test(form.elements['speed'].value)) {
 		alert("invalid_speed");
 		form.elements['speed'].focus();
 		return false;
 	}
-	if (!/0|([1-9]\\d?)/.test(form.elements['traffic'].value)) {
+	if (!/0|([1-9]\d?)/.test(form.elements['traffic'].value)) {
 		alert("invalid_traffic");
 		form.elements['traffic'].focus();
 		return false;
@@ -113,17 +113,17 @@ function validateEditUserForm() {
 		form.elements['firstName'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{11}/.test(form.elements['account'].value)) {
+	if (!/[1-9]\d{11}/.test(form.elements['account'].value)) {
 		alert("invalid_contract_number");
 		form.elements['account'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{8,12}/.test(form.elements['phone'].value)) {
+	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
 		alert("invalid_phone");
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}/
+	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
 			.test(form.elements['email'].value)) {
 		alert("invalid_email");
 		form.elements['email'].focus();
@@ -145,7 +145,7 @@ function validatePaymentForm() {
 		// form.elements['name'].focus();
 		return false;
 	}
-	if (!/\\d{16}/.test(form.elements['number'].value)) {
+	if (!/\d{16}/.test(form.elements['number'].value)) {
 		alert("invalid_card_number");
 		form.elements['number'].focus();
 		return false;
@@ -181,7 +181,7 @@ function validatePaymentForm() {
 		form.elements['secondName'].focus();
 		return false;
 	}
-	if (!/([1-9]{1}\\d*)|([1-9]\\d*)(\\.\\d{0,2})?/
+	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/
 			.test(form.elements['amount'].value)) {
 		alert("invalid_byn_amount");
 		form.elements['amount'].focus();
@@ -199,7 +199,7 @@ function validateChangePasswordForm() {
 		// form.elements['name'].focus();
 		return false;
 	}
-	if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}/
+	if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}/
 			.test(form.elements['newPassword'].value)) {
 		alert("invalid_password");
 		form.elements['newPassword'].focus();
@@ -226,12 +226,12 @@ function validateSetContactsForm() {
 		// form.elements['name'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{8,12}/.test(form.elements['phone'].value)) {
+	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
 		alert("invalid_phone");
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}/
+	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
 			.test(form.elements['email'].value)) {
 		alert("invalid_email");
 		form.elements['email'].focus();
@@ -250,12 +250,12 @@ function validateRegistrationForm() {
 		// form.elements['name'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{8,12}/.test(form.elements['phone'].value)) {
+	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
 		alert("invalid_phone");
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\\-.]+@[A-z0-9\\-.]+\\.[A-z]{2,10}/
+	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
 			.test(form.elements['email'].value)) {
 		alert("invalid_email");
 		form.elements['email'].focus();
@@ -288,7 +288,7 @@ function validateNewContractForm() {
 		form.elements['firstName'].focus();
 		return false;
 	}
-	if (!/[1-9]\\d{11}/.test(form.elements['contract'].value)) {
+	if (!/[1-9]\d{11}/.test(form.elements['contract'].value)) {
 		alert("invalid_contract_number");
 		form.elements['contract'].focus();
 		return false;

@@ -29,8 +29,13 @@
 		</tr>
 		<c:forEach var="user" items="${usersList}">
 			<tr>
-				<td><a
-					href="<c:url value='/controller?command=SHOW_USER&id=${user.id}'/>">${user.id}</a></td>
+				<td><c:choose>
+						<c:when test="${user.isAdmin()}">${user.id}
+						</c:when>
+						<c:when test="${user.isOperator() || user.isCustomer()}">
+				<a href="<c:url value='/controller?command=SHOW_USER&id=${user.id}'/>">${user.id}</a>
+						</c:when>
+					</c:choose></td>
 				<td>${user.secondName}</td>
 				<td>${user.firstName}</td>
 				<td>${user.account}</td>

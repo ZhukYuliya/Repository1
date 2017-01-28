@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.CreditCard;
 import by.newnet.domain.User;
@@ -31,10 +32,14 @@ public class PaymentCommand implements Command {
 		String secondName = request.getParameter(RequestConstants.SECOND_NAME);
 		String amountString = request.getParameter(RequestConstants.AMOUNT);
 		CreditCard card;
+		ControllerAction controllerAction = null;
 		String message = null;
 		message = Validator.validateCardDetails(number, expirationMonth, expirationYear,
 		        securityCode, firstName, secondName, amountString);
-		if (message == null) {
+		if (message != null) {
+			request.setAttribute(RequestConstants.PAYMENT_MESSAGE, message);
+			controllerAction = new ControllerForward(PageNames.PAYMENT);
+		} else {
 			BigDecimal amount = new BigDecimal(request.getParameter(RequestConstants.AMOUNT));
 			card = new CreditCard();
 			card.setNumber(number);
@@ -46,13 +51,13 @@ public class PaymentCommand implements Command {
 			try {
 				userService.pay(userId, card, amount);
 				message = "successful_payment";
+				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND
+				        + RequestConstants.PAYMENT_MESSAGE + "=successful_payment");
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(RequestConstants.PAYMENT_MESSAGE, message);
-
-		return new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND);
+		return controllerAction;
 	}
 
 }

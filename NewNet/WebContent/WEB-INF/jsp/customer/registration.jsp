@@ -13,11 +13,9 @@
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
 <main>
 <section id="edit">
-	<h1>
-		<fmt:message key="welcome" />
-		, ${user.firstName} ${user.secondName},
-		<fmt:message key="fill_in" />
-		:
+	<h1><fmt:message key="welcome" />
+		, ${user.firstName} ${user.secondName}.
+		<fmt:message key="fill_in" />:
 	</h1>
 	<form action="${contextPath}/controller" method="post" name="registration" 
 			onsubmit="return validateRegistrationForm()">
@@ -43,6 +41,9 @@
 					placeholder='<fmt:message key="email" />' class="text" /></td>
 			</tr>
 			</table>
+				<input type="hidden" name="userId" value="${user.id}" />
+				<input type="hidden" name="firstName" value="${user.firstName}" />
+				<input type="hidden" name="secondName" value="${user.secondName}" />
 				<input type="hidden" name="command" value="registration" />
 				<input type="submit" class="submit"
 					value='<fmt:message key="save_button"/> ' />

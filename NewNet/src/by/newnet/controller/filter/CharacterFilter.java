@@ -30,9 +30,9 @@ public class CharacterFilter implements Filter {
 		request.setCharacterEncoding(ENCODING);
 		response.setCharacterEncoding(ENCODING);
 		HttpServletRequest request1 = (HttpServletRequest) request;
-		if (request1.getMethod().equals("GET")) {
+		if (request1.getMethod().equals("GET") && !request1.getRequestURL().toString().endsWith("js_messages.jsp")) {
 			HttpSession session = request1.getSession();
-			StringBuffer url = request1.getRequestURL();
+			StringBuffer url = new StringBuffer(request1.getRequestURI().substring(request1.getContextPath().length()));
 			if (request1.getQueryString() != null){
 				url.append("?").append(request1.getQueryString()).toString();
 			}
