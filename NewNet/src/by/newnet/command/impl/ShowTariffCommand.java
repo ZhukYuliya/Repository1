@@ -25,9 +25,7 @@ public class ShowTariffCommand implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
 		request.setAttribute(RequestConstants.TARIFF, tariff);
-	
 		return new ControllerForward(PageNames.EDIT_TARIFF);
 	}
 

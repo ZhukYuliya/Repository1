@@ -12,60 +12,63 @@ import java.util.List;
 
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
+import by.newnet.dao.jdbc.constant.CardsTable;
+import by.newnet.dao.jdbc.constant.RolesTable;
+import by.newnet.dao.jdbc.constant.TariffsTable;
+import by.newnet.dao.jdbc.constant.UsersTable;
 import by.newnet.domain.CreditCard;
 import by.newnet.domain.Role;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
 
 public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
-	public static final String CHECK_CREDENTIALS = "select * from users where " + UsersTable.ACCOUNT
-	        + " = ? and " + UsersTable.PASSWORD + " = ?";
+	public static final String CHECK_CREDENTIALS = "SELECT * FROM " + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT
+	        + " = ? AND " + UsersTable.PASSWORD + " = ?";
 	public static final String REGISTER_USER =
-	        "INSERT INTO users (login, password, name, draft) values(?, ?, ?, false)";
+	        "INSERT INTO " + UsersTable.USERS + " (login, password, name, draft) VALUES(?, ?, ?, false)";
 	public static final String CHECK_USER =
-	        "select " + UsersTable.ACCOUNT + " from users where " + UsersTable.ACCOUNT + " = ? ";
+	        "SELECT " + UsersTable.ACCOUNT + " FROM " + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT + " = ? ";
 	public static final String SUBSCRIBE_FOR_TARIFF =
-	        "update users set " + UsersTable.TARIFF + " = ? where " + UsersTable.ID + " = ?";
+	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.TARIFF + " = ? WHERE " + UsersTable.ID + " = ?";
 	public static final String GET_USER_BY_ID =
-	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
-	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF
-	                + " = tariffs." + TariffsTable.ID + " where " + UsersTable.ID + " = ?";
+	        "SELECT * FROM " + UsersTable.USERS + " LEFT JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = " + RolesTable.ROLES + "."
+	                + RolesTable.ID + " left JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF
+	                + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID + " WHERE " + UsersTable.ID + " = ?";
 	public static final String GET_USER_BY_ACCOUNT =
-	        "select * from users left join roles on users." + UsersTable.ROLE + " = roles."
-	                + RolesTable.ID + " left join tariffs on users." + UsersTable.TARIFF
-	                + " = tariffs." + TariffsTable.ID + " where " + UsersTable.ACCOUNT + " = ?";
+	        "SELECT * FROM " + UsersTable.USERS + " LEFT JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = " + RolesTable.ROLES + "."
+	                + RolesTable.ID + " LEFT JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF
+	                + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID + " WHERE " + UsersTable.ACCOUNT + " = ?";
 	public static final String SAVE_PASSWORD =
-	        "update users set " + UsersTable.PASSWORD + "=? where " + UsersTable.ID + "=?";
+	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.PASSWORD + "=? WHERE " + UsersTable.ID + "=?";
 	public static final String SET_BALANCE =
-	        "update users set " + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ID + "=?";
-	public static final String SAVE_CONTACTS = "update users set " + UsersTable.PHONE + "=?, "
-	        + UsersTable.EMAIL + "=? where " + UsersTable.ID + "=?";
+	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ID + "=?";
+	public static final String SAVE_CONTACTS = "UPDATE " + UsersTable.USERS + " SET " + UsersTable.PHONE + "=?, "
+	        + UsersTable.EMAIL + "=? WHERE " + UsersTable.ID + "=?";
 	public static final String BLOCK_USER =
-	        "update users set " + UsersTable.BLOCKED + "=true where " + UsersTable.ID + "=?";
+	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.BLOCKED + "=true WHERE " + UsersTable.ID + "=?";
 	public static final String UNBLOCK_USER =
-	        "update users set " + UsersTable.BLOCKED + "=false where " + UsersTable.ID + "=?";
-	public static final String UPDATE_USER = "update users set " + UsersTable.ACCOUNT + "=?, "
+	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.BLOCKED + "=false WHERE " + UsersTable.ID + "=?";
+	public static final String UPDATE_USER = "UPDATE " + UsersTable.USERS + " SET " + UsersTable.ACCOUNT + "=?, "
 	        + UsersTable.FIRST_NAME + "=?, " + UsersTable.SECOND_NAME
-	        + "=?, " /* + UsersTable.ROLE + "=?, " */ + UsersTable.TARIFF + "=?, "
-	        + UsersTable.BLOCKED + "=? " + " where " + UsersTable.ID + "=?";
-	public static final String SHOW_USERS = "select * from users join roles on users."
-	        + UsersTable.ROLE + " = roles." + RolesTable.ID + " join tariffs on users."
-	        + UsersTable.TARIFF + " = tariffs." + TariffsTable.ID;
+	        + "=?, " + UsersTable.TARIFF + "=?, "
+	        + UsersTable.BLOCKED + "=? " + " WHERE " + UsersTable.ID + "=?";
+	public static final String SHOW_USERS = "SELECT * FROM " + UsersTable.USERS + " JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "."
+	        + UsersTable.ROLE + " = " + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "."
+	        + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID;
 	public static final String GET_CARD_BY_NUMBER =
-	        "select * from cards where " + CardsTable.NUMBER + " = ?";
-	public static final String SET_ACCOUNT_BALANCE = "update users set "
-	        + UsersTable.ACCOUNT_BALANCE + "=? where " + UsersTable.ACCOUNT + "=?";
+	        "SELECT * FROM " + CardsTable.CARDS + " WHERE " + CardsTable.NUMBER + " = ?";
+	public static final String SET_ACCOUNT_BALANCE = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ACCOUNT + "=?";
 	public static final String SET_CARD_BALANCE =
-	        "update cards set " + CardsTable.BALANCE + "=? where " + CardsTable.NUMBER + "=?";
-	public static final String SAVE_NEW_CONTRACT = "INSERT INTO users (" + UsersTable.ACCOUNT + ","
-	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") values(?,?,?)";
+	        "UPDATE " + CardsTable.CARDS + " SET " + CardsTable.BALANCE + "=? WHERE " + CardsTable.NUMBER + "=?";
+	public static final String SAVE_NEW_CONTRACT = "INSERT INTO " + UsersTable.USERS + " (" + UsersTable.ACCOUNT + ","
+	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") VALUES(?,?,?)";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		User user = new User();
-		Tariff tariff = new Tariff();
+		User user = null;
 		try {
 			connection = getConnection();
 			// not transaction?
@@ -73,32 +76,9 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			statement = connection.prepareStatement(GET_USER_BY_ID);
 			statement.setInt(1, userId);
 			ResultSet rs = statement.executeQuery();
+			// while or if??
 			while (rs.next()) {
-				user.setId(rs.getInt(UsersTable.ID));
-				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
-				user.setEmail(rs.getString(UsersTable.EMAIL));
-				// convert to bigdecimal?
-				user.setPhone(rs.getString(UsersTable.PHONE));
-				// convert to bigdecimal?
-				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
-				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
-				user.setRole(role);
-				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
-				user.setDraft(rs.getBoolean(UsersTable.DRAFT));
-				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-				// mb use get tariff dao method?
-				if (rs.getString(UsersTable.TARIFF) != null) {
-					tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
-					tariff.setName(rs.getString(TariffsTable.NAME));
-					tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
-					tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
-					tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
-					// boolean ok here? values 1 or 0
-					tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
-					user.setTariff(tariff);
-				}
+				user = fillInCurrentUser(rs);
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -112,8 +92,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	public User getUserByAccount(String accountNumber) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		User user = new User();
-		Tariff tariff = new Tariff();
+		User user = null;
 		try {
 			connection = getConnection();
 			// not transaction?
@@ -121,34 +100,12 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			statement = connection.prepareStatement(GET_USER_BY_ACCOUNT);
 			statement.setString(1, accountNumber);
 			ResultSet rs = statement.executeQuery();
+			// while or if?
 			while (rs.next()) {
-				user.setId(rs.getInt(UsersTable.ID));
-				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
-				user.setEmail(rs.getString(UsersTable.EMAIL));
-				user.setPhone(rs.getString(UsersTable.PHONE));
-				// convert to bigdecimal?
-				user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
-				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
-				user.setRole(role);
-				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
-				user.setDraft(rs.getBoolean(UsersTable.DRAFT));
-				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-				// mb use get tariff dao method?
-				if (rs.getString(UsersTable.TARIFF) != null) {
-					tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
-					tariff.setName(rs.getString(TariffsTable.NAME));
-					tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
-					tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
-					tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
-					// boolean ok here? values 1 or 0
-					tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
-					user.setTariff(tariff);
-				}
+				user = fillInCurrentUser(rs);
 				// what if user is not null but empty?
 			}
-		} catch (SQLException  e) {
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			closeStatementsAndReleaseConnection(connection, statement);
@@ -207,27 +164,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			ResultSet rs = statement.executeQuery(SHOW_USERS);
 			List<User> usersList = new ArrayList<User>();
 			while (rs.next()) {
-				User user = new User();
-				user.setId(rs.getInt(UsersTable.ID));
-				user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
-				user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-				user.setEmail(rs.getString(UsersTable.EMAIL));
-				user.setAccount(rs.getString(UsersTable.ACCOUNT));
-				user.setHashPassword(rs.getString(UsersTable.PASSWORD));
-				Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
-				user.setRole(role);
-				user.setAccountBalance(rs.getBigDecimal((UsersTable.ACCOUNT_BALANCE)));
-				user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
-				user.setPhone(rs.getString(UsersTable.PHONE));
-				Tariff tariff = new Tariff();
-				tariff.setId(rs.getInt(TariffsTable.ID));
-				tariff.setName(rs.getString(TariffsTable.NAME));
-				tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
-				tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
-				tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
-				// boolean ok here? values 1 or 0
-				tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
-				user.setTariff(tariff);
+				User user = fillInCurrentUser(rs);
 				usersList.add(user);
 			}
 			return usersList;
@@ -301,37 +238,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			throw new DAOException(e);
 		} finally {
 			closeStatementsAndReleaseConnection(connection);
-		}
-	}
-
-	private void savePassword(Connection connection, int userId, int hashPassword)
-	        throws DAOException {
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement(SAVE_PASSWORD);
-			statement.setInt(1, hashPassword);
-			statement.setInt(2, userId);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		} finally {
-			closeStatementsAndReleaseConnection(connection, statement);
-		}
-	}
-
-	private void saveContacts(Connection connection, int userId, String phone, String email)
-	        throws DAOException {
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement(SAVE_CONTACTS);
-			statement.setString(1, phone);
-			statement.setString(2, email);
-			statement.setInt(3, userId);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		} finally {
-			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -413,7 +319,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 					setBalanceStatement.setBigDecimal(1, balance.subtract(tariffDaylyFee));
 					setBalanceStatement.setInt(2, user.getId());
 					setBalanceStatement.addBatch();
-					if (user.isBlocked() == true) {
+					if (user.isBlocked()) {
 						unblockStatement = connection.prepareStatement(UNBLOCK_USER);
 						unblockStatement.setInt(1, user.getId());
 						unblockStatement.addBatch();
@@ -438,8 +344,68 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			rollbackConnection(e, connection);
 			throw new DAOException(e);
 		} finally {
-			closeStatementsAndReleaseConnection(connection, setBalanceStatement, 
-					blockStatement, unblockStatement);
+			closeStatementsAndReleaseConnection(connection, setBalanceStatement, blockStatement,
+			        unblockStatement);
+		}
+	}
+
+	private User fillInCurrentUser(ResultSet rs) throws DAOException, SQLException {
+		User user = new User();
+		user.setId(rs.getInt(UsersTable.ID));
+		user.setAccount(rs.getString(UsersTable.ACCOUNT));
+		user.setHashPassword(rs.getString(UsersTable.PASSWORD));
+		user.setEmail(rs.getString(UsersTable.EMAIL));
+		user.setPhone(rs.getString(UsersTable.PHONE));
+		user.setAccountBalance(rs.getBigDecimal(UsersTable.ACCOUNT_BALANCE));
+		Role role = Role.valueOf(rs.getString(RolesTable.NAME).toUpperCase());
+		user.setRole(role);
+		user.setBlocked(rs.getBoolean(UsersTable.BLOCKED));
+		user.setDraft(rs.getBoolean(UsersTable.DRAFT));
+		user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
+		user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
+		// mb use get tariff dao method?
+		if (rs.getString(UsersTable.TARIFF) != null) {
+			Tariff tariff = new Tariff();
+			tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
+			tariff.setName(rs.getString(TariffsTable.NAME));
+			tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
+			tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
+			tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
+			// boolean ok here? values 1 or 0
+			tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
+			user.setTariff(tariff);
+		}
+		return user;
+	}
+
+	private void savePassword(Connection connection, int userId, int hashPassword)
+	        throws DAOException {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(SAVE_PASSWORD);
+			statement.setInt(1, hashPassword);
+			statement.setInt(2, userId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			closeStatementsAndReleaseConnection(connection, statement);
+		}
+	}
+
+	private void saveContacts(Connection connection, int userId, String phone, String email)
+	        throws DAOException {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(SAVE_CONTACTS);
+			statement.setString(1, phone);
+			statement.setString(2, email);
+			statement.setInt(3, userId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 }

@@ -1,6 +1,7 @@
-package by.newnet.dao.jdbc;
+package by.newnet.dao.jdbc.constant;
 
 public class CardsTable {
+	public static final String CARDS = "cards";	
 	public static final String ID = "card_id";	
 	public static final String NUMBER = "number";
 	public static final String EXPIRATION_MONTH = "expiration_month";

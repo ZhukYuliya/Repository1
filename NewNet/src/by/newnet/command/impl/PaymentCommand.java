@@ -52,7 +52,7 @@ public class PaymentCommand implements Command {
 				userService.pay(userId, card, amount);
 				message = "successful_payment";
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND
-				        + RequestConstants.PAYMENT_MESSAGE + "=successful_payment");
+						+ "&" + RequestConstants.PAYMENT_MESSAGE + "=successful_payment");
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}

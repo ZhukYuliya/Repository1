@@ -33,10 +33,8 @@ public class ShowUserCommand implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		
 		request.setAttribute(RequestConstants.USER, user);
 		request.setAttribute(RequestConstants.TARIFFS_LIST, tariffsList);
-
 		return new ControllerForward(PageNames.EDIT_USER);
 	}
 

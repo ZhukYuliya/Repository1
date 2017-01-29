@@ -36,11 +36,10 @@ public class Controller extends HttpServlet {
 	        throws ServletException, IOException {
 
 		String name = request.getParameter(COMMAND);
-		Command command = null;
 		ControllerAction controllerAction = null;
 		String contextPath = request.getContextPath();
 		try {
-			command = commandHelper.getCommand(name);
+			Command command = commandHelper.getCommand(name);
 			controllerAction = command.execute(request, response);
 			// illegal command exc too?
 		} catch (IllegalCommandException e) {

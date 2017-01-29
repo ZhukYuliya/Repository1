@@ -59,30 +59,22 @@ public class Request implements Comparable<Request> {
 
 	@Override
 	public int compareTo(Request request) {
-		//int compareStatus = ((request.getStatus().getStatusCoef()));
+		// int compareStatus = ((request.getStatus().getStatusCoef()));
 		// ascending order
 		return this.getStatus().getStatusCoef() - request.getStatus().getStatusCoef();
 	}
 
 	public boolean isNew() {
-		if (this.getStatus().getStatusCoef() == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getStatus() == RequestStatus.NEW;
 	}
+
 	public boolean isAfterCall() {
-		if (this.getStatus().getStatusCoef() == 2) {
-			return true;
-		} else {
-			return false;
-		}
-	}public boolean isAfterContract() {
-		if (this.getStatus().getStatusCoef() == 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.getStatus() == RequestStatus.AFTER_CALL;
+
+	}
+
+	public boolean isAfterContract() {
+		return this.getStatus() == RequestStatus.AFTER_CONTRACT;
 	}
 
 	@Override
@@ -139,6 +131,5 @@ public class Request implements Comparable<Request> {
 		return "Request [id=" + id + ", firstName=" + firstName + ", email=" + email + ", phone="
 		        + phone + ", address=" + address + ", status=" + status + "]";
 	}
-	
 
 }

@@ -25,22 +25,19 @@ public class AuthenticationCommand implements Command {
 		String password = request.getParameter(RequestConstants.PASSWORD);
 
 		String message = Validator.checkEmptyFields(account, password);
-		String page = PageNames.INDEX;
 
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
-			User loggedUser = null;
+			User loggedUser;
 			try {
 				loggedUser = userService.authenticate(account, password);
 				HttpSession session = request.getSession();
 				session.setAttribute(RequestConstants.USER, loggedUser);
-				page = PageNames.SHOW_ACCOUNT_COMMAND;
-				controllerAction = new ControllerSendRedirect(page);
+				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND);
 			} catch (ServiceAuthorizationException e) {
 				message = "wrong_credentials";
 				request.setAttribute(RequestConstants.AUTHENTICATION_MESSAGE, message);
-				page = PageNames.INDEX;
-				controllerAction = new ControllerForward(page);
+				controllerAction = new ControllerForward(PageNames.INDEX);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}

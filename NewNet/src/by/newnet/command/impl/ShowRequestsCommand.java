@@ -1,6 +1,5 @@
 package by.newnet.command.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ public class ShowRequestsCommand implements Command {
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}
-		Collections.sort(requestsList);
 		request.setAttribute(RequestConstants.REQUESTS_LIST, requestsList);
 		return new ControllerForward(PageNames.REQUESTS);
 	}

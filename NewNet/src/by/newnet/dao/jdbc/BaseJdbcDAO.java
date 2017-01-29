@@ -10,7 +10,7 @@ import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 
 public class BaseJdbcDAO {
 
-	private ConnectionPool connectionPool = ConnectionPool.getInstance();
+	private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
 	public Connection getConnection() throws ConnectionPoolException {
 		Connection connection = connectionPool.takeConnection();

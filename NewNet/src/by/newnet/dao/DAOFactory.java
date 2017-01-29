@@ -7,9 +7,9 @@ import by.newnet.dao.jdbc.UserJdbcDAO;
 public class DAOFactory {
 	private static final DAOFactory instance = new DAOFactory();
 	
-	private UserDAO userDAO = new UserJdbcDAO();
-	private TariffDAO tariffDAO = new TariffJdbcDAO();
-	private RequestDAO requestDAO = new RequestJdbcDAO();
+	private final UserDAO userDAO = new UserJdbcDAO();
+	private final TariffDAO tariffDAO = new TariffJdbcDAO();
+	private final RequestDAO requestDAO = new RequestJdbcDAO();
 
 	
 	private DAOFactory(){}

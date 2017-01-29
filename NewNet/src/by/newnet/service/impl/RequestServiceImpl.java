@@ -1,5 +1,6 @@
 package by.newnet.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import by.newnet.dao.DAOFactory;
@@ -36,6 +37,7 @@ public class RequestServiceImpl implements RequestService {
 
 		try {
 			List<Request> requestsList = requestDAO.showRequests();
+			Collections.sort(requestsList);
 			return requestsList;
 		} catch (DAOException e) {
 			throw new ServiceException(e);

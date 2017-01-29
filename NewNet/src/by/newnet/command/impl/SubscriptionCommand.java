@@ -20,12 +20,9 @@ public class SubscriptionCommand implements Command {
 
 		int newTariffId;
 		newTariffId = Integer.valueOf(request.getParameter(RequestConstants.NEW_TARIFF));
-		// get session(true) not needed?
-		// user or int parameter?
 		User user = (User) request.getSession().getAttribute(RequestConstants.USER);
 		int userId = user.getId();
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		// hard code message?
 		String message = null;
 		try {
 			userService.subscribeTariff(userId, newTariffId);

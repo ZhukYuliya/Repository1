@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
+import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.Tariff;
 import by.newnet.domain.User;
@@ -18,22 +19,17 @@ public class SaveUserCommand implements Command {
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
-	
-		String account;
-		String firstName;
-		String secondName;
-		String phone;
-		String email;
-		
+
 		int id = Integer.valueOf(request.getParameter(RequestConstants.ID));
-		account = request.getParameter(RequestConstants.ACCOUNT);
-		firstName = request.getParameter(RequestConstants.FIRST_NAME);
-		secondName = request.getParameter(RequestConstants.SECOND_NAME);
-		phone = request.getParameter(RequestConstants.PHONE);
-		email = request.getParameter(RequestConstants.EMAIL);
-		//check if epty tariff id, role id, banned?
-		String message = Validator.validateSaveUser(account, firstName,secondName, phone, email);
-		String page = null;
+		String account = request.getParameter(RequestConstants.ACCOUNT);
+		String firstName = request.getParameter(RequestConstants.FIRST_NAME);
+		String secondName = request.getParameter(RequestConstants.SECOND_NAME);
+		String phone = request.getParameter(RequestConstants.PHONE);
+		String email = request.getParameter(RequestConstants.EMAIL);
+
+		String message = Validator.validateSaveUser(account, firstName, secondName, phone, email);
+		ControllerAction controllerAction = null;
+
 		if (message == null) {
 			User user = new User();
 			user.setId(id);
@@ -42,9 +38,6 @@ public class SaveUserCommand implements Command {
 			user.setSecondName(secondName);
 			user.setPhone(phone);
 			user.setEmail(email);
-			/*Role role = new Role();
-			role.setId(Integer.valueOf(request.getParameter(RequestConstants.ROLE)));
-			user.setRole(role);*/
 			Tariff tariff = new Tariff();
 			tariff.setId(Integer.valueOf(request.getParameter(RequestConstants.TARIFF)));
 			user.setTariff(tariff);
@@ -52,17 +45,17 @@ public class SaveUserCommand implements Command {
 			try {
 				userService.saveUser(user);
 				message = "successful_user_editing";
-				page = PageNames.SHOW_USERS_COMMAND;
+				controllerAction = new ControllerSendRedirect(PageNames.SHOW_USERS_COMMAND + "&"
+				        + RequestConstants.USER_EDITING_MESSAGE + "=" + message);
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				message = "??";
 				throw new CommandException(e);
 			}
-		}else{
-			//send redirect to the same editing page?
-			page = PageNames.EDIT_USER;
+		} else {
+			request.setAttribute(RequestConstants.USER_EDITING_MESSAGE, message);
+			controllerAction = new ControllerForward(PageNames.EDIT_USER);
 		}
-		request.setAttribute(RequestConstants.USER_EDITING_MESSAGE, message);
-		return new ControllerSendRedirect(page);
+		return controllerAction;
 	}
 }

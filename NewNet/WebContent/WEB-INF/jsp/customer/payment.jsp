@@ -52,9 +52,9 @@
 		:<input name="amount" value="" type="text" class="text" /> <input
 			type="submit" class="submit" value='<fmt:message key="pay_button"/> ' />
 	</form>
-	</section>
+	</section></main>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
-<main/></body>
+</body>
 </html>
 
 

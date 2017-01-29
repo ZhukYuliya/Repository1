@@ -1,91 +1,134 @@
-function validateAuthenticationForm() {
-	var form = document.forms['authentication'];
-
-	if ((form.elements['account'].value == "")
-			|| (form.elements['password'].value == "")) {
+function checkNotEmpty(value) {
+	if ((value == "")) {
 		alert(emptyFieldsMessage);
 		return false;
 	}
-	/*
-	 * form.elements['account'].focus();
-	 * 
-	 * if (form.elements['password'].value == "") { alert("empty_fields");
-	 * form.elements['password'].focus(); return false; }
-	 */
+	return true;
+}
+function validatePassword(value) {
+	if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}/.test(value)) {
+		alert(invalidPasswordMessage);
+		return false;
+	}
+	return true;
+}
+function validateAccount(value) {
+	if (!/[1-9]\d{11}/.test(value)) {
+		alert(invalidContractNumberMessage);
+		return false;
+	}
+	return true;
+}
+function validateName(value) {
+	if (!/[А-ЯЁ][а-яё]{1,40}/.test(value)) {
+		alert(invalidNameMessage);
+		return false;
+	}
+	return true;
+}
+function validateEmail(value) {
+	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/.test(value)) {
+		alert(invalidEmailMessage);
+		return false;
+	}
+	return true;
+}
+function validatePhone(value) {
+	if (!/[1-9]\d{8,12}/.test(value)) {
+		alert(invalidPhoneMessage);
+		return false;
+	}
+	return true;
+}
+function validateTariffName(value) {
+	if (!/[A-ZА-ЯЁ]([A-zА-яЁё\d ]){1,40}/.test(value)) {
+		alert(invalidTariffNameMessage);
+		return false;
+	}
+	return true;
+}
+function validateBynAmount(value) {
+	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/.test(value)) {
+		alert(invalidBynAmountMessage);
+		return false;
+	}
+	return true;
+}
+function validateSpeed(value) {
+	if (!/[1-9]\d?/.test(value)) {
+		alert(invalidSpeedMessage);
+		return false;
+	}
+	return true;
+}
+function validateTraffic(value) {
+	if (!/0|([1-9]\d?)/.test(value)) {
+		alert(invalidTrafficMessage);
+		return false;
+	}
+	return true;
 }
 
+
+
+
+
+
+
+function validateAuthenticationForm() {
+	var form = document.forms['authentication'];
+	return checkNotEmpty(form.elements['account'].value)
+			&& checkNotEmpty(form.elements['password'].value);
+}
 function validateCheckAccountForm() {
 	var form = document.forms['checkAccount'];
-
-	if (form.elements['account'].value == "") {
-		alert("empty_fields");
+	if (!checkNotEmpty(form.elements['account'].value)) {
 		form.elements['account'].focus();
 		return false;
 	}
-	if (!/[1-9]\d{11}/.test(form.elements['account'].value)) {
-		alert("invalid_contract_number");
+	if (!validateAccount(form.elements['account'].value)) {
 		form.elements['account'].focus();
 		return false;
 	}
 }
 function validateRequestForm() {
 	var form = document.forms['request'];
-
-	if ((form.elements['name'].value == "")
-			|| (form.elements['phone'].value == "")
-			|| (form.elements['email'].value == "")
-			|| (form.elements['address'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['name'].value)&& checkNotEmpty(form.elements['phone'].value)
+			&& checkNotEmpty(form.elements['email'].value) && checkNotEmpty(form.elements['address'].value))) {
 		return false;
 	}
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(form.elements['name'].value)) {
-		alert("invalid_name");
+	if (!validateName(form.elements['name'].value)) {
 		form.elements['name'].focus();
 		return false;
 	}
-	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
-		alert("invalid_phone");
+	if (!validatePhone(form.elements['phone'].value)) {
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
-			.test(form.elements['email'].value)) {
-		alert("invalid_email");
+	if (!validateEmail(form.elements['email'].value)) {
 		form.elements['email'].focus();
 		return false;
 	}
 }
-
 function validateEditTariffForm() {
 	var form = document.forms['editTariff'];
-
-	if ((form.elements['name'].value == "")
-			|| (form.elements['price'].value == "")
-			|| (form.elements['speed'].value == "")
-			|| (form.elements['traffic'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['name'].value)&& checkNotEmpty(form.elements['price'].value)
+			&& checkNotEmpty(form.elements['speed'].value) && checkNotEmpty(form.elements['traffic'].value))) {
 		return false;
 	}
-	if (!/[A-ZА-ЯЁ]([A-zА-яЁё\d ]){1,40}/.test(form.elements['name'].value)) {
-		alert("invalid_tariff_name");
+	if (!validateTariffName(form.elements['name'].value)) {
 		form.elements['name'].focus();
 		return false;
 	}
-	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/
-			.test(form.elements['price'].value)) {
-		alert("invalid_byn_amount");
+	if (!validateBynAmount(form.elements['price'].value)) {
 		form.elements['price'].focus();
 		return false;
 	}
-	if (!/[1-9]\d?/.test(form.elements['speed'].value)) {
-		alert("invalid_speed");
+	if (!validateSpeed(form.elements['speed'].value)) {
 		form.elements['speed'].focus();
 		return false;
 	}
-	if (!/0|([1-9]\d?)/.test(form.elements['traffic'].value)) {
-		alert("invalid_traffic");
+	if (!validateTraffic(form.elements['traffic'].value)) {
 		form.elements['traffic'].focus();
 		return false;
 	}
@@ -93,97 +136,60 @@ function validateEditTariffForm() {
 
 function validateEditUserForm() {
 	var form = document.forms['editUser'];
-
-	if ((form.elements['secondName'].value == "")
-			|| (form.elements['firstName'].value == "")
-			|| (form.elements['account'].value == "")
-			|| (form.elements['phone'].value == "")
-			|| (form.elements['email'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['secondName'].value)&& checkNotEmpty(form.elements['firstName'].value)
+			&& checkNotEmpty(form.elements['account'].value) && checkNotEmpty(form.elements['phone'].value)
+			&& checkNotEmpty(form.elements['email'].value))) {
 		return false;
 	}
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(form.elements['secondName'].value)) {
-		alert("invalid_name");
-		form.elements['secondName'].focus();
+	if (!validateName(form.elements['secondName'].value) || !validateName(form.elements['firstName'].value)) {
 		return false;
 	}
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(form.elements['firstName'].value)) {
-		alert("invalid_name");
-		form.elements['firstName'].focus();
-		return false;
-	}
-	if (!/[1-9]\d{11}/.test(form.elements['account'].value)) {
-		alert("invalid_contract_number");
+	if (!validateAccount(form.elements['account'].value)) {
 		form.elements['account'].focus();
 		return false;
 	}
-	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
-		alert("invalid_phone");
+	if (!validatePhone(form.elements['phone'].value)) {
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
-			.test(form.elements['email'].value)) {
-		alert("invalid_email");
+	if (!validateEmail(form.elements['email'].value)) {
 		form.elements['email'].focus();
 		return false;
 	}
 }
-
 function validatePaymentForm() {
 	var form = document.forms['payment'];
-
-	if ((form.elements['number'].value == "")
-			|| (form.elements['expirationMonth'].value == "")
-			|| (form.elements['expirationYear'].value == "")
-			|| (form.elements['securityCode'].value == "")
-			|| (form.elements['firstName'].value == "")
-			|| (form.elements['secondName'].value == "")
-			|| (form.elements['amount'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['number'].value)&& checkNotEmpty(form.elements['expirationMonth'].value)
+			&& checkNotEmpty(form.elements['expirationYear'].value) && checkNotEmpty(form.elements['securityCode'].value)
+			&& checkNotEmpty(form.elements['firstName'].value) && checkNotEmpty(form.elements['secondName'].value)
+			&& checkNotEmpty(form.elements['amount'].value))) {
 		return false;
 	}
 	if (!/\d{16}/.test(form.elements['number'].value)) {
-		alert("invalid_card_number");
+		alert(invalidCardNumberMessage);
 		form.elements['number'].focus();
 		return false;
 	}
 	if (!/0[1-9]|1[012]/.test(form.elements['expirationMonth'].value)) {
-		alert("invalid_month");
+		alert(invalidMonthMessage);
 		form.elements['expirationMonth'].focus();
 		return false;
 	}
 	if (!/[1-2][0-9]/.test(form.elements['expirationYear'].value)) {
-		alert("invalid_year");
+		alert(invalidYearMessage);
 		form.elements['expirationYear'].focus();
 		return false;
 	}
-	// !!!!!!!!!!!!!!!!!!!!!expired date
 	if (!/[1-2][0-9]/.test(form.elements['securityCode'].value)) {
-		alert("invalid_security_code");
+		alert(invalidSecurityCodeMessage);
 		form.elements['securityCode'].focus();
 		return false;
 	}
-	if (!/[1-2][0-9]/.test(form.elements['securityCode'].value)) {
-		alert("invalid_security_code");
-		form.elements['securityCode'].focus();
+	if (!/[A-z]{1,40}/.test(form.elements['firstName'].value) || !/[A-z]{1,40}/.test(form.elements['secondName'].value)) {
+		alert(invalidCaldHolderNameMessage);
 		return false;
 	}
-	if (!/[A-z]{1,40}/.test(form.elements['firstName'].value)) {
-		alert("invalid_cardholder_name");
-		form.elements['firstName'].focus();
-		return false;
-	}
-	if (!/[A-z]{1,40}/.test(form.elements['secondName'].value)) {
-		alert("invalid_cardholder_name");
-		form.elements['secondName'].focus();
-		return false;
-	}
-	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/
-			.test(form.elements['amount'].value)) {
-		alert("invalid_byn_amount");
+	if (!validateBynAmount(form.elements['amount'].value)) {
 		form.elements['amount'].focus();
 		return false;
 	}
@@ -191,27 +197,21 @@ function validatePaymentForm() {
 
 function validateChangePasswordForm() {
 	var form = document.forms['changePassword'];
-
-	if ((form.elements['oldPassword'].value == "")
-			|| (form.elements['newPassword'].value == "")
-			|| (form.elements['reenterNewPassword'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['oldPassword'].value)&& checkNotEmpty(form.elements['newPassword'].value)
+			&& checkNotEmpty(form.elements['reenterNewPassword'].value))) {
 		return false;
 	}
-	if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}/
-			.test(form.elements['newPassword'].value)) {
-		alert("invalid_password");
+	if (!validatePassword(form.elements['newPassword'].value)) {
 		form.elements['newPassword'].focus();
 		return false;
 	}
 	if (form.elements['newPassword'].value == form.elements['oldPassword'].value) {
-		alert("old_new_passwords_must_be_different");
+		alert(equalOldNewPasswordsMessage);
 		form.elements['newPassword'].focus();
 		return false;
 	}
 	if (!(form.elements['newPassword'].value == form.elements['reenterNewPassword'].value)) {
-		alert("different_passwords");
+		alert(differentPasswordsMessage);
 		form.elements['reenterNewPassword'].focus();
 		return false;
 	}
@@ -219,21 +219,14 @@ function validateChangePasswordForm() {
 
 function validateSetContactsForm() {
 	var form = document.forms['setContacts'];
-
-	if ((form.elements['phone'].value == "")
-			|| (form.elements['email'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['phone'].value)&& checkNotEmpty(form.elements['email'].value))) {
 		return false;
 	}
-	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
-		alert("invalid_phone");
+	if (!validatePhone(form.elements['phone'].value)) {
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
-			.test(form.elements['email'].value)) {
-		alert("invalid_email");
+	if (!validateEmail(form.elements['email'].value)) {
 		form.elements['email'].focus();
 		return false;
 	}
@@ -241,28 +234,20 @@ function validateSetContactsForm() {
 
 function validateRegistrationForm() {
 	var form = document.forms['registration'];
-
-	if ((form.elements['password'].value == "")
-			|| (form.elements['reenterPassword'].value == "")
-			|| (form.elements['email'].value == "")
-			|| (form.elements['phone'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['password'].value)&& checkNotEmpty(form.elements['reenterPassword'].value)
+			&& checkNotEmpty(form.elements['email'].value) && checkNotEmpty(form.elements['email'].value))) {
 		return false;
 	}
-	if (!/[1-9]\d{8,12}/.test(form.elements['phone'].value)) {
-		alert("invalid_phone");
+	if (!validatePhone(form.elements['phone'].value)) {
 		form.elements['phone'].focus();
 		return false;
 	}
-	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/
-			.test(form.elements['email'].value)) {
-		alert("invalid_email");
+	if (!validateEmail(form.elements['email'].value)) {
 		form.elements['email'].focus();
 		return false;
 	}
 	if (!(form.elements['password'].value == form.elements['reenterPassword'].value)) {
-		alert("different_passwords");
+		alert(differentPasswordsMessage);
 		form.elements['reenterPassword'].focus();
 		return false;
 	}
@@ -270,26 +255,14 @@ function validateRegistrationForm() {
 
 function validateNewContractForm() {
 	var form = document.forms['newContract'];
-
-	if ((form.elements['secondName'].value == "")
-			|| (form.elements['firstName'].value == "")
-			|| (form.elements['contract'].value == "")) {
-		alert("empty_fields");
-		// form.elements['name'].focus();
+	if (!(checkNotEmpty(form.elements['secondName'].value)&& checkNotEmpty(form.elements['firstName'].value)
+			&& checkNotEmpty(form.elements['contract'].value))) {
 		return false;
 	}
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(form.elements['secondName'].value)) {
-		alert("invalid_name");
-		form.elements['secondName'].focus();
+	if (!validateName(form.elements['secondName'].value) || !validateName(form.elements['firstName'].value)) {
 		return false;
 	}
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(form.elements['firstName'].value)) {
-		alert("invalid_name");
-		form.elements['firstName'].focus();
-		return false;
-	}
-	if (!/[1-9]\d{11}/.test(form.elements['contract'].value)) {
-		alert("invalid_contract_number");
+	if (!validateAccount(form.elements['contract'].value)) {
 		form.elements['contract'].focus();
 		return false;
 	}

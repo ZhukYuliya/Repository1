@@ -27,7 +27,6 @@ public class ShowAccountCommand implements Command {
 			throw new CommandException(e);
 		}
 		request.setAttribute(RequestConstants.USER, user);
-		// what to do for operator , admin?
 		String page = null;
 		if(user.isAdmin()){
 			page = PageNames.ADMIN;

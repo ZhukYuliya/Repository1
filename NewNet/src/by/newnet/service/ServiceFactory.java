@@ -7,9 +7,9 @@ import by.newnet.service.impl.UserServiceImpl;
 public class ServiceFactory {
 	private static final ServiceFactory instance = new ServiceFactory();
 	
-	private UserService userService = new UserServiceImpl();
-	private TariffService tariffService = new TariffServiceImpl();
-	private RequestService requestService = new RequestServiceImpl();
+	private final UserService userService = new UserServiceImpl();
+	private final TariffService tariffService = new TariffServiceImpl();
+	private final RequestService requestService = new RequestServiceImpl();
 
 
 		private ServiceFactory(){}

@@ -43,7 +43,7 @@ public class SetPasswordCommand implements Command {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(RequestConstants.SET_PASSWORD_MESSAGE, message);
-		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS);
+		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS 
+				+ "&" + RequestConstants.SET_PASSWORD_MESSAGE + "=" + message);
 	}
 }

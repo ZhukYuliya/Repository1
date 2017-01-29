@@ -30,7 +30,7 @@ import by.newnet.command.impl.ToPaymentCommand;
 import by.newnet.command.impl.ToRegistrationCommand;
 
 public class CommandHelper {
-	private Map<CommandName, Command> commands = new HashMap<>();
+	private final Map<CommandName, Command> commands = new HashMap<>();
 
 	public CommandHelper() {
 		commands.put(CommandName.AUTHENTICATION, new AuthenticationCommand());
@@ -60,13 +60,11 @@ public class CommandHelper {
 	}
 
 	public Command getCommand(String name) throws IllegalCommandException {
-		Command command = null;
 		try {
 			CommandName commandName = CommandName.valueOf(name.toUpperCase());
-			command = commands.get(commandName);
+			return commands.get(commandName);
 		} catch (IllegalArgumentException | NullPointerException e) {
 			throw new IllegalCommandException(e);
 		}
-		return command;
 	}
 }

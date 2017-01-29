@@ -9,6 +9,7 @@ import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
+import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.domain.Tariff;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.TariffService;
@@ -42,7 +43,8 @@ public class SaveTariffCommand implements Command {
 		priceParameter = request.getParameter(RequestConstants.PRICE);
 		speedParameter = request.getParameter(RequestConstants.SPEED);
 		trafficParameter = request.getParameter(RequestConstants.TRAFFIC);
-		String page = null;
+		
+		ControllerAction controllerAction = null;
 		String message =
 		        Validator.validateTariff(name, priceParameter, speedParameter, trafficParameter);
 		if (message == null) {
@@ -59,7 +61,6 @@ public class SaveTariffCommand implements Command {
 				// needed? its already validated
 				message = "incorrect input";
 			}
-
 			Tariff tariff = new Tariff();
 			tariff.setId(id);
 			tariff.setName(name);
@@ -68,21 +69,22 @@ public class SaveTariffCommand implements Command {
 			tariff.setTraffic(traffic);
 			tariff.setInactive(inactive);
 			TariffService TariffService = ServiceFactory.getInstance().getTariffService();
-
 			try {
 				TariffService.saveTariff(tariff, newlyAdded);
 				message = "tariff_saved";
-				page = PageNames.SHOW_TARIFFS_COMMAND;
+				controllerAction = new ControllerSendRedirect(PageNames.SHOW_TARIFFS_COMMAND + "&"
+				        + RequestConstants.SAVE_TARIFF_MESSAGE + "=" + message);
 			} catch (DuplicateTariffServiceException e) {
 				message = "duplicate_tariff_name";
-				page = PageNames.EDIT_TARIFF;
+				request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
+				controllerAction = new ControllerForward(PageNames.EDIT_TARIFF);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
-		} else{
-			page = PageNames.EDIT_TARIFF;
+		} else {
+			request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
+			controllerAction = new ControllerForward(PageNames.EDIT_TARIFF);
 		}
-		request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
-		return new ControllerForward(page);
+		return controllerAction;
 	}
 }

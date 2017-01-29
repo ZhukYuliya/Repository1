@@ -32,7 +32,7 @@ public class TariffServiceImpl implements TariffService {
 		TariffDAO tariffDAO = daoFactory.getTariffDAO();
 //as transaction?
 		try {
-			if (newlyAdded == true) {
+			if (newlyAdded) {
 				if (tariffDAO.getTariffByName(tariff.getName()) == null) {
 					tariffDAO.addTariff(tariff);
 				} else {

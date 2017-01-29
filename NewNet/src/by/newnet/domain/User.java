@@ -2,6 +2,7 @@ package by.newnet.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 // no hashcode of role?
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -16,100 +17,113 @@ public class User implements Serializable {
 	private boolean blocked;
 	private String phone;
 	private boolean draft;
-	
+
 	private Tariff tariff;
-	
-	public boolean isAdmin(){
-		if(role.equals(Role.ADMIN)){
-			return true;
-		}else{
-			return false;
-		}
+
+	public boolean isAdmin() {
+		return role == Role.ADMIN;
 	}
-	public boolean isOperator(){
-		if(role.equals(Role.OPERATOR)){
-			return true;
-		}else{
-			return false;
-		}
+
+	public boolean isOperator() {
+		return role == Role.OPERATOR;
 	}
-	public boolean isCustomer(){
-		if(role.equals(Role.CUSTOMER)){
-			return true;
-		}else{
-			return false;
-		}
+
+	public boolean isCustomer() {
+		return role == Role.CUSTOMER;
 	}
-	
+
 	public Tariff getTariff() {
 		return tariff;
 	}
+
 	public void setTariff(Tariff tariff) {
 		this.tariff = tariff;
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getAccount() {
 		return account;
 	}
+
 	public void setAccount(String account) {
 		this.account = account;
 	}
+
 	public String getHashPassword() {
 		return hashPassword;
 	}
+
 	public void setHashPassword(String hashPassword) {
 		this.hashPassword = hashPassword;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getSecondName() {
 		return secondName;
 	}
+
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
+
 	public BigDecimal getAccountBalance() {
 		return accountBalance;
 	}
+
 	public void setAccountBalance(BigDecimal accountBalance) {
 		this.accountBalance = accountBalance;
 	}
+
 	public Role getRole() {
 		return role;
 	}
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
 	public boolean isBlocked() {
 		return blocked;
 	}
+
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 	public boolean isDraft() {
 		return draft;
 	}
+
 	public void setDraft(boolean draft) {
 		this.draft = draft;
 	}
@@ -126,11 +140,12 @@ public class User implements Serializable {
 		result = prime * result + ((hashPassword == null) ? 0 : hashPassword.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		//result = prime * result + ((role == null) ? 0 : role.hashCode());
+		// result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((secondName == null) ? 0 : secondName.hashCode());
 		result = prime * result + ((tariff == null) ? 0 : tariff.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -162,7 +177,10 @@ public class User implements Serializable {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (hashPassword != other.hashPassword)
+		if (hashPassword == null) {
+			if (other.hashPassword != null)
+				return false;
+		} else if (!hashPassword.equals(other.hashPassword))
 			return false;
 		if (id != other.id)
 			return false;
@@ -188,6 +206,7 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", account=" + account + ", hashPassword=" + hashPassword
@@ -195,5 +214,5 @@ public class User implements Serializable {
 		        + ", accountBalance=" + accountBalance + ", role=" + role + ", blocked=" + blocked
 		        + ", phone=" + phone + ", tariff=" + tariff + "]";
 	}
-	
+
 }

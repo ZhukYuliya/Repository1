@@ -24,9 +24,8 @@ public class ValidatorTest {
 	
 	@Test
 	public void validatePassword() {
-		String expected = null;
-		String actual = Validator.validatePassword(TEST_PASSWORD);;
-		Assert.assertEquals(expected, actual);
+		String actual = Validator.validatePassword(TEST_PASSWORD);
+		Assert.assertNull(actual);
 	}
 
 	@Test

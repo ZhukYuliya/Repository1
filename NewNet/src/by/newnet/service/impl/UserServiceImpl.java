@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
-		if (!user.getHashPassword().equals(oldPassword.hashCode())) {
+		if (!user.getHashPassword().equals(String.valueOf(oldPassword.hashCode()))) {
 			throw new ServiceAuthorizationException();
 		}
 		try {

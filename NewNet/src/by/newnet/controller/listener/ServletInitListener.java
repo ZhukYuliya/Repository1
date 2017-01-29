@@ -20,7 +20,8 @@ public class ServletInitListener implements ServletContextListener {
 			 scheduler = new DailyFeeScheduler();
 			scheduler.startTask();
 		} catch (ConnectionPoolException  e) {
-			new RuntimeException(e);
+			//log
+			throw new RuntimeException(e);
 		}
   
         

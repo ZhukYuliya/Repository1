@@ -75,12 +75,11 @@ public class ConnectionPool {
 	}
 
 	public Connection takeConnection() throws ConnectionPoolException {
-		Connection connection = null;
+		Connection connection;
 		try {
 			connection = connectionQueue.take();
 			givenAwayConQueue.add(connection);
 		} catch (InterruptedException e) {
-
 			throw new ConnectionPoolException();
 		}
 		return connection;

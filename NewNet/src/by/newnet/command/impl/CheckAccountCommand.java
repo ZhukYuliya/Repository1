@@ -26,7 +26,7 @@ public class CheckAccountCommand implements Command {
 		if (message == null) {
 			message = Validator.validateContract(account);
 		}
-		String page = null;
+		String page;
 		User user = null;
 		ControllerAction controllerAction = null;
 		// logic in command?

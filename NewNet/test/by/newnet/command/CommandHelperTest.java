@@ -13,15 +13,13 @@ public class CommandHelperTest {
 	@Test
 	public void getCommand() throws IllegalCommandException {
 		CommandHelper commandHelper = new CommandHelper();
-		Object expected = new RegistrationCommand().getClass();
+		Object expected = RegistrationCommand.class;
 		Object actual = commandHelper.getCommand(TEST_COMMAND).getClass();
 		Assert.assertEquals(expected, actual);
 	}
 	@Test (expected = IllegalCommandException.class)
 	public void getNonexistingCommand() throws IllegalCommandException  {
 		CommandHelper commandHelper = new CommandHelper();
-		Command expected = new RegistrationCommand();
-		Command actual = commandHelper.getCommand(WRONG_TEST_COMMAND);
-		Assert.assertEquals(expected, actual);
+		commandHelper.getCommand(WRONG_TEST_COMMAND);
 	}
 }

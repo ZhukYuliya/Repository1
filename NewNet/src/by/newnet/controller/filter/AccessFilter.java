@@ -20,11 +20,11 @@ import by.newnet.domain.User;
 
 public class AccessFilter implements Filter {
 
-	private Set<String> guestCommands;
-	private Set<String> loggedUserCommands;
-	private Set<String> customerCommands;
-	private Set<String> operatorCommands;
-	private Set<String> adminCommands;
+	private final Set<String> guestCommands;
+	private final Set<String> loggedUserCommands;
+	private final Set<String> customerCommands;
+	private final Set<String> operatorCommands;
+	private final Set<String> adminCommands;
 
 	public AccessFilter() {
 		guestCommands = new HashSet<String>();
