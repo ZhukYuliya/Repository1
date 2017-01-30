@@ -8,7 +8,7 @@ import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
-import by.newnet.domain.User;
+import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;

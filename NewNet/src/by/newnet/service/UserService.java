@@ -3,8 +3,10 @@ package by.newnet.service;
 import java.math.BigDecimal;
 import java.util.List;
 
-import by.newnet.domain.CreditCard;
-import by.newnet.domain.User;
+import org.apache.commons.lang3.tuple.Pair;
+
+import by.newnet.model.CreditCard;
+import by.newnet.model.User;
 import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
@@ -24,7 +26,7 @@ public interface UserService {
 
 	void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException;
 	//List<String> getAccountInfo(int userId) throws ServiceException;
-	List<User> showUsers() throws ServiceException;
+	Pair<List<User>, Integer> showUsers(int page, int size) throws ServiceException;
 	void saveContract(String contract, String firstName, String secondName)  throws ServiceException;
 	void saveUser(User user)  throws ServiceException;
 	void applyDailyFee() throws ServiceException;

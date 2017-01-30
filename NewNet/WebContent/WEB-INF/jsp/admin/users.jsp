@@ -10,17 +10,18 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
-	<main> <section id="view">
-	<c:if test="${not empty userEditingMessage}">
+	<main> <section id="view"> <c:if
+		test="${not empty userEditingMessage}">
 		<fmt:message key="${userEditingMessage}" />
 	</c:if> <br>
-	<table border="1">
+	<table>
 		<tr>
 			<td><fmt:message key="click_user_id" /></td>
 			<td><fmt:message key="second_name" /></td>
 			<td><fmt:message key="first_name" /></td>
 			<td><fmt:message key="account_number" /></td>
-			<td><fmt:message key="account_balance" />, ${byn}</td>
+			<td><fmt:message key="account_balance" />, <fmt:message
+					key="currency" /></td>
 			<td><fmt:message key="tariff" /></td>
 			<td><fmt:message key="role" /></td>
 			<td><fmt:message key="blocked" /></td>
@@ -33,7 +34,8 @@
 						<c:when test="${user.isAdmin()}">${user.id}
 						</c:when>
 						<c:when test="${user.isOperator() || user.isCustomer()}">
-				<a href="<c:url value='/controller?command=SHOW_USER&id=${user.id}'/>">${user.id}</a>
+							<a
+								href="<c:url value='/controller?command=SHOW_USER&id=${user.id}'/>">${user.id}</a>
 						</c:when>
 					</c:choose></td>
 				<td>${user.secondName}</td>
@@ -65,8 +67,15 @@
 			</tr>
 		</c:forEach>
 	</table>
-	</section>
-	<%@include file="/WEB-INF/jspf/footer.jspf"%>
+	<table>
+		<tr>
+			<c:forEach var="i" begin="1" end="${totalPages}" step="1">
+				<td><a href="<c:url value='/controller?command=SHOW_USERS&page=${i}'/>">${i}</a>
+						</td>
+			</c:forEach>
+		</tr>
+	</table>
+	</section> <%@include file="/WEB-INF/jspf/footer.jspf"%>
 	</main>
 </body>
 </html>

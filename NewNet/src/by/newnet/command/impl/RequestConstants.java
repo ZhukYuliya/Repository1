@@ -2,7 +2,7 @@ package by.newnet.command.impl;
 
 public class RequestConstants {
 	public static final String CONTROLLER = "/controller";
-	public static final String LAST_GET_REQUEST_URL = "lastRequestUrl";
+	public static final String PREVIOUS_GET_REQUEST_URL = "lastRequestUrl";
 	public static final String USER = "user";
 	public static final String USER_ID = "userId";
 	public static final String ADMIN = "admin";
@@ -34,7 +34,6 @@ public class RequestConstants {
 	public static final String PAYMENT_MESSAGE = "paymentMessage";
 	public static final String ADDRESS = "address";
 	public static final String POST_REQUEST_MESSAGE = "postRequestMessage";
-	
 	public static final String NAME = "name";
 	public static final String PRICE = "price";
 	public static final String SPEED = "speed";
@@ -57,6 +56,9 @@ public class RequestConstants {
 	public static final String AFTER_CALL = "AFTER_CALL";
 	public static final String CHANGE_STATUS_MESSAGE = "changeStatusMessage";
 	public static final String AFTER_CONTRACT = "AFTER_CONTRACT";
+	public static final String COMMAND = "command";
+	public static final String ENCODING = "utf-8";
+	public static final String TOTAL_PAGES = "totalPages";
 
 
 	

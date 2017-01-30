@@ -6,7 +6,12 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import org.apache.log4j.Logger;
+
 public class ConnectionPool {
+	
+	private static final Logger logger = Logger.getLogger(ConnectionPool.class);
+// log only exc or info too?
 	private static final ConnectionPool instance = new ConnectionPool();
 
 	private BlockingQueue<Connection> connectionQueue;
@@ -40,36 +45,36 @@ public class ConnectionPool {
 	}
 
 	public void initPoolData() throws ConnectionPoolException {
-
+//log debug start con pool init
 		try {
-			// change class for name
-						Class.forName(driverName);
+			Class.forName(driverName);
 			for (int i = 0; i < poolSize; i++) {
 				Connection connection = DriverManager.getConnection(url, user, password);
 				connectionQueue.add(connection);
 			}
 		} catch (SQLException | ClassNotFoundException e) {
-			throw new ConnectionPoolException();
+			throw new ConnectionPoolException(e);
 		}
+		// debug was initialized
 	}
-
-	public void dispose() {
+//logged in listener
+	public void dispose() throws ConnectionPoolException {
 		clearConnectionQueue();
 	}
 
-	private void clearConnectionQueue() {
+	private void clearConnectionQueue() throws ConnectionPoolException {
 
 		closeConnectionsQueue(givenAwayConQueue);
 		closeConnectionsQueue(connectionQueue);
 
 	}
 
-	private void closeConnectionsQueue(BlockingQueue<Connection> queue) {
+	private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws ConnectionPoolException {
 		for (Connection con : queue) {
 			try {
 				con.close();
 			} catch (SQLException e) {
-
+				throw new ConnectionPoolException(e);
 			}
 		}
 	}
@@ -80,7 +85,7 @@ public class ConnectionPool {
 			connection = connectionQueue.take();
 			givenAwayConQueue.add(connection);
 		} catch (InterruptedException e) {
-			throw new ConnectionPoolException();
+			throw new ConnectionPoolException(e);
 		}
 		return connection;
 	}
@@ -93,7 +98,7 @@ public class ConnectionPool {
 		try {
 			connection.setAutoCommit(true);
 		} catch (SQLException e) {
-			throw new ConnectionPoolException();
+			throw new ConnectionPoolException(e);
 		}
 
 		givenAwayConQueue.remove(connection);

@@ -1,7 +1,6 @@
-package by.newnet.domain;
+package by.newnet.model;
 
 public enum RequestStatus {
-
 	NEW(1), AFTER_CALL(2), AFTER_CONTRACT(3);
 
 	private int statusCoef;

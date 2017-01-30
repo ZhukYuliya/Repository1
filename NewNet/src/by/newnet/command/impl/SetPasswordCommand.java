@@ -7,7 +7,7 @@ import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
-import by.newnet.domain.User;
+import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
@@ -38,12 +38,12 @@ public class SetPasswordCommand implements Command {
 				message = "password_changed";
 				// other exception with wrong password
 			} catch (ServiceAuthorizationException e) {
-				message = "wrong_credentials";
+				message = "wrong_password";
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
-		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS 
+		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
 				+ "&" + RequestConstants.SET_PASSWORD_MESSAGE + "=" + message);
 	}
 }

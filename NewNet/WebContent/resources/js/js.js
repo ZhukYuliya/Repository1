@@ -180,7 +180,7 @@ function validatePaymentForm() {
 		form.elements['expirationYear'].focus();
 		return false;
 	}
-	if (!/[1-2][0-9]/.test(form.elements['securityCode'].value)) {
+	if (!/\d{3}/.test(form.elements['securityCode'].value)) {
 		alert(invalidSecurityCodeMessage);
 		form.elements['securityCode'].focus();
 		return false;

@@ -3,12 +3,14 @@ package by.newnet.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import by.newnet.dao.DAOFactory;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.CreditCard;
-import by.newnet.domain.User;
-import by.newnet.domain.UserComparator;
+import by.newnet.model.CreditCard;
+import by.newnet.model.User;
+import by.newnet.model.UserComparator;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
@@ -104,13 +106,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> showUsers() throws ServiceException {
+	public Pair<List<User>, Integer> showUsers(int page, int size) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
-			List<User> usersList = userDAO.showUsers();
-			usersList.sort(new UserComparator());
-			return usersList;
+			return userDAO.showUsers(page, size);
+			//usersList.sort(new UserComparator());
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

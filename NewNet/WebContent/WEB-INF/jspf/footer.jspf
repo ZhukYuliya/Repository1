@@ -5,12 +5,12 @@
  --%><footer>
 	<n:copyright styleClass="copy"/>
 	<div class="social" id="social">
-		<p>
-			<fmt:message key="follow_us" />
-		</p>
+		<span>
+			<fmt:message key="follow_us"/>
+		</span>
 		<a href="http://twitter.com/newnet"> <img src="${contextPath}/resources/img/twitter.jpg"
-			alt="Twitter" title="Go to twitter" height="50"></a> <a
+			alt="Twitter" title="Go to twitter"></a> <a
 			href="http://facebook.com/newnet"> <img src="${contextPath}/resources/img/facebook.jpg"
-			alt="Facebook" title="Go to facebook" height="50"></a>
+			alt="Facebook" title="Go to facebook"></a>
 	</div>
 </footer>

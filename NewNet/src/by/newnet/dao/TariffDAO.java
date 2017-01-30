@@ -3,7 +3,7 @@ package by.newnet.dao;
 import java.util.List;
 
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.Tariff;
+import by.newnet.model.Tariff;
 
 
 public interface TariffDAO {

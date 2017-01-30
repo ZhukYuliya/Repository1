@@ -6,19 +6,20 @@
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>${lastRequestUrl} NewNet: <fmt:message key="tariffs" /></title>
+<title>NewNet: <fmt:message key="tariffs" /></title>
 </head>
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main>
+	<h1><fmt:message key="newnet_tariffs" /></h1>
 <section class="view">
-	<table border="1">
+	<table>
 		<tr>
 			<c:if test="${user.isAdmin()}">
 				<td><fmt:message key="click_tariff_id" /></td>
 			</c:if>
-			<td><fmt:message key="name" /></td>
-			<td><fmt:message key="price" />, BYN</td>
+			<td><fmt:message key="tariff_name" /></td>
+			<td><fmt:message key="price" />, <fmt:message key="currency"/></td>
 			<td><fmt:message key="speed" /></td>
 			<td><fmt:message key="traffic" /></td>
 			<c:if test="${user.isAdmin()}">

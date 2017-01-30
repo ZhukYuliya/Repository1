@@ -7,7 +7,7 @@ import by.newnet.command.Command;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
-import by.newnet.domain.User;
+import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
@@ -33,6 +33,7 @@ public class SetContactsCommand implements Command {
 			}
 		}
 		request.setAttribute(RequestConstants.SET_CONTACTS_MESSAGE, message);
-		return new ControllerSendRedirect(PageNames.PERSONAL_DETAILS);
+		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
+				+ "&" + RequestConstants.SET_CONTACTS_MESSAGE + "=" + message);
 	}
 }

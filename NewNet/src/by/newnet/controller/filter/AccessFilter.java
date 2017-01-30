@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.CommandName;
+import by.newnet.command.impl.PageNames;
 import by.newnet.command.impl.RequestConstants;
 import by.newnet.controller.Controller;
-import by.newnet.domain.User;
+import by.newnet.model.User;
 
 public class AccessFilter implements Filter {
 
@@ -71,27 +72,37 @@ public class AccessFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 	        throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String command = httpRequest.getParameter(Controller.COMMAND);
-		String uri = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+		String command = httpRequest.getParameter(RequestConstants.COMMAND);
 		if (command != null) {
 			command = command.toUpperCase();
 			User user = (User) httpRequest.getSession().getAttribute(RequestConstants.USER);
 			if (user == null) {
 				if (guestCommands.contains(command)) {
 					chain.doFilter(request, response);
+				} else {
+					redirectToIndex(request, response);
 				}
 			} else {
-				boolean isAllowed = user.isAdmin() && adminCommands.contains(command)
+				if(user.isAdmin() && adminCommands.contains(command)
 				        || user.isOperator() && operatorCommands.contains(command)
-				        || user.isCustomer() && customerCommands.contains(command);
-				if (isAllowed && uri
-				        .startsWith(httpRequest.getContextPath() + RequestConstants.CONTROLLER)) {
+				        || user.isCustomer() && customerCommands.contains(command)){
 					chain.doFilter(request, response);
+				} else {
+					redirectToIndex(request, response);
 				}
 			}
 		} else {
-			((HttpServletResponse) response).sendRedirect("index.jsp");
+			redirectToIndex(request, response);
 		}
+	}
+
+	private void redirectToIndex(ServletRequest request, ServletResponse response)
+	        throws IOException {
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		String contextPath = httpRequest.getContextPath();
+		httpResponse.sendRedirect(contextPath + PageNames.INDEX);
+
 	}
 
 	/*

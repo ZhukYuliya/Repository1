@@ -10,7 +10,7 @@ import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
-import by.newnet.domain.Tariff;
+import by.newnet.model.Tariff;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.TariffService;
 import by.newnet.service.exception.DuplicateTariffServiceException;

@@ -10,8 +10,8 @@ import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
-import by.newnet.domain.CreditCard;
-import by.newnet.domain.User;
+import by.newnet.model.CreditCard;
+import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
@@ -52,7 +52,7 @@ public class PaymentCommand implements Command {
 				userService.pay(userId, card, amount);
 				message = "successful_payment";
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND
-						+ "&" + RequestConstants.PAYMENT_MESSAGE + "=successful_payment");
+						+ "&" + RequestConstants.PAYMENT_MESSAGE + "=" + message);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}

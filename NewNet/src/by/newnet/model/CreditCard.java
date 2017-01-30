@@ -1,8 +1,11 @@
-package by.newnet.domain;
+package by.newnet.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CreditCard {
+public class CreditCard implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String number;
 	private String expirationMonth;
 	private String expirationYear;

@@ -11,7 +11,7 @@
 <table>
 	<tr>
 		<th><fmt:message key="account_number"/></th>
-		<th><fmt:message key="account_balance"/>, BYN</th>
+		<th><fmt:message key="account_balance"/>, <fmt:message key="currency"/></th>
 		<th><fmt:message key="current_tariff"/></th>
 		<th><fmt:message key="blocked"/></th>
 	</tr>
@@ -30,8 +30,11 @@
 	</tr>
 </table>
 <span>
-<c:if test="${not empty subscriptionMessage}">
-	<fmt:message key="successfull_subscription" />
+<c:if test="${not empty param.subscriptionMessage}">
+	<fmt:message key="${param.subscriptionMessage}"/>
+</c:if>
+<c:if test="${not empty param.paymentMessage}">
+	<fmt:message key="${param.paymentMessage}"/>
 </c:if>
 </span>
 </section>

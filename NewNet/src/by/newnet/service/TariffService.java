@@ -2,7 +2,7 @@ package by.newnet.service;
 
 import java.util.List;
 
-import by.newnet.domain.Tariff;
+import by.newnet.model.Tariff;
 import by.newnet.service.exception.DuplicateTariffServiceException;
 import by.newnet.service.exception.ServiceException;
 

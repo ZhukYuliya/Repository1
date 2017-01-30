@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>${lastRequestUrl} NewNet: <fmt:message key="payment" /></title>
+<title>NewNet: <fmt:message key="payment" /></title>
 </head>
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
@@ -14,11 +14,11 @@
 	<section id="edit">
 	<span>
 		<fmt:message key="current_balance" />
-		:${user.accountBalance} ${byn}<br>
+		: ${user.accountBalance} <fmt:message key="currency"/><br>
 	</span>
-	<span>
+	<h1>
 		<fmt:message key="card_details" />
-	</span>
+	</h1>
 	<form action="${contextPath}/controller" method="post" name="payment" 
 			onsubmit="return validatePaymentForm()">
 		<input type="hidden" name="command" value="pay" />
@@ -48,7 +48,7 @@
 			</tr>
 		</table>
 		<br>
-		<fmt:message key="amount_to_pay" />
+		<fmt:message key="amount_to_pay"/>, <fmt:message key="currency"/>
 		:<input name="amount" value="" type="text" class="text" /> <input
 			type="submit" class="submit" value='<fmt:message key="pay_button"/> ' />
 	</form>

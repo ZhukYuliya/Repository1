@@ -6,8 +6,8 @@ import java.util.List;
 import by.newnet.dao.DAOFactory;
 import by.newnet.dao.RequestDAO;
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.Request;
-import by.newnet.domain.RequestStatus;
+import by.newnet.model.Request;
+import by.newnet.model.RequestStatus;
 import by.newnet.service.RequestService;
 import by.newnet.service.exception.ServiceException;
 

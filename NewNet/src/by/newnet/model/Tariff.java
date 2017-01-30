@@ -1,8 +1,11 @@
-package by.newnet.domain;
+package by.newnet.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Tariff {
+public class Tariff implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String name;
 	private BigDecimal price;

@@ -10,59 +10,72 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.constant.CardsTable;
 import by.newnet.dao.jdbc.constant.RolesTable;
 import by.newnet.dao.jdbc.constant.TariffsTable;
 import by.newnet.dao.jdbc.constant.UsersTable;
-import by.newnet.domain.CreditCard;
-import by.newnet.domain.Role;
-import by.newnet.domain.Tariff;
-import by.newnet.domain.User;
+import by.newnet.model.CreditCard;
+import by.newnet.model.Role;
+import by.newnet.model.Tariff;
+import by.newnet.model.User;
 
 public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
-	public static final String CHECK_CREDENTIALS = "SELECT * FROM " + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT
-	        + " = ? AND " + UsersTable.PASSWORD + " = ?";
-	public static final String REGISTER_USER =
-	        "INSERT INTO " + UsersTable.USERS + " (login, password, name, draft) VALUES(?, ?, ?, false)";
-	public static final String CHECK_USER =
-	        "SELECT " + UsersTable.ACCOUNT + " FROM " + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT + " = ? ";
-	public static final String SUBSCRIBE_FOR_TARIFF =
-	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.TARIFF + " = ? WHERE " + UsersTable.ID + " = ?";
-	public static final String GET_USER_BY_ID =
-	        "SELECT * FROM " + UsersTable.USERS + " LEFT JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = " + RolesTable.ROLES + "."
-	                + RolesTable.ID + " left JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF
-	                + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID + " WHERE " + UsersTable.ID + " = ?";
-	public static final String GET_USER_BY_ACCOUNT =
-	        "SELECT * FROM " + UsersTable.USERS + " LEFT JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = " + RolesTable.ROLES + "."
-	                + RolesTable.ID + " LEFT JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF
-	                + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID + " WHERE " + UsersTable.ACCOUNT + " = ?";
-	public static final String SAVE_PASSWORD =
-	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.PASSWORD + "=? WHERE " + UsersTable.ID + "=?";
-	public static final String SET_BALANCE =
-	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ID + "=?";
-	public static final String SAVE_CONTACTS = "UPDATE " + UsersTable.USERS + " SET " + UsersTable.PHONE + "=?, "
-	        + UsersTable.EMAIL + "=? WHERE " + UsersTable.ID + "=?";
-	public static final String BLOCK_USER =
-	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.BLOCKED + "=true WHERE " + UsersTable.ID + "=?";
-	public static final String UNBLOCK_USER =
-	        "UPDATE " + UsersTable.USERS + " SET " + UsersTable.BLOCKED + "=false WHERE " + UsersTable.ID + "=?";
-	public static final String UPDATE_USER = "UPDATE " + UsersTable.USERS + " SET " + UsersTable.ACCOUNT + "=?, "
-	        + UsersTable.FIRST_NAME + "=?, " + UsersTable.SECOND_NAME
-	        + "=?, " + UsersTable.TARIFF + "=?, "
-	        + UsersTable.BLOCKED + "=? " + " WHERE " + UsersTable.ID + "=?";
-	public static final String SHOW_USERS = "SELECT * FROM " + UsersTable.USERS + " JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "."
-	        + UsersTable.ROLE + " = " + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS + " ON " + UsersTable.USERS + "."
-	        + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS + "." + TariffsTable.ID;
+	public static final String CHECK_CREDENTIALS = "SELECT * FROM " + UsersTable.USERS + " WHERE "
+	        + UsersTable.ACCOUNT + " = ? AND " + UsersTable.PASSWORD + " = ?";
+	public static final String REGISTER_USER = "INSERT INTO " + UsersTable.USERS
+	        + " (login, password, name, draft) VALUES(?, ?, ?, false)";
+	public static final String CHECK_USER = "SELECT " + UsersTable.ACCOUNT + " FROM "
+	        + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT + " = ? ";
+	public static final String SUBSCRIBE_FOR_TARIFF = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.TARIFF + " = ? WHERE " + UsersTable.ID + " = ?";
+	public static final String GET_USER_BY_ID = "SELECT * FROM " + UsersTable.USERS + " LEFT JOIN "
+	        + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = "
+	        + RolesTable.ROLES + "." + RolesTable.ID + " left JOIN " + TariffsTable.TARIFFS + " ON "
+	        + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS + "."
+	        + TariffsTable.ID + " WHERE " + UsersTable.ID + " = ?";
+	public static final String GET_USER_BY_ACCOUNT = "SELECT * FROM " + UsersTable.USERS
+	        + " LEFT JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE
+	        + " = " + RolesTable.ROLES + "." + RolesTable.ID + " LEFT JOIN " + TariffsTable.TARIFFS
+	        + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS
+	        + "." + TariffsTable.ID + " WHERE " + UsersTable.ACCOUNT + " = ?";
+	public static final String SAVE_PASSWORD = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.PASSWORD + "=? WHERE " + UsersTable.ID + "=?";
+	public static final String SET_BALANCE = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ID + "=?";
+	public static final String SAVE_CONTACTS = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.PHONE + "=?, " + UsersTable.EMAIL + "=? WHERE " + UsersTable.ID + "=?";
+	public static final String BLOCK_USER = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.BLOCKED + "=true WHERE " + UsersTable.ID + "=?";
+	public static final String UNBLOCK_USER = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.BLOCKED + "=false WHERE " + UsersTable.ID + "=?";
+	public static final String UPDATE_USER = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.ACCOUNT + "=?, " + UsersTable.FIRST_NAME + "=?, " + UsersTable.SECOND_NAME
+	        + "=?, " + UsersTable.TARIFF + "=?, " + UsersTable.BLOCKED + "=? " + " WHERE "
+	        + UsersTable.ID + "=?";
+	public static final String COUNT_USERS = "SELECT COUNT(*)  FROM " + UsersTable.USERS;
+	public static final String SHOW_USERS_PAGINATED = "SELECT *  FROM " + UsersTable.USERS
+	        + " JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE
+	        + " = " + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS
+	        + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS
+	        + "." + TariffsTable.ID + " ORDER BY USERS.ID LIMIT ?,?";
+	public static final String SHOW_USERS = "SELECT *  FROM " + UsersTable.USERS + " JOIN "
+	        + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = "
+	        + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS + " ON "
+	        + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS + "."
+	        + TariffsTable.ID;
 	public static final String GET_CARD_BY_NUMBER =
 	        "SELECT * FROM " + CardsTable.CARDS + " WHERE " + CardsTable.NUMBER + " = ?";
 	public static final String SET_ACCOUNT_BALANCE = "UPDATE " + UsersTable.USERS + " SET "
 	        + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ACCOUNT + "=?";
-	public static final String SET_CARD_BALANCE =
-	        "UPDATE " + CardsTable.CARDS + " SET " + CardsTable.BALANCE + "=? WHERE " + CardsTable.NUMBER + "=?";
-	public static final String SAVE_NEW_CONTRACT = "INSERT INTO " + UsersTable.USERS + " (" + UsersTable.ACCOUNT + ","
-	        + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") VALUES(?,?,?)";
+	public static final String SET_CARD_BALANCE = "UPDATE " + CardsTable.CARDS + " SET "
+	        + CardsTable.BALANCE + "=? WHERE " + CardsTable.NUMBER + "=?";
+	public static final String SAVE_NEW_CONTRACT =
+	        "INSERT INTO " + UsersTable.USERS + " (" + UsersTable.ACCOUNT + ","
+	                + UsersTable.FIRST_NAME + "," + UsersTable.SECOND_NAME + ") VALUES(?,?,?)";
 
 	@Override
 	public User getUserById(int userId) throws DAOException {
@@ -153,7 +166,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			closeStatementsAndReleaseConnection(connection);
 		}
 	}
-
 	@Override
 	public List<User> showUsers() throws DAOException {
 		Connection connection = null;
@@ -172,6 +184,40 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			throw new DAOException(e);
 		} finally {
 			closeStatementsAndReleaseConnection(connection, statement);
+		}
+	}
+
+	@Override
+	public Pair<List<User>, Integer> showUsers(int page, int size) throws DAOException {
+		Connection connection = null;
+		Statement countStatement = null;
+		PreparedStatement showUsersStatement = null;
+		Pair<List<User>, Integer> usersCountPair = null;
+		try {
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			countStatement = connection.createStatement();
+			ResultSet rs = countStatement.executeQuery(COUNT_USERS);
+			rs.next();
+			int count = rs.getInt(1);
+			if (count > 0) {
+				showUsersStatement = connection.prepareStatement(SHOW_USERS_PAGINATED);
+				showUsersStatement.setInt(1, (page-1)*size);
+				showUsersStatement.setInt(2, size);
+				ResultSet usersRs = showUsersStatement.executeQuery();
+				List<User> usersList = new ArrayList<User>();
+				while (usersRs.next()) {
+					User user = fillInCurrentUser(usersRs);
+					usersList.add(user);
+				}
+				usersCountPair = Pair.of(usersList, count);
+			} 
+			connection.commit();
+			return usersCountPair;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			closeStatementsAndReleaseConnection(connection, countStatement, showUsersStatement);
 		}
 	}
 
@@ -388,8 +434,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 
@@ -404,8 +448,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			closeStatementsAndReleaseConnection(connection, statement);
 		}
 	}
 }

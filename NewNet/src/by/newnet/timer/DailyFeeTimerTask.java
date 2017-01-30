@@ -16,7 +16,7 @@ public class DailyFeeTimerTask extends TimerTask {
 			} catch (ServiceException e) {
 				// exception?message needed? message registration failed
 				
-				// log
+				// log error
 			}
 	}
 

@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import by.newnet.command.CommandName;
 import by.newnet.command.impl.RequestConstants;
-import by.newnet.domain.User;
+import by.newnet.model.User;
 
 public class LoggedUserTag extends TagSupport {
 	/**

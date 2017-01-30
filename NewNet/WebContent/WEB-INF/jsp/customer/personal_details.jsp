@@ -32,8 +32,8 @@
 			value="set_password" /> <input type="submit" class="submit"
 			value='<fmt:message key="change_button"/> ' />
 	</form>
-	<c:if test="${not empty setPasswordMessage}">
-		<fmt:message key="${setPasswordMessage}" />
+	<c:if test="${not empty param.setPasswordMessage}">
+		<fmt:message key="${param.setPasswordMessage}" />
 	</c:if>
 	<h2>
 		<fmt:message key="change_contacts" />
@@ -52,8 +52,8 @@
 			type="submit" class="submit"
 			value='<fmt:message key="change_button"/> ' />
 	</form>
-	<c:if test="${not empty setContactsMessage}">
-		<fmt:message key="${setContactsMessage}" />
+	<c:if test="${not empty param.setContactsMessage}">
+		<fmt:message key="${param.setContactsMessage}" />
 	</c:if>
 	</section>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>

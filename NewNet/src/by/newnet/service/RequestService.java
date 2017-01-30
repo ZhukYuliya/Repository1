@@ -2,8 +2,8 @@ package by.newnet.service;
 
 import java.util.List;
 
-import by.newnet.domain.Request;
-import by.newnet.domain.RequestStatus;
+import by.newnet.model.Request;
+import by.newnet.model.RequestStatus;
 import by.newnet.service.exception.ServiceException;
 
 public interface RequestService {

@@ -25,7 +25,7 @@ public class PageNames {
 	public static final String NEW_CONTRACT = "/WEB-INF/jsp/operator/new_contract.jsp";
 	public static final String AFTER_POST_REQUEST = "/public_jsp/index.jsp";
 	public static final String ERROR_404_PAGE = "/public_jsp/error404.jsp";
-
+	public static final String JS_MESSAGES = "resources/js/js_messages.jsp";
 	private PageNames(){}
 	
 

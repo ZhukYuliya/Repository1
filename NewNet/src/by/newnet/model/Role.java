@@ -1,6 +1,7 @@
-package by.newnet.domain;
+package by.newnet.model;
 
 public enum Role {
+		
 
 	ADMIN(1), OPERATOR(2), CUSTOMER(3);
 	

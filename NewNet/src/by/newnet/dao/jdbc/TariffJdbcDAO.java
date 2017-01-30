@@ -10,7 +10,7 @@ import java.util.List;
 import by.newnet.dao.TariffDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.constant.TariffsTable;
-import by.newnet.domain.Tariff;
+import by.newnet.model.Tariff;
 
 public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 	public static final String SHOW_TARIFFS = "SELECT * FROM " + TariffsTable.TARIFFS;

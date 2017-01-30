@@ -11,7 +11,7 @@ import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 public class BaseJdbcDAO {
 
 	private final ConnectionPool connectionPool = ConnectionPool.getInstance();
-
+//to change con pool in 1 place instead 3
 	public Connection getConnection() throws ConnectionPoolException {
 		Connection connection = connectionPool.takeConnection();
 		return connection;

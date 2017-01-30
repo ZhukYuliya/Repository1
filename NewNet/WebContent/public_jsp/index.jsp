@@ -7,7 +7,7 @@
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
-<title> ${lastRequestUrl} NewNet:${sessionScope.locale} <fmt:message key="internet_provider" /></title>
+<title>NewNet: <fmt:message key="internet_provider" /></title>
 </head>
 <body>
 	<header> <%@include file="/WEB-INF/jspf/header.jspf"%>
@@ -36,6 +36,9 @@
 				<c:if test="${not empty authenticationMessage}">
 					<fmt:message key="${authenticationMessage}" />
 				</c:if>
+						<c:if test="${not empty postRequestMessage}">
+				<fmt:message key="${postRequestMessage}" />
+			</c:if>
 			</form>
 		</div>
 		<div class="register">
@@ -43,7 +46,7 @@
 				<fmt:message key="register" />
 			</div>
 			<form action="${contextPath}/controller" method="post" name="checkAccount" 
-			onsubmit="return validatecheckAccountForm()">
+			onsubmit="return validateCheckAccountForm()">
 				<input name="account" value=""
 					placeholder='<fmt:message key="contract_number"/>' class="text" />
 				<input type="hidden" name="command" value="check_account" /> <input
@@ -100,17 +103,10 @@
 			</table>
 		</div>
 	</div>
-	</section> <section id="order">
+	</section> <a name="order"></a><section id="order">
 	<div class="wrapper">
-		<%-- <div class="contact">
-			<a class="phone" href="tel:+375(29) 222-22-22">(29) 222-22-22</a> <a
-				class="phone" href="tel:+375(29) 444-44-44">(29) 444-44-44</a>
-			<div class="text">
-				<fmt:message key="call_message"/>
-			</div> --%>
 		<div class="top_title">
 			<fmt:message key="place_order" />
-
 		</div>
 		<div class="small">
 			<fmt:message key="call_for_details" />
@@ -128,22 +124,19 @@
 				type="submit" class="submit"
 				value='<fmt:message key="post_request_button"/> ' />
 		</form>
-		<c:if test="${not empty postRequestMessage}">
-				<fmt:message key="${postRequestMessage}" />
-			</c:if>
 	</div>
 	</section> <a name="tariffs"></a> <section id="tariffs">
 	<div class="wrapper">
 		<div class="top_title">
-			<fmt:message key="tariffs" />
+			<fmt:message key="tariffs"/>
 		</div>
 		<div class="item">
 			<div class="title">
-				<fmt:message key="unlim_tariffs" />
+				<fmt:message key="unlim_tariffs"/>
 			</div>
 			<div class="price">
-				<span class="num"><fmt:message key="from" /> 12</span><br /> <span
-					class="small">BYN/<fmt:message key="month" /></span>
+				<span class="num"><fmt:message key="from"/> 12</span><br /> <span
+					class="small"><fmt:message key="currency"/>/<fmt:message key="month"/></span>
 			</div>
 			<div class="descr">
 				<fmt:message key="speed_up_to" />
@@ -157,7 +150,7 @@
 			</div>
 			<div class="price">
 				<span class="num"><fmt:message key="from" /> 7.99</span><br /> <span
-					class="small">BYN/<fmt:message key="month" /></span>
+					class="small"><fmt:message key="currency"/>/<fmt:message key="month" /></span>
 			</div>
 			<div class="descr">
 				<fmt:message key="variants" />
@@ -169,7 +162,7 @@
 			</div>
 			<div class="price">
 				<span class="num"><fmt:message key="from" /> 20</span><br /> <span
-					class="small">BYN/<fmt:message key="month" /></span>
+					class="small"><fmt:message key="currency"/>/<fmt:message key="month" /></span>
 			</div>
 			<div class="descr">
 				<fmt:message key="discounts_for_business" />

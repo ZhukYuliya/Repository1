@@ -1,7 +1,10 @@
-package by.newnet.domain;
+package by.newnet.model;
 
-public class Request implements Comparable<Request> {
-	// private static final long serialVersionUID = 1L;
+import java.io.Serializable;
+
+public class Request implements Comparable<Request>, Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String firstName;
 	private String email;
@@ -59,8 +62,6 @@ public class Request implements Comparable<Request> {
 
 	@Override
 	public int compareTo(Request request) {
-		// int compareStatus = ((request.getStatus().getStatusCoef()));
-		// ascending order
 		return this.getStatus().getStatusCoef() - request.getStatus().getStatusCoef();
 	}
 

@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>${lastRequestUrl} NewNet: <fmt:message key="tariff_editing" /></title>
+<title>NewNet: <fmt:message key="tariff_editing" /></title>
 </head>
 <body>
 
@@ -33,7 +33,7 @@
 					value="${tariff.name}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="tariff_price"/>, ${byn} *:</td>
+				<td><fmt:message key="tariff_price"/>, <fmt:message key="currency"/> *:</td>
 				<td><input type="text" name="price"
 					placeholder="${tariff.price}" value="${tariff.price}" /></td>
 			</tr>
@@ -60,7 +60,12 @@
 		<input type="hidden" name="command" value="save_tariff" /> <input
 			type="submit" value='<fmt:message key="save_button"/> ' />
 	</form>
-	<br>
+	
+	<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="show_tariffs" /> <input
+			type="submit" value='<fmt:message key="back_to_tariffs"/>'/>
+	</form>	
+	
 	<c:if test="${not empty saveTariffMessage}">
 		<fmt:message key="${saveTariffMessage}" />
 	</c:if>

@@ -3,8 +3,8 @@ package by.newnet.dao;
 import java.util.List;
 
 import by.newnet.dao.exception.DAOException;
-import by.newnet.domain.Request;
-import by.newnet.domain.RequestStatus;
+import by.newnet.model.Request;
+import by.newnet.model.RequestStatus;
 
 public interface RequestDAO {
 	
