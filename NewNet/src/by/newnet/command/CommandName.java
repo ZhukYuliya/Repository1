@@ -25,4 +25,5 @@ public enum CommandName {
 	PAYMENT,
 	SAVE_TARIFF,
 	SAVE_USER,
+	TO_INDEX
 	}

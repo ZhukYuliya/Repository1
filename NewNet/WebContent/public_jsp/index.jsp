@@ -39,6 +39,12 @@
 						<c:if test="${not empty postRequestMessage}">
 				<fmt:message key="${postRequestMessage}" />
 			</c:if>
+			<c:if test="${not empty checkAccountMessage}">
+					<fmt:message key="${checkAccountMessage}" />
+				</c:if>
+				<c:if test="${not empty param.registrationMessage}">
+					<fmt:message key="${param.registrationMessage}" />
+				</c:if>
 			</form>
 		</div>
 		<div class="register">
@@ -52,12 +58,6 @@
 				<input type="hidden" name="command" value="check_account" /> <input
 					type="submit" class="submit"
 					value='<fmt:message key="register_button"/> ' /> <br>
-				<c:if test="${not empty checkAccountMessage}">
-					<fmt:message key="${checkAccountMessage}" />
-				</c:if>
-				<c:if test="${not empty param.registrationMessage}">
-					<fmt:message key="${param.registrationMessage}" />
-				</c:if>
 			</form>
 		</div>
 		<div class="slogan">

@@ -26,8 +26,6 @@ import by.newnet.model.User;
 public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	public static final String CHECK_CREDENTIALS = "SELECT * FROM " + UsersTable.USERS + " WHERE "
 	        + UsersTable.ACCOUNT + " = ? AND " + UsersTable.PASSWORD + " = ?";
-	public static final String REGISTER_USER = "INSERT INTO " + UsersTable.USERS
-	        + " (login, password, name, draft) VALUES(?, ?, ?, false)";
 	public static final String CHECK_USER = "SELECT " + UsersTable.ACCOUNT + " FROM "
 	        + UsersTable.USERS + " WHERE " + UsersTable.ACCOUNT + " = ? ";
 	public static final String SUBSCRIBE_FOR_TARIFF = "UPDATE " + UsersTable.USERS + " SET "
@@ -44,6 +42,8 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	        + "." + TariffsTable.ID + " WHERE " + UsersTable.ACCOUNT + " = ?";
 	public static final String SAVE_PASSWORD = "UPDATE " + UsersTable.USERS + " SET "
 	        + UsersTable.PASSWORD + "=? WHERE " + UsersTable.ID + "=?";
+	public static final String SET_NOT_DRAFT = "UPDATE " + UsersTable.USERS + " SET "
+	        + UsersTable.DRAFT + "=false WHERE " + UsersTable.ID + "=?";
 	public static final String SET_BALANCE = "UPDATE " + UsersTable.USERS + " SET "
 	        + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ID + "=?";
 	public static final String SAVE_CONTACTS = "UPDATE " + UsersTable.USERS + " SET "
@@ -61,7 +61,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	        + " JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE
 	        + " = " + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS
 	        + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS
-	        + "." + TariffsTable.ID + " ORDER BY USERS.ID LIMIT ?,?";
+	        + "." + TariffsTable.ID + " ORDER BY " + UsersTable.ID + " LIMIT ?,?";
 	public static final String SHOW_USERS = "SELECT *  FROM " + UsersTable.USERS + " JOIN "
 	        + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE + " = "
 	        + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS + " ON "
@@ -278,6 +278,9 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			connection.setAutoCommit(false);
 			savePassword(connection, userId, hashPassword);
 			saveContacts(connection, userId, phone, email);
+			PreparedStatement draftStatement = connection.prepareStatement(SET_NOT_DRAFT);
+			draftStatement.setInt(1, userId);
+			draftStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
 			rollbackConnection(e, connection);

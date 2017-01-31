@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.newnet.command.Command;
+import by.newnet.command.constant.PageNames;
+import by.newnet.command.constant.RequestConstants;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
@@ -17,6 +19,9 @@ public class ChangeLocaleCommand implements Command{
 		HttpSession session = request.getSession();
 		session.setAttribute(RequestConstants.LOCALE, locale);
 		String url = (String)session.getAttribute(RequestConstants.PREVIOUS_GET_REQUEST_URL);
+		if(url == null){
+			url = PageNames.TO_INDEX_COMMAND;
+		}
 		return new ControllerSendRedirect(url);
 	}
 

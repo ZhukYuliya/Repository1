@@ -45,7 +45,7 @@ public class ConnectionPool {
 	}
 
 	public void initPoolData() throws ConnectionPoolException {
-//log debug start con pool init
+		logger.debug("Trying to initialized connection pool");
 		try {
 			Class.forName(driverName);
 			for (int i = 0; i < poolSize; i++) {
@@ -55,7 +55,7 @@ public class ConnectionPool {
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new ConnectionPoolException(e);
 		}
-		// debug was initialized
+		logger.debug("Connection pool is initialized");
 	}
 //logged in listener
 	public void dispose() throws ConnectionPoolException {

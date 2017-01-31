@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <%@include file="/WEB-INF/jspf/head_tag.jspf"%>
@@ -50,7 +50,14 @@
 					placeholder="${tariff.traffic}" value="${tariff.traffic}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="tariff_inactive" />:</td>
+				<td><fmt:message key="tariff_activity" />:<c:choose>
+						<c:when test="${tariff.inactive}">
+							<fmt:message key="inactive" />
+						</c:when>
+						<c:when test="${!tariff.inactive}">
+							<fmt:message key="active" />
+						</c:when>
+					</c:choose></td>
 				<td><select name="inactive">
 						<option value="false"><fmt:message key="active" /></option>
 						<option value="true"><fmt:message key="inactive" /></option>
@@ -65,9 +72,8 @@
 		<input type="hidden" name="command" value="show_tariffs" /> <input
 			type="submit" value='<fmt:message key="back_to_tariffs"/>'/>
 	</form>	
-	
 	<c:if test="${not empty saveTariffMessage}">
-		<fmt:message key="${saveTariffMessage}" />
+			<span><fmt:message key="${saveTariffMessage}" /></span>
 	</c:if>
 	</section>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>

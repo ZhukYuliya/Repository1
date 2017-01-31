@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
+import by.newnet.command.constant.PageNames;
+import by.newnet.command.constant.RequestConstants;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
@@ -38,7 +40,7 @@ public class SetRequestStatusCommand implements Command {
 			controllerAction = new ControllerForward(page);
 			break;
 		case RequestConstants.AFTER_CONTRACT:
-			page = PageNames.NEW_CONTRACT;
+			page = PageNames.REGISTER_NEW_CONTRACT_COMMAND;
 			controllerAction = new ControllerSendRedirect(page);
 			break;
 		}

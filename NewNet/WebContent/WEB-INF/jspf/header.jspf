@@ -5,8 +5,7 @@
 
 <header>
 	<div class="top">
-		<a href="${contextPath}/public_jsp/index.jsp"
-			title='<fmt:message key="to_index_page"/>'> 
+	<a href="<c:url value='/controller?command=TO_INDEX'/>" title='<fmt:message key="to_index_page"/>'> 
 			<img src="${contextPath}/resources/img/logo.png" alt="NewNet" /></a>
 		<l:localization />
 		<u:logged-user />

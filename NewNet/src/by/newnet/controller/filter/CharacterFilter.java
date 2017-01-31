@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import by.newnet.command.impl.RequestConstants;
+import by.newnet.command.constant.RequestConstants;
 
 public class CharacterFilter implements Filter {
 

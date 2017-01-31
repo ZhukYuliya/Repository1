@@ -1,4 +1,4 @@
-package by.newnet.command.impl;
+package by.newnet.command.constant;
 
 public class RequestConstants {
 	public static final String CONTROLLER = "/controller";

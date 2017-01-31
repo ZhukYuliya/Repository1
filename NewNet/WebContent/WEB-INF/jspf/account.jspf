@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%-- <fmt:setLocale value="${sessionScope.locale}" />
- --%>
  <section id="account">
 <span>
 	<fmt:message key="account_info" />
@@ -13,7 +11,7 @@
 		<th><fmt:message key="account_number"/></th>
 		<th><fmt:message key="account_balance"/>, <fmt:message key="currency"/></th>
 		<th><fmt:message key="current_tariff"/></th>
-		<th><fmt:message key="blocked"/></th>
+		<th><fmt:message key="block"/></th>
 	</tr>
 	<tr>
 		<td>${user.account}</td>

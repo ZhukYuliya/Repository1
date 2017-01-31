@@ -2,11 +2,11 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 	<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>${lastRequestUrl} NewNet: <fmt:message key="new_contract"/></title>
+<title>NewNet: <fmt:message key="new_contract"/></title>
 </head>
 <body>
 
@@ -38,9 +38,15 @@
 		<input type="submit" class="submit"
 			value='<fmt:message key="save_button"/> ' />
 	</form>
-	<c:if test="${not empty saveContractMessage}">
-		<fmt:message key="${saveContractMessage}" />
+	<span>
+	<c:if test="${not empty param.saveContractMessage}">
+		<fmt:message key="${param.saveContractMessage}" />
 	</c:if>
+	</span>
+	<form action="${contextPath}/controller" method="get">
+		<input type="hidden" name="command" value="show_requests" /> <input
+			type="submit" value='<fmt:message key="back_to_requests"/>'/>
+	</form>	
 	</section>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 	</main>

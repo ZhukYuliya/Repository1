@@ -13,13 +13,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import by.newnet.command.CommandName;
-import by.newnet.command.impl.PageNames;
-import by.newnet.command.impl.RequestConstants;
+import by.newnet.command.constant.PageNames;
+import by.newnet.command.constant.RequestConstants;
 import by.newnet.controller.Controller;
 import by.newnet.model.User;
 
 public class AccessFilter implements Filter {
+
+	private static final Logger logger = Logger.getLogger(AccessFilter.class);
 
 	private final Set<String> guestCommands;
 	private final Set<String> loggedUserCommands;
@@ -35,6 +39,8 @@ public class AccessFilter implements Filter {
 		guestCommands.add(CommandName.CHANGE_LOCALE.toString());
 		guestCommands.add(CommandName.SHOW_TARIFFS.toString());
 		guestCommands.add(CommandName.POST_REQUEST.toString());
+		guestCommands.add(CommandName.TO_INDEX.toString());
+		guestCommands.add(CommandName.TO_REGISTRATION.toString());
 
 		loggedUserCommands = new HashSet<String>();
 		loggedUserCommands.addAll(guestCommands);
@@ -63,6 +69,7 @@ public class AccessFilter implements Filter {
 		adminCommands.add(CommandName.SAVE_USER.toString());
 		adminCommands.add(CommandName.SHOW_USERS.toString());
 		adminCommands.add(CommandName.SHOW_USER.toString());
+		adminCommands.add(CommandName.SHOW_TARIFF.toString());
 	}
 
 	public void destroy() {
@@ -81,14 +88,18 @@ public class AccessFilter implements Filter {
 					chain.doFilter(request, response);
 				} else {
 					redirectToIndex(request, response);
+					logger.debug("Guest user tried to reach command" + command
+					        + "and was redirected to index.jsp");
 				}
 			} else {
-				if(user.isAdmin() && adminCommands.contains(command)
+				if (user.isAdmin() && adminCommands.contains(command)
 				        || user.isOperator() && operatorCommands.contains(command)
-				        || user.isCustomer() && customerCommands.contains(command)){
+				        || user.isCustomer() && customerCommands.contains(command)) {
 					chain.doFilter(request, response);
 				} else {
 					redirectToIndex(request, response);
+					logger.debug("User " + user.getId() + "tried to reach command" + command
+					        + "and was redirected to index.jsp");
 				}
 			}
 		} else {

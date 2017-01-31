@@ -3,6 +3,8 @@ package by.newnet.command.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
+import by.newnet.command.validator.Validator;
+
 
 public class ValidatorTest {
 	public static final String TEST_PASSWORD = "qwe1!A";

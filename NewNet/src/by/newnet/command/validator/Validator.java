@@ -1,4 +1,4 @@
-package by.newnet.command.impl;
+package by.newnet.command.validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

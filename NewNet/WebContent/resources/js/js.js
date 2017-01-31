@@ -6,63 +6,63 @@ function checkNotEmpty(value) {
 	return true;
 }
 function validatePassword(value) {
-	if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}/.test(value)) {
+	if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}$/.test(value)) {
 		alert(invalidPasswordMessage);
 		return false;
 	}
 	return true;
 }
 function validateAccount(value) {
-	if (!/[1-9]\d{11}/.test(value)) {
+	if (!/^[1-9]\d{11}$/.test(value)) {
 		alert(invalidContractNumberMessage);
 		return false;
 	}
 	return true;
 }
 function validateName(value) {
-	if (!/[А-ЯЁ][а-яё]{1,40}/.test(value)) {
+	if (!/^[А-ЯЁ][а-яё]{1,40}$/.test(value)) {
 		alert(invalidNameMessage);
 		return false;
 	}
 	return true;
 }
 function validateEmail(value) {
-	if (!/[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}/.test(value)) {
+	if (!/^[A-z0-9_\-.]+@[A-z0-9\-.]+\.[A-z]{2,10}$/.test(value)) {
 		alert(invalidEmailMessage);
 		return false;
 	}
 	return true;
 }
 function validatePhone(value) {
-	if (!/[1-9]\d{8,12}/.test(value)) {
+	if (!/^[1-9]\d{8,12}$/.test(value)) {
 		alert(invalidPhoneMessage);
 		return false;
 	}
 	return true;
 }
 function validateTariffName(value) {
-	if (!/[A-ZА-ЯЁ]([A-zА-яЁё\d ]){1,40}/.test(value)) {
+	if (!/^[A-ZА-ЯЁ]([A-zА-яЁё\d ]){1,40}$/.test(value)) {
 		alert(invalidTariffNameMessage);
 		return false;
 	}
 	return true;
 }
 function validateBynAmount(value) {
-	if (!/([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?/.test(value)) {
+	if (!/^([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?$/.test(value)) {
 		alert(invalidBynAmountMessage);
 		return false;
 	}
 	return true;
 }
 function validateSpeed(value) {
-	if (!/[1-9]\d?/.test(value)) {
+	if (!/^[1-9]\d?$/.test(value)) {
 		alert(invalidSpeedMessage);
 		return false;
 	}
 	return true;
 }
 function validateTraffic(value) {
-	if (!/0|([1-9]\d?)/.test(value)) {
+	if (!/^0|([1-9]\d?)$/.test(value)) {
 		alert(invalidTrafficMessage);
 		return false;
 	}
@@ -90,6 +90,7 @@ function validateCheckAccountForm() {
 		form.elements['account'].focus();
 		return false;
 	}
+	return true;
 }
 function validateRequestForm() {
 	var form = document.forms['request'];
@@ -109,6 +110,7 @@ function validateRequestForm() {
 		form.elements['email'].focus();
 		return false;
 	}
+	return true;
 }
 function validateEditTariffForm() {
 	var form = document.forms['editTariff'];
@@ -132,6 +134,7 @@ function validateEditTariffForm() {
 		form.elements['traffic'].focus();
 		return false;
 	}
+	return true;
 }
 
 function validateEditUserForm() {
@@ -156,6 +159,7 @@ function validateEditUserForm() {
 		form.elements['email'].focus();
 		return false;
 	}
+	return true;
 }
 function validatePaymentForm() {
 	var form = document.forms['payment'];
@@ -165,27 +169,27 @@ function validatePaymentForm() {
 			&& checkNotEmpty(form.elements['amount'].value))) {
 		return false;
 	}
-	if (!/\d{16}/.test(form.elements['number'].value)) {
+	if (!/^\d{16}$/.test(form.elements['number'].value)) {
 		alert(invalidCardNumberMessage);
 		form.elements['number'].focus();
 		return false;
 	}
-	if (!/0[1-9]|1[012]/.test(form.elements['expirationMonth'].value)) {
+	if (!/^0[1-9]|1[012]$/.test(form.elements['expirationMonth'].value)) {
 		alert(invalidMonthMessage);
 		form.elements['expirationMonth'].focus();
 		return false;
 	}
-	if (!/[1-2][0-9]/.test(form.elements['expirationYear'].value)) {
+	if (!/^[1-2][0-9]$/.test(form.elements['expirationYear'].value)) {
 		alert(invalidYearMessage);
 		form.elements['expirationYear'].focus();
 		return false;
 	}
-	if (!/\d{3}/.test(form.elements['securityCode'].value)) {
+	if (!/^\d{3}$/.test(form.elements['securityCode'].value)) {
 		alert(invalidSecurityCodeMessage);
 		form.elements['securityCode'].focus();
 		return false;
 	}
-	if (!/[A-z]{1,40}/.test(form.elements['firstName'].value) || !/[A-z]{1,40}/.test(form.elements['secondName'].value)) {
+	if (!/^[A-z]{1,40}$/.test(form.elements['firstName'].value) || !/^[A-z]{1,40}$/.test(form.elements['secondName'].value)) {
 		alert(invalidCaldHolderNameMessage);
 		return false;
 	}
@@ -193,6 +197,7 @@ function validatePaymentForm() {
 		form.elements['amount'].focus();
 		return false;
 	}
+	return true;
 }
 
 function validateChangePasswordForm() {
@@ -215,6 +220,7 @@ function validateChangePasswordForm() {
 		form.elements['reenterNewPassword'].focus();
 		return false;
 	}
+	return true;
 }
 
 function validateSetContactsForm() {
@@ -230,12 +236,22 @@ function validateSetContactsForm() {
 		form.elements['email'].focus();
 		return false;
 	}
+	return true;
 }
 
 function validateRegistrationForm() {
 	var form = document.forms['registration'];
 	if (!(checkNotEmpty(form.elements['password'].value)&& checkNotEmpty(form.elements['reenterPassword'].value)
 			&& checkNotEmpty(form.elements['email'].value) && checkNotEmpty(form.elements['email'].value))) {
+		return false;
+	}
+	if (!validatePassword(form.elements['password'].value)) {
+		form.elements['password'].focus();
+		return false;
+	}
+	if (!(form.elements['password'].value == form.elements['reenterPassword'].value)) {
+		alert(differentPasswordsMessage);
+		form.elements['reenterPassword'].focus();
 		return false;
 	}
 	if (!validatePhone(form.elements['phone'].value)) {
@@ -246,11 +262,7 @@ function validateRegistrationForm() {
 		form.elements['email'].focus();
 		return false;
 	}
-	if (!(form.elements['password'].value == form.elements['reenterPassword'].value)) {
-		alert(differentPasswordsMessage);
-		form.elements['reenterPassword'].focus();
-		return false;
-	}
+	return true;
 }
 
 function validateNewContractForm() {
@@ -266,4 +278,5 @@ function validateNewContractForm() {
 		form.elements['contract'].focus();
 		return false;
 	}
+	return true;
 }

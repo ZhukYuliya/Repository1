@@ -26,6 +26,7 @@ import by.newnet.command.impl.ShowRequestsCommand;
 import by.newnet.command.impl.ShowTariffCommand;
 import by.newnet.command.impl.ShowUserCommand;
 import by.newnet.command.impl.SubscriptionCommand;
+import by.newnet.command.impl.ToIndexCommand;
 import by.newnet.command.impl.ToPaymentCommand;
 import by.newnet.command.impl.ToRegistrationCommand;
 
@@ -54,6 +55,7 @@ public class CommandHelper {
 		commands.put(CommandName.SET_CONTACTS, new SetContactsCommand());
 		commands.put(CommandName.PAYMENT, new PaymentCommand());
 		commands.put(CommandName.TO_PAYMENT, new ToPaymentCommand());
+		commands.put(CommandName.TO_INDEX, new ToIndexCommand());
 		commands.put(CommandName.POST_REQUEST, new PostRequestCommand());
 		commands.put(CommandName.SUBSCRIBE, new SubscriptionCommand());
 		commands.put(CommandName.SAVE_TARIFF, new SaveTariffCommand());

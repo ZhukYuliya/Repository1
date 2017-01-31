@@ -1,4 +1,4 @@
-package by.newnet.command.impl;
+package by.newnet.command.constant;
 
 import by.newnet.command.CommandName;
 
@@ -11,8 +11,8 @@ public class PageNames {
 	public static final String TO_REGISTRATION_COMMAND = "/controller?command=" + CommandName.TO_REGISTRATION;
 	public static final String REGISTRATION = "/WEB-INF/jsp/customer/registration.jsp";
 	public static final String PERSONAL_DETAILS = "/WEB-INF/jsp/customer/personal_details.jsp";
-	//context path needed?
 	public static final String SHOW_ACCOUNT_COMMAND = "/controller?command=" + CommandName.SHOW_ACCOUNT;
+	public static final String TO_INDEX_COMMAND = "/controller?command=" + CommandName.TO_INDEX;
 	public static final String CHANGE_PERSONAL_DETAILS_COMMAND = "/controller?command=" + CommandName.CHANGE_PERSONAL_DETAILS;
 	public static final String USERS = "/WEB-INF/jsp/admin/users.jsp";
 	public static final String EDIT_USER = "/WEB-INF/jsp/admin/edit_user.jsp";
@@ -23,8 +23,10 @@ public class PageNames {
 	public static final String SHOW_REQUESTS_COMMAND = "/controller?command=" + CommandName.SHOW_REQUESTS;
 	public static final String SHOW_USERS_COMMAND = "/controller?command=" + CommandName.SHOW_USERS;
 	public static final String NEW_CONTRACT = "/WEB-INF/jsp/operator/new_contract.jsp";
+	public static final String REGISTER_NEW_CONTRACT_COMMAND = "/controller?command=" + CommandName.REGISTER_NEW_CONTRACT;
 	public static final String AFTER_POST_REQUEST = "/public_jsp/index.jsp";
 	public static final String ERROR_404_PAGE = "/public_jsp/error404.jsp";
+	public static final String ERROR_PAGE = "/public_jsp/error.jsp";
 	public static final String JS_MESSAGES = "resources/js/js_messages.jsp";
 	private PageNames(){}
 	

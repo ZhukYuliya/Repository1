@@ -4,7 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
+import by.newnet.command.constant.PageNames;
+import by.newnet.command.constant.RequestConstants;
 import by.newnet.command.exception.CommandException;
+import by.newnet.command.validator.Validator;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.service.ServiceFactory;
@@ -31,7 +34,7 @@ public class SaveNewContractCommand implements Command {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(RequestConstants.SAVE_CONTRACT_MESSAGE, message);
-		return new ControllerSendRedirect(PageNames.NEW_CONTRACT);
+		return new ControllerSendRedirect(PageNames.REGISTER_NEW_CONTRACT_COMMAND + "&"
+		        + RequestConstants.SAVE_CONTRACT_MESSAGE + "=" + message);
 	}
 }
