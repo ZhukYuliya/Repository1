@@ -27,7 +27,6 @@ public class LocalizationTag extends TagSupport {
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='ru'/>"
 	                + "<input type='submit' value='%s'/></form>"
-
 	                + "<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='en'/>"

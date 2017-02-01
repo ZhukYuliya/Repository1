@@ -35,7 +35,7 @@ public class RequestServiceImpl implements RequestService {
 
 		try {
 			List<Request> requestsList = requestDAO.showRequests();
-			/**
+			/*
 			 * Sorts requests by their status so that the new requests appear first in the list.
 			 */
 			Collections.sort(requestsList);

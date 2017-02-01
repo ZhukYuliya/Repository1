@@ -37,10 +37,10 @@
 				<c:if test="${not empty authenticationMessage}">
 					<fmt:message key="${authenticationMessage}" />
 				</c:if>
-						<c:if test="${not empty postRequestMessage}">
-				<fmt:message key="${postRequestMessage}" />
-			</c:if>
-			<c:if test="${not empty checkAccountMessage}">
+				<c:if test="${not empty param.postRequestMessage}">
+					<fmt:message key="${param.postRequestMessage}" />
+				</c:if>
+				<c:if test="${not empty checkAccountMessage}">
 					<fmt:message key="${checkAccountMessage}" />
 				</c:if>
 				<c:if test="${not empty param.registrationMessage}">
@@ -168,7 +168,7 @@
 				<fmt:message key="discounts_for_business" />
 			</div>
 		</div>
-		<a href="${contextPath}/controller?command=show_tariffs"></br>
+		<a href="${contextPath}/controller?command=show_tariffs"><br>
 		<fmt:message key="click_for_tariffs" /> </a>
 	</div>
 	</section> <a name="subscribe"></a> <section id="scheme">

@@ -49,7 +49,7 @@ public class SaveUserCommand implements Command {
 			user.setTariff(tariff);
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
-				/**
+				/*
 				 * Redirects the admin to the page with users list and notifies him that user
 				 * was updated.
 				 */
@@ -61,7 +61,7 @@ public class SaveUserCommand implements Command {
 				throw new CommandException(e);
 			}
 		} else {
-			/**
+			/*
 			 * If the user's fields validation failed, leaves the admin at the same page saying
 			 * what is wrong with the input.
 			 */

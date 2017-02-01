@@ -13,7 +13,7 @@ import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
-import by.newnet.service.exception.ServiceAuthorizationException;
+import by.newnet.service.exception.ServiceAuthenticationException;
 import by.newnet.service.exception.ServiceException;
 
 /**
@@ -37,17 +37,17 @@ public class SetPasswordCommand implements Command {
 			try {
 				userService.setPassword(userId, oldPassword, newPassword);
 				message = RequestConstants.PASSWORD_CHANGED;
-			} catch (ServiceAuthorizationException e) {
+			} catch (ServiceAuthenticationException e) {
 				message = RequestConstants.WRONG_PASSWORD;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
-		/**
+		/*
 		 * Redirects the user to the same page saying either that the password was updated
 		 * or that the password is wrong.
 		 */
-		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
+		return new ControllerSendRedirect(PageNames.TO_PERSONAL_DETAILS_COMMAND 
 				+ "&" + RequestConstants.SET_PASSWORD_MESSAGE + "=" + message);
 	}
 }

@@ -13,7 +13,7 @@ import by.newnet.controller.ControllerForward;
  * The Class RegisterNewContractCommand. Forwardes operator to the page with a
  * form for inserting new contracts.
  */
-public class RegisterNewContractCommand implements Command {
+public class ToNewContractCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)

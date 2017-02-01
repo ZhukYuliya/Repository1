@@ -4,10 +4,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>NewNet</display-name>
+
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>resources.localization</param-value>
 	</context-param>
+
 	<servlet>
 		<servlet-name>Controller</servlet-name>
 		<servlet-class>by.newnet.controller.Controller</servlet-class>
@@ -16,6 +18,7 @@
 		<servlet-name>Controller</servlet-name>
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
+
 	<filter>
 		<filter-name>CharsetFilter</filter-name>
 		<filter-class>by.newnet.controller.filter.CharacterFilter</filter-class>
@@ -26,6 +29,15 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CharsetFilter</filter-name>
+		<url-pattern>/controller</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>AccessFilter</filter-name>
+		<filter-class>by.newnet.controller.filter.AccessFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessFilter</filter-name>
 		<url-pattern>/controller</url-pattern>
 	</filter-mapping>
 
@@ -42,18 +54,10 @@
 		<url-pattern>/controller</url-pattern>
 	</filter-mapping>
 
-	<filter>
-		<filter-name>AccessFilter</filter-name>
-		<filter-class>by.newnet.controller.filter.AccessFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>AccessFilter</filter-name>
-		<url-pattern>/controller</url-pattern>
-	</filter-mapping>
-
 	<listener>
 		<listener-class>by.newnet.controller.listener.ServletInitListener</listener-class>
 	</listener>
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/public_jsp/error404.jsp</location>
@@ -62,6 +66,7 @@
 		<exception-type>java.lang.Throwable</exception-type>
 		<location>/public_jsp/error.jsp</location>
 	</error-page>
+
 	<welcome-file-list>
 		<welcome-file>/public_jsp/index.jsp</welcome-file>
 	</welcome-file-list>

@@ -32,7 +32,7 @@ public class SaveTariffCommand implements Command {
 		boolean newlyAdded;
 
 		String idParameter = request.getParameter(RequestConstants.ID);
-		/**
+		/*
 		 * Learning if the tariff is new or already existing by estimating the idParameter
 		 * which has come as request parameter if the tariff exists and has not come if the tariff
 		 * is newly added.
@@ -67,7 +67,7 @@ public class SaveTariffCommand implements Command {
 			tariff.setInactive(inactive);
 			TariffService TariffService = ServiceFactory.getInstance().getTariffService();
 			try {
-				/**
+				/*
 				 * Redirects the user to the page with tariffs list and notifies him that tariff
 				 * was saved.
 				 */
@@ -76,7 +76,7 @@ public class SaveTariffCommand implements Command {
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_TARIFFS_COMMAND + "&"
 				        + RequestConstants.SAVE_TARIFF_MESSAGE + "=" + message);
 			} catch (DuplicateTariffServiceException e) {
-				/**
+				/*
 				 * If the tariff with such a name already exists, leaves the user at the same page saying
 				 * the reason.
 				 */
@@ -87,7 +87,7 @@ public class SaveTariffCommand implements Command {
 				throw new CommandException(e);
 			}
 		} else {
-			/**
+			/*
 			 * If the tariff's fields validation failed, leaves the user at the same page saying
 			 * what is wrong with the input.
 			 */

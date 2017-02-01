@@ -16,7 +16,7 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
 /**
- * The Class PostRequestCommand. Inserts a guest's request to the DB so that it's visible to the operator
+ * The Class PostRequestCommand. Saves a guest's request so that it's visible to the operator
  * that should proceed this request.
  */
 public class PostRequestCommand implements Command {
@@ -47,7 +47,7 @@ public class PostRequestCommand implements Command {
 				throw new CommandException(e);
 			}
 		}
-		request.setAttribute(RequestConstants.POST_REQUEST_MESSAGE, message);
-		return new ControllerSendRedirect(PageNames.AFTER_POST_REQUEST);
+		return new ControllerSendRedirect(PageNames.TO_INDEX_COMMAND+ "&"
+		        + RequestConstants.POST_REQUEST_MESSAGE + "=" + message);
 	}
 }

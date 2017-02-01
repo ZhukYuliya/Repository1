@@ -11,10 +11,10 @@
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main>
-	<h1>
-		<fmt:message key="newnet_tariffs" />
-	</h1>
 	<section id="view">
+		<h1>
+			<fmt:message key="newnet_tariffs" />
+		</h1>
 		<table>
 			<tr>
 				<c:if test="${user.isAdmin()}">

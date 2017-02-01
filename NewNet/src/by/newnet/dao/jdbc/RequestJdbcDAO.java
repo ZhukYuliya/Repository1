@@ -18,12 +18,12 @@ import by.newnet.model.RequestStatus;
  * The Class RequestJdbcDAO.
  */
 public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
-	public static final String POST_REQUEST =
-	        "INSERT INTO requests (" + RequestsTable.FIRST_NAME + "," + RequestsTable.EMAIL + "," 
-	+ RequestsTable.PHONE + "," + RequestsTable.ADDRESS + ") values(?, ?, ?, ?)";
-	public static final String SHOW_REQUESTS = "SELECT * FROM requests";
-	public static final String SAVE_STATUS =
-	        "UPDATE requests SET " + RequestsTable.STATUS + "=? WHERE " + RequestsTable.ID + "=?";
+	public static final String POST_REQUEST = "INSERT INTO " + RequestsTable.REQUESTS + " ("
+	        + RequestsTable.FIRST_NAME + "," + RequestsTable.EMAIL + "," + RequestsTable.PHONE + ","
+	        + RequestsTable.ADDRESS + ") values(?, ?, ?, ?)";
+	public static final String SHOW_REQUESTS = "SELECT * FROM " + RequestsTable.REQUESTS;
+	public static final String SAVE_STATUS = "UPDATE " + RequestsTable.REQUESTS + " SET "
+	        + RequestsTable.STATUS + "=? WHERE " + RequestsTable.ID + "=?";
 
 	@Override
 	public void postRequest(Request clientRequest) throws DAOException {
@@ -60,7 +60,8 @@ public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
 				clientRequest.setEmail(rs.getString(RequestsTable.EMAIL));
 				clientRequest.setPhone(rs.getString(RequestsTable.PHONE));
 				clientRequest.setAddress(rs.getString(RequestsTable.ADDRESS));
-				clientRequest.setStatus(RequestStatus.valueOf((rs.getString(RequestsTable.STATUS))));
+				clientRequest
+				        .setStatus(RequestStatus.valueOf((rs.getString(RequestsTable.STATUS))));
 				requestsList.add(clientRequest);
 			}
 			return requestsList;

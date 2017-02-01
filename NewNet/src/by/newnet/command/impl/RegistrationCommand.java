@@ -27,16 +27,11 @@ public class RegistrationCommand implements Command {
 	        throws CommandException {
 		ControllerAction controllerAction = null;
 
-		String password;
-		String reenterPassword;
-		String phone;
-		String email;
-
 		int userId = Integer.valueOf((request.getParameter(RequestConstants.USER_ID)));
-		password = request.getParameter(RequestConstants.PASSWORD);
-		reenterPassword = request.getParameter(RequestConstants.REENTER_PASSWORD);
-		phone = request.getParameter(RequestConstants.PHONE);
-		email = request.getParameter(RequestConstants.EMAIL);
+		String password = request.getParameter(RequestConstants.PASSWORD);
+		String reenterPassword = request.getParameter(RequestConstants.REENTER_PASSWORD);
+		String phone = request.getParameter(RequestConstants.PHONE);
+		String email = request.getParameter(RequestConstants.EMAIL);
 
 		String message = Validator.validateRegistration(password, reenterPassword, phone, email);
 		String page = null;
@@ -44,7 +39,7 @@ public class RegistrationCommand implements Command {
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
-				/**
+				/*
 				 * Redirects the user to index page saying that his registration succeded and he can
 				 * access his account with the password he has just created.
 				 */
@@ -57,10 +52,10 @@ public class RegistrationCommand implements Command {
 				throw new CommandException(e);
 			}
 		} else {
-			/**
+			/*
 			 * Leaves the user at registration page showing message about what
-			 * is wrong with the data he is trying to submit. Saves the user 
-			 * for not to lose his data when forwarding.
+			 * is wrong with the data he is trying to submit. Saves the user details
+			 * for printing on jsp page when forwarding request.
 			 */
 			User user = new User();
 			user.setId(userId);

@@ -14,8 +14,9 @@ import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
+import by.newnet.service.exception.ServiceAuthenticationException;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
+import by.newnet.service.exception.UserAlreadyExistingServiceException;
 
 /**
  * The Class CheckAccountCommand. For a guest who signed a contract with Newnet and wants to register 
@@ -41,11 +42,17 @@ public class CheckAccountCommand implements Command {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
 				user = userService.getUserForRegistration(account);
-			} catch (UserAlreadyExistingException e) {
 				/**
 				 * Leaves the user at index page showing message about already existing account
-				 * in case such account number has already been used for registration.
+				 * in case such contract number has already been used for registration or in case
+				 * such contract number wasn't found in DB.
 				 */
+			} catch (ServiceAuthenticationException e) {
+				message = RequestConstants.NON_EXISTING_CONTRACT_NUMBER;
+				request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
+				page = PageNames.INDEX;
+				controllerAction = new ControllerForward(page);
+			} catch (UserAlreadyExistingServiceException e) {
 				message = RequestConstants.ACCOUNT_EXISTS;
 				request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 				page = PageNames.INDEX;

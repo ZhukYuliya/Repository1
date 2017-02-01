@@ -3,7 +3,7 @@ package by.newnet.dao.jdbc.constant;
 /**
  * The Class CardsTable. Contains constants for the columns of table "cards".
  */
-public class CardsTable {
+public final class CardsTable {
 	public static final String CARDS = "cards";	
 	public static final String ID = "card_id";	
 	public static final String NUMBER = "number";
@@ -14,4 +14,8 @@ public class CardsTable {
 	public static final String SECOND_NAME = "lastname";
 	public static final String BALANCE = "balance";
 
+	private CardsTable(){
+		
+	}
+	
 }

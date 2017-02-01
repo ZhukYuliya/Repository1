@@ -15,7 +15,7 @@ import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.model.User;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
-import by.newnet.service.exception.ServiceAuthorizationException;
+import by.newnet.service.exception.ServiceAuthenticationException;
 import by.newnet.service.exception.ServiceException;
 
 /**
@@ -39,14 +39,14 @@ public class AuthenticationCommand implements Command {
 			try {
 				loggedUser = userService.authenticate(account, password);
 				HttpSession session = request.getSession();
-				/**
+				/*
 				 * Puts the user in session and redirects him to his home page with his 
 				 * account info in case authentication succeded.
 				 */
 				session.setAttribute(RequestConstants.USER, loggedUser);
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND);
-			} catch (ServiceAuthorizationException e) {
-				/**
+			} catch (ServiceAuthenticationException e) {
+				/*
 				 * Leaves the user at index page showing message about wrong credentials 
 				 * in case authentication did not succeded.
 				 */

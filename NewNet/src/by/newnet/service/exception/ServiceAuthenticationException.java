@@ -3,14 +3,14 @@ package by.newnet.service.exception;
 /**
  * The Class ServiceAuthorizationException.
  */
-public class ServiceAuthorizationException extends ServiceException{
+public class ServiceAuthenticationException extends ServiceException{
 
 private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Instantiates a new service authorization exception.
 	 */
-	public ServiceAuthorizationException() {
+	public ServiceAuthenticationException() {
 	}
 
 	/**
@@ -18,7 +18,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param message the message
 	 */
-	public ServiceAuthorizationException(String message) {
+	public ServiceAuthenticationException(String message) {
 		super(message);
 
 	}
@@ -29,7 +29,7 @@ private static final long serialVersionUID = 1L;
 	 * @param message the message
 	 * @param e the e
 	 */
-	public ServiceAuthorizationException(String message, Exception e) {
+	public ServiceAuthenticationException(String message, Exception e) {
 		super(message, e);
 
 	}
@@ -39,7 +39,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param e the e
 	 */
-	public ServiceAuthorizationException(Exception e) {
+	public ServiceAuthenticationException(Exception e) {
 		super(e);
 
 	}

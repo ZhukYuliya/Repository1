@@ -17,13 +17,13 @@ public class ConnectionPool {
 
 	private static final ConnectionPool instance = new ConnectionPool();
 
-	private BlockingQueue<Connection> connectionQueue;
-	private BlockingQueue<Connection> givenAwayConQueue;
+	private final BlockingQueue<Connection> connectionQueue;
+	private final BlockingQueue<Connection> givenAwayConQueue;
 
-	private String driverName;
-	private String url;
-	private String user;
-	private String password;
+	private final String driverName;
+	private final String url;
+	private final String user;
+	private final String password;
 	private int poolSize;
 
 	/**
@@ -50,9 +50,6 @@ public class ConnectionPool {
 		} catch (NumberFormatException e) {
 			poolSize = 5;
 		}
-		/**
-		 * The queues are created in ConnectionPool constructor to prevent NullPointerException.
-		 */
 		givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
 		connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
 	}
@@ -138,7 +135,8 @@ public class ConnectionPool {
 	 */
 	public void releaseConnection(Connection connection) throws ConnectionPoolException {
 		if (connection == null) {
-			throw new ConnectionPoolException();
+			throw new ConnectionPoolException("Empty connection is passed to release connection method"
+					+ Thread.getAllStackTraces().toString());
 		}
 
 		try {

@@ -8,6 +8,7 @@ import by.newnet.command.validator.Validator;
 
 public class ValidatorTest {
 	public static final String TEST_PASSWORD = "qwe1!A";
+	public static final String TEST_INVALID_PASSWORD = "qwe";
 	public static final String TEST_EMAIL = "maria!1@gmail.com";
 	public static final String TEST_INCORRECT_BYN_AMOUNT = "12.000";
 	public static final String TEST_BYN_AMOUNT = "12";
@@ -19,6 +20,7 @@ public class ValidatorTest {
 	public static final String TEST_FIRST_NAME = "OLEG";
 	public static final String TEST_SECOND_NAME = "ZHUKOV";
 
+	public static final String INVALID_PASSWORD = "invalid_password";
 	public static final String INVALID_EMAIL = "invalid_email";
 	public static final String INVALID_BYN_AMOUNT = "invalid_byn_amount";
 	public static final String INVALID_CONTRACT = "invalid_contract_number";
@@ -28,6 +30,12 @@ public class ValidatorTest {
 	public void validatePassword() {
 		String actual = Validator.validatePassword(TEST_PASSWORD);
 		Assert.assertNull(actual);
+	}
+	@Test
+	public void validateInvalidPassword() {
+		String actual = Validator.validatePassword(TEST_INVALID_PASSWORD);
+		String expected = INVALID_PASSWORD;
+		Assert.assertEquals(expected, actual);
 	}
 
 	@Test

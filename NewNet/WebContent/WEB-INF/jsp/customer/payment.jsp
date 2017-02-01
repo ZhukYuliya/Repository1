@@ -21,7 +21,6 @@
 	</h1>
 	<form action="${contextPath}/controller" method="post" name="payment" 
 			onsubmit="return validatePaymentForm()">
-		<input type="hidden" name="command" value="pay" />
 		<table>
 			<tr>
 				<td><fmt:message key="card_number" /></td>
@@ -49,10 +48,15 @@
 		</table>
 		<br>
 		<fmt:message key="amount_to_pay"/>, <fmt:message key="currency"/>
-		:<input name="amount" value="" type="text" class="text" /> <input
-			type="submit" class="submit" value='<fmt:message key="pay_button"/> ' />
+		:<input name="amount" value="" type="text" class="text" /> 
+		<input type="hidden" name="command" value="payment" />
+		<input type="submit" class="submit" value='<fmt:message key="pay_button"/> ' />
 	</form>
-	</section></main>
+	<c:if test="${not empty paymentMessage}">
+			<span><fmt:message key="${paymentMessage}" /></span>
+		</c:if>
+	</section>
+	</main>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>

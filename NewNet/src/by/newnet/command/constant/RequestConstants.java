@@ -3,7 +3,7 @@ package by.newnet.command.constant;
 /**
  * The Class RequestConstants containing String constants used in commands.
  */
-public class RequestConstants {
+public final class RequestConstants {
 	public static final String CONTROLLER = "/controller";
 	public static final String PREVIOUS_GET_REQUEST_URL = "lastRequestUrl";
 	public static final String USER = "user";
@@ -78,10 +78,13 @@ public class RequestConstants {
 	public static final String REQUEST_PROCESSED = "request_processed";
 	public static final String PAGE = "page";
 	public static final String SUCCESSFUL_SUBSCRIPTION = "successfull_subscription";
+	public static final String NON_EXISTING_CONTRACT_NUMBER = "non_existing_contract_number";
+	public static final String FAILED_PAYMENT = "failed_payment";
+	public static final String WRONG_CARD_DETAILS = "wrong_card_details";
+	public static final String INSUFFICIENT_CARD_BALANCE = "insufficient_card_balance";
 
-
-	
-
-	
+	private RequestConstants(){
+		
+	}
 
 }

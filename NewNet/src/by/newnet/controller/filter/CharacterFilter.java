@@ -22,18 +22,18 @@ public class CharacterFilter implements Filter {
 	public CharacterFilter() {
 
 	}
-
+	@Override
 	public void destroy() {
 
 	}
-
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		request.setCharacterEncoding(RequestConstants.ENCODING);
 		response.setCharacterEncoding(RequestConstants.ENCODING);
 		chain.doFilter(request, response);
 	}
-
+	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
 

@@ -3,7 +3,7 @@ package by.newnet.command.exception;
 /**
  * The Class IllegalCommandException.
  */
-public class IllegalCommandException extends CommandException{
+public class CommandNotFoundException extends CommandException{
 
 
 private static final long serialVersionUID = 1L;
@@ -11,7 +11,7 @@ private static final long serialVersionUID = 1L;
 	/**
 	 * Instantiates a new illegal command exception.
 	 */
-	public IllegalCommandException() {
+	public CommandNotFoundException() {
 	}
 
 	/**
@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param message the message
 	 */
-	public IllegalCommandException(String message) {
+	public CommandNotFoundException(String message) {
 		super(message);
 
 	}
@@ -30,7 +30,7 @@ private static final long serialVersionUID = 1L;
 	 * @param message the message
 	 * @param e the e
 	 */
-	public IllegalCommandException(String message, Exception e) {
+	public CommandNotFoundException(String message, Exception e) {
 		super(message, e);
 
 	}
@@ -40,7 +40,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param e the e
 	 */
-	public IllegalCommandException(Exception e) {
+	public CommandNotFoundException(Exception e) {
 		super(e);
 
 	}

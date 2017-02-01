@@ -3,7 +3,7 @@ package by.newnet.dao.jdbc.constant;
 /**
  * The Class UsersTable. Contains constants for the columns of table "users".
  */
-public class UsersTable {
+public final class UsersTable {
 	public static final String USERS = "users";
 	public static final String ID = "id";
 	public static final String FIRST_NAME = "first_name";
@@ -17,4 +17,8 @@ public class UsersTable {
 	public static final String TARIFF = "tariff_id";
 	public static final String PHONE = "phone";
 	public static final String DRAFT = "draft";
+	
+	private UsersTable() {
+
+	}
 }

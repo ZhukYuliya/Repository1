@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
@@ -14,6 +16,8 @@ import by.newnet.dao.jdbc.pool.ConnectionPoolException;
  * and releasing connection.
  */
 public class BaseJdbcDAO {
+	
+	private static final Logger logger = Logger.getLogger(BaseJdbcDAO.class);
 
 	private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -56,7 +60,7 @@ public class BaseJdbcDAO {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					// log
+					logger.error("Exception was thrown when trying to close statement", e);
 				}
 			}
 		}
@@ -64,7 +68,7 @@ public class BaseJdbcDAO {
 			try {
 				connectionPool.releaseConnection(connection);
 			} catch (ConnectionPoolException e) {
-				// log, comment
+				logger.error("Exception was thrown when trying to release connection", e);
 			}
 		}
 

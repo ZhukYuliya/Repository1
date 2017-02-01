@@ -38,12 +38,12 @@ public class SetContactsCommand implements Command {
 				throw new CommandException(e);
 			}
 		}
-		/**
+		/*
 		 * Redirects the user to the same page saying either that the contacts were updated
 		 * or that the contacts validation failed.
 		 */
 		request.setAttribute(RequestConstants.SET_CONTACTS_MESSAGE, message);
-		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
+		return new ControllerSendRedirect(PageNames.TO_PERSONAL_DETAILS_COMMAND 
 				+ "&" + RequestConstants.SET_CONTACTS_MESSAGE + "=" + message);
 	}
 }

@@ -23,8 +23,7 @@ public class SubscriptionCommand implements Command {
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		int newTariffId;
-		newTariffId = Integer.valueOf(request.getParameter(RequestConstants.NEW_TARIFF));
+		int newTariffId = Integer.valueOf(request.getParameter(RequestConstants.NEW_TARIFF));
 		User user = (User) request.getSession().getAttribute(RequestConstants.USER);
 		int userId = user.getId();
 		UserService userService = ServiceFactory.getInstance().getUserService();

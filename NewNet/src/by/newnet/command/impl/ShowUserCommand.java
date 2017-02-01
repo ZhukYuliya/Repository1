@@ -34,7 +34,7 @@ public class ShowUserCommand implements Command {
 		List<Tariff> tariffsList = null;
 		try {
 			user = userService.getUserById(userId);
-			/**
+			/*
 			 * Extracts the tariffs list too so that it is possible to choose and set a tariff 
 			 * for a user from this list.
 			 */

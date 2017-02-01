@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import by.newnet.dao.exception.DAOException;
+import by.newnet.dao.exception.FailedPaymentDAOException;
 import by.newnet.model.CreditCard;
 import by.newnet.model.User;
 
@@ -86,7 +87,7 @@ public interface UserDAO {
 	 * @param amount the amount
 	 * @throws DAOException the DAO exception
 	 */
-	void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException;
+	void pay(int userId, CreditCard card, BigDecimal amount) throws FailedPaymentDAOException, DAOException;
 	
 	/**
 	 * Show users.

@@ -1,9 +1,10 @@
 package by.newnet.dao.jdbc.constant;
 
 /**
- * The Class RequestsTable. Contains constants for the columns of table "requests".
+ * The Class RequestsTable. Contains constants for the columns of table
+ * "requests".
  */
-public class RequestsTable {
+public final class RequestsTable {
 	public static final String REQUESTS = "requests";
 	public static final String ID = "id";
 	public static final String FIRST_NAME = "first_name";
@@ -12,4 +13,7 @@ public class RequestsTable {
 	public static final String ADDRESS = "address";
 	public static final String STATUS = "status";
 
+	private RequestsTable() {
+
+	}
 }

@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.newnet.command.Command;
+import by.newnet.command.CommandName;
 import by.newnet.command.constant.PageNames;
 import by.newnet.command.constant.RequestConstants;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
-import by.newnet.controller.ControllerForward;
 import by.newnet.controller.ControllerSendRedirect;
 import by.newnet.model.RequestStatus;
 import by.newnet.service.RequestService;
@@ -36,25 +36,22 @@ public class SetRequestStatusCommand implements Command {
 			throw new CommandException(e);
 		}
 		String message = null;
-		String page = null;
 		switch (statusParameter){
 		case RequestConstants.AFTER_CALL:
-			page = PageNames.SHOW_REQUESTS_COMMAND;
 			message = RequestConstants.REQUEST_PROCESSED;
-			/**
+			/*
 			 * Redirects the operator to the page with requests list saying that the status was
 			 * updated.
 			 */
-			request.setAttribute(RequestConstants.CHANGE_STATUS_MESSAGE, message);
-			controllerAction = new ControllerForward(page);
+			controllerAction = new ControllerSendRedirect(CommandName.SHOW_REQUESTS 
+					+ "&" + RequestConstants.CHANGE_STATUS_MESSAGE + "=" + message);
 			break;
 		case RequestConstants.AFTER_CONTRACT:
-			/**
+			/*
 			 * Redirects the operator to the page with a form for filling details of a newly 
 			 * signed contract.
 			 */
-			page = PageNames.REGISTER_NEW_CONTRACT_COMMAND;
-			controllerAction = new ControllerSendRedirect(page);
+			controllerAction = new ControllerSendRedirect(PageNames.REGISTER_NEW_CONTRACT_COMMAND);
 			break;
 		}
 		return controllerAction;

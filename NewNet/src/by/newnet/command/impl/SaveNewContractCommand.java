@@ -15,7 +15,7 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
 /**
- * The Class SaveNewContractCommand. Inserts a new user's contract number and name.
+ * The Class SaveNewContractCommand. Saves a new user's contract number and name.
  */
 public class SaveNewContractCommand implements Command {
 

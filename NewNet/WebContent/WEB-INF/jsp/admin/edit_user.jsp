@@ -70,8 +70,6 @@
 				</tr>
 				<tr>
 					<td><fmt:message key="tariff" />
-						<%-- .<fmt:message
-						key="current_tariff" />:${user.tariff.name} --%></td>
 					<td><select name="tariff">
 							<option value="${requestScope.user.tariff.id}">${requestScope.user.tariff.name}</option>
 							<c:forEach var="tariff" items="${tariffsList}">

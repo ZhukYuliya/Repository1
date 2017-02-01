@@ -3,14 +3,14 @@ package by.newnet.service.exception;
 /**
  * The Class UserAlreadyExistingException.
  */
-public class UserAlreadyExistingException extends ServiceException{
+public class UserAlreadyExistingServiceException extends ServiceException{
 
 private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Instantiates a new user already existing exception.
 	 */
-	public UserAlreadyExistingException() {
+	public UserAlreadyExistingServiceException() {
 	}
 
 	/**
@@ -18,7 +18,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param message the message
 	 */
-	public UserAlreadyExistingException(String message) {
+	public UserAlreadyExistingServiceException(String message) {
 		super(message);
 
 	}
@@ -29,7 +29,7 @@ private static final long serialVersionUID = 1L;
 	 * @param message the message
 	 * @param e the e
 	 */
-	public UserAlreadyExistingException(String message, Exception e) {
+	public UserAlreadyExistingServiceException(String message, Exception e) {
 		super(message, e);
 
 	}
@@ -39,7 +39,7 @@ private static final long serialVersionUID = 1L;
 	 *
 	 * @param e the e
 	 */
-	public UserAlreadyExistingException(Exception e) {
+	public UserAlreadyExistingServiceException(Exception e) {
 		super(e);
 
 	}

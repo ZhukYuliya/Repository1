@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import by.newnet.dao.exception.FailedPaymentDAOException;
 import by.newnet.model.CreditCard;
 import by.newnet.model.User;
+import by.newnet.service.exception.FailedPaymentServiceException;
+import by.newnet.service.exception.ServiceAuthenticationException;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
+import by.newnet.service.exception.UserAlreadyExistingServiceException;
 
 /**
  * The Interface UserService.
@@ -30,10 +33,10 @@ public interface UserService {
 	 *
 	 * @param account the account
 	 * @return the user for registration
-	 * @throws UserAlreadyExistingException the user already existing exception
+	 * @throws UserAlreadyExistingServiceException the user already existing exception
 	 * @throws ServiceException the service exception
 	 */
-	User getUserForRegistration(String account) throws UserAlreadyExistingException, ServiceException;
+	User getUserForRegistration(String account) throws UserAlreadyExistingServiceException, ServiceAuthenticationException, ServiceException;
 
 	/**
 	 * Gets the user by account.
@@ -100,8 +103,9 @@ public interface UserService {
 	 * @param card the card
 	 * @param amount the amount
 	 * @throws ServiceException the service exception
+	 * @throws FailedPaymentDAOException 
 	 */
-	void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException;
+	void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException, FailedPaymentServiceException;
 	
 	/**
 	 * Show users.

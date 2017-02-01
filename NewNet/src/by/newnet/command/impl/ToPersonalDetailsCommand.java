@@ -18,7 +18,7 @@ import by.newnet.service.exception.ServiceException;
  * The Class ChangePersonalDetailsCommand. Refreshes the information about user in session and
  * forwardes him to the page with a form for changing personal details.
  */
-public class ChangePersonalDetailsCommand implements Command {
+public class ToPersonalDetailsCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

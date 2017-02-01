@@ -48,7 +48,7 @@ function validateTariffName(value) {
 	return true;
 }
 function validateBynAmount(value) {
-	if (!/^([1-9]{1}\d*)|([1-9]\d*)(\.\d{0,2})?$/.test(value)) {
+	if (!/^([1-9]\d*)$|^([1-9]\d*)(\.\d{0,2})?$/.test(value)) {
 		alert(invalidBynAmountMessage);
 		return false;
 	}

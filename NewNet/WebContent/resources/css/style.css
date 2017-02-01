@@ -336,7 +336,11 @@ body .wrapper{
     height:100%; 
     left:0px; 
     top:0px; 
-    z-index:2; 
+    z-index:2;
+    margin:50px; 
+}
+#edit span{
+	margin-left:50px;
 }
 #home h1, #view h1, #edit h1{
 	font-size: 22px;

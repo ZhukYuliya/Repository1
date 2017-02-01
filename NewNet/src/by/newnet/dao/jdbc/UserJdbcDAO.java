@@ -12,9 +12,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import by.newnet.dao.DAOFactory;
+import by.newnet.command.constant.RequestConstants;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
+import by.newnet.dao.exception.FailedPaymentDAOException;
 import by.newnet.dao.jdbc.constant.CardsTable;
 import by.newnet.dao.jdbc.constant.RolesTable;
 import by.newnet.dao.jdbc.constant.TariffsTable;
@@ -71,8 +72,11 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	        + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS + " ON "
 	        + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS + "."
 	        + TariffsTable.ID;
-	public static final String GET_CARD_BY_NUMBER =
-	        "SELECT * FROM " + CardsTable.CARDS + " WHERE " + CardsTable.NUMBER + " = ?";
+	public static final String GET_CARD =
+	        "SELECT * FROM " + CardsTable.CARDS + " WHERE " + CardsTable.NUMBER + " = ? AND "
+	        + CardsTable.EXPIRATION_MONTH + " = ? AND " + CardsTable.EXPIRATION_YEAR + " = ? AND "
+	        + CardsTable.SECURITY_CODE + " = ? AND " + CardsTable.FIRST_NAME + " = ? AND "
+	        + CardsTable.SECOND_NAME + " = ?";
 	public static final String SET_ACCOUNT_BALANCE = "UPDATE " + UsersTable.USERS + " SET "
 	        + UsersTable.ACCOUNT_BALANCE + "=? WHERE " + UsersTable.ACCOUNT + "=?";
 	public static final String SET_CARD_BALANCE = "UPDATE " + CardsTable.CARDS + " SET "
@@ -218,7 +222,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	}
 
 	@Override
-	public void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException {
+	public void pay(int userId, CreditCard card, BigDecimal amount) throws DAOException, FailedPaymentDAOException {
 		Connection connection = null;
 		PreparedStatement getCardStatement = null;
 		PreparedStatement accountBalanceStatement = null;
@@ -226,11 +230,16 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		try {
 			connection = getConnection();
 			connection.setAutoCommit(false);
-			getCardStatement = connection.prepareStatement(GET_CARD_BY_NUMBER);
+			getCardStatement = connection.prepareStatement(GET_CARD);
 			getCardStatement.setString(1, card.getNumber());
+			getCardStatement.setString(2, card.getExpirationMonth());
+			getCardStatement.setString(3, card.getExpirationYear());
+			getCardStatement.setString(4, card.getSecurityCode());
+			getCardStatement.setString(5, card.getFirstName());
+			getCardStatement.setString(6, card.getSecondName());
 			ResultSet rsCard = getCardStatement.executeQuery();
 			CreditCard cardDB = new CreditCard();
-			while (rsCard.next()) {
+			if (rsCard.next()) {
 				cardDB.setNumber(rsCard.getString(CardsTable.NUMBER));
 				cardDB.setExpirationMonth(rsCard.getString(CardsTable.EXPIRATION_MONTH));
 				cardDB.setExpirationYear(rsCard.getString(CardsTable.EXPIRATION_YEAR));
@@ -238,6 +247,8 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 				cardDB.setFirstName(rsCard.getString(CardsTable.FIRST_NAME));
 				cardDB.setSecondName(rsCard.getString(CardsTable.SECOND_NAME));
 				cardDB.setBalance(rsCard.getBigDecimal(CardsTable.BALANCE));
+			} else {
+				throw new FailedPaymentDAOException(RequestConstants.WRONG_CARD_DETAILS);
 			}
 			if (card.equals(cardDB) && (cardDB.getBalance()).compareTo(amount) >= 0) {
 				User user = getUserById(userId);
@@ -251,7 +262,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 				cardBalanceStatement.executeUpdate();
 				connection.commit();
 			} else {
-				throw new DAOException();
+				throw new FailedPaymentDAOException(RequestConstants.INSUFFICIENT_CARD_BALANCE);
 			}
 		} catch (SQLException e) {
 			rollbackConnection(e, connection);

@@ -13,8 +13,7 @@
 	<main>
 	<section id="view">
 		<h1>
-			<fmt:message key="click_user_id" />
-			.
+			<fmt:message key="click_user_id" />.
 			<fmt:message key="admin_ineditable" />
 		</h1>
 		<c:if test="${not empty param.userEditingMessage}">
@@ -81,7 +80,8 @@
 				</c:forEach></span>
 		</div>
 	</section>
-	<%@include file="/WEB-INF/jspf/footer.jspf"%> </main>
+	<%@include file="/WEB-INF/jspf/footer.jspf"%> 
+	</main>
 </body>
 </html>
 

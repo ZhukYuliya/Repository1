@@ -3,6 +3,7 @@ package by.newnet.command.validator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +25,7 @@ public class Validator {
 	        .compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}");
 	public static final Pattern TARIFF_NAME_PATTERN =
 	        Pattern.compile("[A-ZÀ-ß¨]([A-zÀ-ÿ¨¸\\d ]){1,40}");
-	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("([1-9]{1}\\d*)|([1-9]\\d*)(\\.\\d{0,2})?");
+	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("([1-9]\\d*)|([1-9]\\d*)(\\.\\d{0,2})?");
 	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("[1-9]\\d?");
 	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|([1-9]\\d?)");
 	public static final Pattern CARD_NUMBER_PATTERN = Pattern.compile("\\d{16}");
@@ -418,6 +419,7 @@ public class Validator {
 		}
 		if (message == null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 			String expirationDateString = "01-" + expirationMonth + "-20" + expirationYear;
 			Date expirationDate;
 			try {

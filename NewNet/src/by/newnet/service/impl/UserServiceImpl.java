@@ -8,12 +8,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import by.newnet.dao.DAOFactory;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
+import by.newnet.dao.exception.FailedPaymentDAOException;
 import by.newnet.model.CreditCard;
 import by.newnet.model.User;
 import by.newnet.service.UserService;
-import by.newnet.service.exception.ServiceAuthorizationException;
+import by.newnet.service.exception.FailedPaymentServiceException;
+import by.newnet.service.exception.ServiceAuthenticationException;
 import by.newnet.service.exception.ServiceException;
-import by.newnet.service.exception.UserAlreadyExistingException;
+import by.newnet.service.exception.UserAlreadyExistingServiceException;
 
 /**
  * The Class UserServiceImpl.
@@ -22,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User authenticate(String account, String password)
-	        throws ServiceException, ServiceAuthorizationException {
+	        throws ServiceException, ServiceAuthenticationException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User loggedUser = null;
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 					&& (String.valueOf(password.hashCode()).equals(loggedUser.getHashPassword()))) {
 				return loggedUser;
 			} else {
-				throw new ServiceAuthorizationException();
+				throw new ServiceAuthenticationException();
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -75,7 +77,7 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException(e);
 		}
 		if (!user.getHashPassword().equals(String.valueOf(oldPassword.hashCode()))) {
-			throw new ServiceAuthorizationException();
+			throw new ServiceAuthenticationException();
 		}
 		try {
 			userDAO.setPassword(userId, newPassword.hashCode());
@@ -110,11 +112,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException {
+	public void pay(int userId, CreditCard card, BigDecimal amount) throws ServiceException, FailedPaymentServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
 			userDAO.pay(userId, card, amount);
+		} catch (FailedPaymentDAOException e) {
+			throw new FailedPaymentServiceException(e.getMessage(), e);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -134,14 +138,17 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User getUserForRegistration(String account) throws ServiceException {
+	public User getUserForRegistration(String account) throws ServiceException, ServiceAuthenticationException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User user = null;
 		try {
 			user = userDAO.getUserByAccount(account);
 			if(user !=null && !user.isDraft()){
-				throw new UserAlreadyExistingException();
+				throw new UserAlreadyExistingServiceException();
+			}
+			if(user == null){
+				throw new ServiceAuthenticationException();
 			}
 		} catch (DAOException e) {
 			throw new ServiceException(e);

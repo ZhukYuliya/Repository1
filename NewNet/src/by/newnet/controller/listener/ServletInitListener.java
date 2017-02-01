@@ -1,6 +1,5 @@
 package by.newnet.controller.listener;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -20,7 +19,7 @@ import by.newnet.timer.DailyFeeScheduler;
  * @see ServletInitEvent
  */
 public class ServletInitListener implements ServletContextListener {
-	private static final Logger logger = Logger.getLogger(ServletInitListener.class);
+	private final Logger logger = Logger.getLogger(ServletInitListener.class);
 
 	/**
 	 * Instantiates a new servlet init listener.
@@ -29,9 +28,10 @@ public class ServletInitListener implements ServletContextListener {
 	}
 
 	DailyFeeScheduler scheduler;
-
+	
+	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		/**
+		/*
 		 * Instantiates connection pool.
 		 */
 		try {
@@ -41,21 +41,17 @@ public class ServletInitListener implements ServletContextListener {
 			logger.error("Exception was thrown when trying to initialize connection pool", e);
 			throw new RuntimeException(e);
 		}
-		/**
+		/*
 		 * Starts the scheduler that applies subscription fees to users' accounts
 		 * balances on a daily basis.
 		 */
 		scheduler = new DailyFeeScheduler();
 		scheduler.startTask();
-		/**
-		 * Sets a context property for the use in log4j properties.
-		 */
-		ServletContext context = event.getServletContext();
-		System.setProperty("rootPath", context.getRealPath("/"));
 	}
-
+	
+	@Override
 	public void contextDestroyed(ServletContextEvent event) {
-		/**
+		/*
 		 * Disposes connection pool.
 		 */
 		try {
@@ -63,7 +59,7 @@ public class ServletInitListener implements ServletContextListener {
 		} catch (ConnectionPoolException e) {
 			logger.error("Exception was thrown when trying to dispose connection pool", e);
 		}
-		/**
+		/*
 		 * Stops the scheduler that applies subscription fees to users' accounts
 		 * balances on a daily basis.
 		 */

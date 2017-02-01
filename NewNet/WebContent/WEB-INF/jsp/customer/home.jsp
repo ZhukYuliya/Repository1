@@ -9,7 +9,6 @@
 <title>NewNet: <fmt:message key="home" /></title>
 </head>
 <body>
-
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
 	<main> <section id="home">
 	<h1>
@@ -32,7 +31,7 @@
 		</form>
 
 		<form action="${contextPath}/controller" method="get">
-			<input type="hidden" name="command" value="change_personal_details" />
+			<input type="hidden" name="command" value="to_personal_details" />
 			<input type="submit"
 				value='<fmt:message key="change_contacts_password"/> ' />
 		</form>

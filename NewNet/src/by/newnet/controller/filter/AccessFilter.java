@@ -49,7 +49,7 @@ public class AccessFilter implements Filter {
 
 		loggedUserCommands = new HashSet<String>();
 		loggedUserCommands.addAll(guestCommands);
-		loggedUserCommands.add(CommandName.CHANGE_PERSONAL_DETAILS.toString());
+		loggedUserCommands.add(CommandName.TO_PERSONAL_DETAILS.toString());
 		loggedUserCommands.add(CommandName.LOG_OUT.toString());
 		loggedUserCommands.add(CommandName.SET_CONTACTS.toString());
 		loggedUserCommands.add(CommandName.SET_PASSWORD.toString());
@@ -63,7 +63,7 @@ public class AccessFilter implements Filter {
 
 		operatorCommands = new HashSet<String>();
 		operatorCommands.addAll(loggedUserCommands);
-		operatorCommands.add(CommandName.REGISTER_NEW_CONTRACT.toString());
+		operatorCommands.add(CommandName.TO_NEW_CONTRACT.toString());
 		operatorCommands.add(CommandName.SAVE_NEW_CONTRACT.toString());
 		operatorCommands.add(CommandName.SET_REQUEST_STATUS.toString());
 		operatorCommands.add(CommandName.SHOW_REQUESTS.toString());
@@ -76,11 +76,13 @@ public class AccessFilter implements Filter {
 		adminCommands.add(CommandName.SHOW_USER.toString());
 		adminCommands.add(CommandName.SHOW_TARIFF.toString());
 	}
-
+	
+	@Override
 	public void destroy() {
 
 	}
-
+	
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 	        throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -89,15 +91,15 @@ public class AccessFilter implements Filter {
 			command = command.toUpperCase();
 			User user = (User) httpRequest.getSession().getAttribute(RequestConstants.USER);
 			if (user == null) {
-				/**
+				/*
 				 * Checks if a not logged in user can invoke a certain command.
 				 */
 				if (guestCommands.contains(command)) {
 					chain.doFilter(request, response);
 				} else {
 					redirectToIndex(request, response);
-					logger.debug("Guest user tried to reach command" + command
-					        + "and was redirected to index.jsp");
+					logger.debug("Guest user tried to reach command " + command
+					        + " and was redirected to index.jsp");
 				}
 			} else {
 				/**
@@ -110,8 +112,8 @@ public class AccessFilter implements Filter {
 					chain.doFilter(request, response);
 				} else {
 					redirectToIndex(request, response);
-					logger.debug("User " + user.getId() + "tried to reach command" + command
-					        + "and was redirected to index.jsp");
+					logger.debug("User " + user.getId() + " tried to reach command " + command
+					        + " and was redirected to index.jsp");
 				}
 			}
 		} else {
@@ -135,7 +137,8 @@ public class AccessFilter implements Filter {
 		httpResponse.sendRedirect(contextPath + PageNames.INDEX);
 
 	}
-
+	
+	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
 
 	}
