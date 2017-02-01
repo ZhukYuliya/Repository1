@@ -8,17 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.log4j.Logger;
+
 import by.newnet.command.CommandName;
 import by.newnet.command.constant.RequestConstants;
 
+/**
+ * The Class LocalizationTag. Displays 2 buttons for switching the page's language from Russian to 
+ * English and vice versa.
+ */
 public class LocalizationTag extends TagSupport {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = Logger.getLogger(LocalizationTag.class);
+
 	public final static String htmlContent =
-	        // repeating code
-			//no attributes?
 	        "<form action='%s/controller' method='post'>"
 	                + "<input type='hidden' name='command' value='" + CommandName.CHANGE_LOCALE
 	                + "'/>" + "<input type='hidden' name='newLocale' value='ru'/>"
@@ -42,8 +46,9 @@ public class LocalizationTag extends TagSupport {
 			String htmlOutput = String.format(htmlContent, contextPath, ruMessage, contextPath, enMessage);
 			pageContext.getOut().print(htmlOutput);
 		} catch (IOException e) {
+			logger.error("Exception was thrown when trying to execute method doStartTag", e);
 			throw new JspException(e);
-			// log?
+
 		}
 		return SKIP_BODY;
 	}

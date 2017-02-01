@@ -14,6 +14,10 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ChangePersonalDetailsCommand. Refreshes the information about user in session and
+ * forwardes him to the page with a form for changing personal details.
+ */
 public class ChangePersonalDetailsCommand implements Command {
 
 	@Override

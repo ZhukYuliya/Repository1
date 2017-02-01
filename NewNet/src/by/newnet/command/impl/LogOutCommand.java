@@ -10,6 +10,9 @@ import by.newnet.command.constant.RequestConstants;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
 
+/**
+ * The Class LogOutCommand. Invalidates session of a user and redirects him to index page.
+ */
 public class LogOutCommand implements Command {
 	
 	@Override

@@ -10,6 +10,9 @@ import by.newnet.service.TariffService;
 import by.newnet.service.exception.DuplicateTariffServiceException;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class TariffServiceImpl.
+ */
 public class TariffServiceImpl implements TariffService {
 
 	@Override
@@ -30,7 +33,6 @@ public class TariffServiceImpl implements TariffService {
 	public void saveTariff(Tariff tariff, boolean newlyAdded) throws ServiceException, DuplicateTariffServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		TariffDAO tariffDAO = daoFactory.getTariffDAO();
-//as transaction?
 		try {
 			if (newlyAdded) {
 				if (tariffDAO.getTariffByName(tariff.getName()) == null) {

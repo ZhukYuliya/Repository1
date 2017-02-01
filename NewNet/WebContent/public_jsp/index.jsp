@@ -5,20 +5,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
-<title>NewNet: <fmt:message key="internet_provider" /></title>
+	<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
+	<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+	<title>NewNet: <fmt:message key="internet_provider" /></title>
 </head>
 <body>
 	<header> <%@include file="/WEB-INF/jspf/header.jspf"%>
-	<%@include file="/WEB-INF/jspf/menu.jspf"%>
+		<%@include file="/WEB-INF/jspf/menu.jspf"%>
 	</header>
-	<main> 	<c:if test="${empty user}">
+	<main> 	
+	<c:if test="${empty user}">
 	<section id="wrappertop">
 	<div class="wrapper">
 		<div class="logo">
-			<a href="http://newnet.by/" title="Логотип"> <img
-				src="${contextPath}/resources/img/logo.png" alt="NewNet" /></a>
+			<a href="http://newnet.by/" title="Логотип"> 
+			<img src="${contextPath}/resources/img/logo.png" alt="NewNet" /></a>
 		</div>
 		<div class="login">
 			<div class="subtitle">
@@ -81,7 +82,6 @@
 				<fmt:message key="about_company_text" />
 			</p>
 		</div>
-
 		<div class="clearfix"></div>
 	</div>
 	</section> <a name="advantages"></a> <section id="advantages">
@@ -201,8 +201,7 @@
 				<fmt:message key="minsk_address" />
 			</p>
 			<p>
-				<strong> <fmt:message key="call_us" /></strong><br /> +375 (29)
-				222-22-22
+				<strong> <fmt:message key="call_us" /></strong><br /> +375 (29) 222-22-22
 			</p>
 			<p>
 				<strong><fmt:message key="email_us" /></strong><br />
@@ -211,9 +210,9 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
-	</section> </main>
+	</section> 
+	</main>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
-	
 </body>
 </html>
 

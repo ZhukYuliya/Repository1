@@ -19,6 +19,10 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class PaymentCommand. Validates the card details provided by a user and increments him account 
+ * balance.
+ */
 public class PaymentCommand implements Command {
 
 	@Override
@@ -26,6 +30,7 @@ public class PaymentCommand implements Command {
 	        throws CommandException {
 
 		UserService userService = ServiceFactory.getInstance().getUserService();
+		
 		int userId = ((User) request.getSession().getAttribute(RequestConstants.USER)).getId();
 		String number = request.getParameter(RequestConstants.NUMBER);
 		String expirationMonth = request.getParameter(RequestConstants.EXPIRATION_MONTH);
@@ -34,12 +39,19 @@ public class PaymentCommand implements Command {
 		String firstName = request.getParameter(RequestConstants.FIRST_NAME);
 		String secondName = request.getParameter(RequestConstants.SECOND_NAME);
 		String amountString = request.getParameter(RequestConstants.AMOUNT);
+		
 		CreditCard card;
 		ControllerAction controllerAction = null;
 		String message = null;
+		
 		message = Validator.validateCardDetails(number, expirationMonth, expirationYear,
 		        securityCode, firstName, secondName, amountString);
+		
 		if (message != null) {
+			/**
+			 * Leaves the user at payment page showing message about wrong card details 
+			 * in case their validation failed.
+			 */
 			request.setAttribute(RequestConstants.PAYMENT_MESSAGE, message);
 			controllerAction = new ControllerForward(PageNames.PAYMENT);
 		} else {
@@ -52,8 +64,12 @@ public class PaymentCommand implements Command {
 			card.setFirstName(firstName);
 			card.setSecondName(secondName);
 			try {
+				/**
+				 * Tries to execute the payment and redirects the user to his home page showing 
+				 * updated account balance in case the payment was allowed by the bank.
+				 */
 				userService.pay(userId, card, amount);
-				message = "successful_payment";
+				message = RequestConstants.SUCCESSFUL_PAYMENT;
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_ACCOUNT_COMMAND
 						+ "&" + RequestConstants.PAYMENT_MESSAGE + "=" + message);
 			} catch (ServiceException e) {

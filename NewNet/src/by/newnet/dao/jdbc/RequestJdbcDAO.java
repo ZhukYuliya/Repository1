@@ -14,6 +14,9 @@ import by.newnet.dao.jdbc.constant.RequestsTable;
 import by.newnet.model.Request;
 import by.newnet.model.RequestStatus;
 
+/**
+ * The Class RequestJdbcDAO.
+ */
 public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
 	public static final String POST_REQUEST =
 	        "INSERT INTO requests (" + RequestsTable.FIRST_NAME + "," + RequestsTable.EMAIL + "," 
@@ -23,7 +26,7 @@ public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
 	        "UPDATE requests SET " + RequestsTable.STATUS + "=? WHERE " + RequestsTable.ID + "=?";
 
 	@Override
-	public boolean postRequest(Request clientRequest) throws DAOException {
+	public void postRequest(Request clientRequest) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
@@ -39,7 +42,6 @@ public class RequestJdbcDAO extends BaseJdbcDAO implements RequestDAO {
 		} finally {
 			closeStatementsAndReleaseConnection(connection, statement);
 		}
-		return false;
 	}
 
 	@Override

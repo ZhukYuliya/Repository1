@@ -15,8 +15,12 @@ import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class PostRequestCommand. Inserts a guest's request to the DB so that it's visible to the operator
+ * that should proceed this request.
+ */
 public class PostRequestCommand implements Command {
-	
+
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
@@ -25,7 +29,7 @@ public class PostRequestCommand implements Command {
 		String email = request.getParameter(RequestConstants.EMAIL);
 		String phone = request.getParameter(RequestConstants.PHONE);
 		String address = request.getParameter(RequestConstants.ADDRESS);
-		// what validation needed?
+
 		String message = Validator.validateRequest(name, email, phone, address);
 
 		if (message == null) {
@@ -36,11 +40,9 @@ public class PostRequestCommand implements Command {
 			clientRequest.setAddress(address);
 
 			RequestService requestService = ServiceFactory.getInstance().getRequestService();
-			// hard code message?
 			try {
 				requestService.postRequest(clientRequest);
-				message = "request_posted";
-				// some other excepion
+				message = RequestConstants.REQUEST_POSTED;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}

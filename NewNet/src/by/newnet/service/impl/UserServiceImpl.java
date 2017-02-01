@@ -10,26 +10,22 @@ import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.model.CreditCard;
 import by.newnet.model.User;
-import by.newnet.model.UserComparator;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
+/**
+ * The Class UserServiceImpl.
+ */
 public class UserServiceImpl implements UserService {
 
 	@Override
 	public User authenticate(String account, String password)
 	        throws ServiceException, ServiceAuthorizationException {
-		// why check on not null, shouldnt it be in command?
-		/*
-		 * if (!validation(user.getAccount(), user.getPassword())) { throw new
-		 * ServiceAuthorizationException(); }
-		 */
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
 		User loggedUser = null;
-		// ok to return null here??
 		try {
 			loggedUser = userDAO.getUserByAccount(account);
 			if (loggedUser != null 
@@ -93,10 +89,7 @@ public class UserServiceImpl implements UserService {
 	public void setContacts(int userId, String phone, String email) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
 		UserDAO userDAO = daoFactory.getUserDAO();
-		/*
-		 * User user = null; try { user = userDAO.getUserById(userId); } catch
-		 * (DAOException e) { throw new ServiceException(e); }
-		 */
+
 		try {
 			userDAO.setContacts(userId, phone, email);
 		} catch (DAOException e) {
@@ -111,7 +104,6 @@ public class UserServiceImpl implements UserService {
 		UserDAO userDAO = daoFactory.getUserDAO();
 		try {
 			return userDAO.showUsers(page, size);
-			//usersList.sort(new UserComparator());
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -140,6 +132,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return user;
 	}
+	
 	@Override
 	public User getUserForRegistration(String account) throws ServiceException {
 		DAOFactory daoFactory = DAOFactory.getInstance();
@@ -168,11 +161,6 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
-
-	/*
-	 * @Override public List<String> getAccountInfo(int userId) throws
-	 * ServiceException { // TODO Auto-generated method stub return null; }
-	 */
 
 	@Override
 	public void saveContract(String contract, String firstName, String secondName)

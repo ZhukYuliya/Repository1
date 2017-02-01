@@ -8,8 +8,11 @@ import by.newnet.command.constant.PageNames;
 import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerForward;
-import by.newnet.controller.ControllerSendRedirect;
 
+/**
+ * The Class RegisterNewContractCommand. Forwardes operator to the page with a
+ * form for inserting new contracts.
+ */
 public class RegisterNewContractCommand implements Command {
 
 	@Override

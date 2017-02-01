@@ -1,5 +1,8 @@
 package by.newnet.dao.jdbc.constant;
 
+/**
+ * The Class RequestsTable. Contains constants for the columns of table "requests".
+ */
 public class RequestsTable {
 	public static final String REQUESTS = "requests";
 	public static final String ID = "id";

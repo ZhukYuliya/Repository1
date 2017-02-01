@@ -17,6 +17,11 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 import by.newnet.service.exception.UserAlreadyExistingException;
 
+/**
+ * The Class CheckAccountCommand. For a guest who signed a contract with Newnet and wants to register 
+ * and create his account using the contract number, checks if a user with such contract number already
+ * has an account.
+ */
 public class CheckAccountCommand implements Command {
 
 	@Override
@@ -32,13 +37,16 @@ public class CheckAccountCommand implements Command {
 		String page;
 		User user = null;
 		ControllerAction controllerAction = null;
-		// logic in command?
 		if (message == null) {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
 				user = userService.getUserForRegistration(account);
 			} catch (UserAlreadyExistingException e) {
-				message = "account_exists";
+				/**
+				 * Leaves the user at index page showing message about already existing account
+				 * in case such account number has already been used for registration.
+				 */
+				message = RequestConstants.ACCOUNT_EXISTS;
 				request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 				page = PageNames.INDEX;
 				controllerAction = new ControllerForward(page);
@@ -46,12 +54,19 @@ public class CheckAccountCommand implements Command {
 				throw new CommandException(e);
 			}
 			if (user != null) {
+				/**
+				 * Redirects the user to the registration page in case such account number 
+				 * has been found in DB, but it hasn't been used for registration yet.
+				 */
 				int userId = user.getId();
 				page = PageNames.TO_REGISTRATION_COMMAND;
 				controllerAction = new ControllerSendRedirect(
 				        page + "&" + RequestConstants.USER_ID + "=" + userId);
 			}
 		} else {
+			/**
+			 * Leaves the user at index page showing message about invalid contract number.
+			 */
 			request.setAttribute(RequestConstants.CHECK_ACCOUNT_MESSAGE, message);
 			page = PageNames.INDEX;
 			controllerAction = new ControllerForward(page);

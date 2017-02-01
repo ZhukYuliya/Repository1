@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import by.newnet.dao.DAOFactory;
 import by.newnet.dao.UserDAO;
 import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.constant.CardsTable;
@@ -23,6 +24,9 @@ import by.newnet.model.Role;
 import by.newnet.model.Tariff;
 import by.newnet.model.User;
 
+/**
+ * The Class UserJdbcDAO.
+ */
 public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	public static final String CHECK_CREDENTIALS = "SELECT * FROM " + UsersTable.USERS + " WHERE "
 	        + UsersTable.ACCOUNT + " = ? AND " + UsersTable.PASSWORD + " = ?";
@@ -84,13 +88,10 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		User user = null;
 		try {
 			connection = getConnection();
-			// not transaction?
-			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(GET_USER_BY_ID);
 			statement.setInt(1, userId);
 			ResultSet rs = statement.executeQuery();
-			// while or if??
-			while (rs.next()) {
+			if (rs.next()) {
 				user = fillInCurrentUser(rs);
 			}
 		} catch (SQLException e) {
@@ -108,15 +109,11 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		User user = null;
 		try {
 			connection = getConnection();
-			// not transaction?
-			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(GET_USER_BY_ACCOUNT);
 			statement.setString(1, accountNumber);
 			ResultSet rs = statement.executeQuery();
-			// while or if?
-			while (rs.next()) {
+			if (rs.next()) {
 				user = fillInCurrentUser(rs);
-				// what if user is not null but empty?
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -132,8 +129,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		PreparedStatement statement = null;
 		try {
 			connection = getConnection();
-			// not transaction?
-			// connection.setAutoCommit(false);
 			statement = connection.prepareStatement(SUBSCRIBE_FOR_TARIFF);
 			statement.setInt(1, newTariffId);
 			statement.setInt(2, userId);
@@ -166,6 +161,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			closeStatementsAndReleaseConnection(connection);
 		}
 	}
+	
 	@Override
 	public List<User> showUsers() throws DAOException {
 		Connection connection = null;
@@ -243,7 +239,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 				cardDB.setSecondName(rsCard.getString(CardsTable.SECOND_NAME));
 				cardDB.setBalance(rsCard.getBigDecimal(CardsTable.BALANCE));
 			}
-			// check alsoif card is expired
 			if (card.equals(cardDB) && (cardDB.getBalance()).compareTo(amount) >= 0) {
 				User user = getUserById(userId);
 				accountBalanceStatement = connection.prepareStatement(SET_ACCOUNT_BALANCE);
@@ -256,7 +251,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 				cardBalanceStatement.executeUpdate();
 				connection.commit();
 			} else {
-				// smthg else
 				throw new DAOException();
 			}
 		} catch (SQLException e) {
@@ -310,7 +304,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 				addContractStatement.executeUpdate();
 				connection.commit();
 			} else {
-				// do smthg else!!
 				throw new DAOException();
 			}
 		} catch (SQLException e) {
@@ -333,7 +326,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			updateUserStatement.setString(1, user.getAccount());
 			updateUserStatement.setString(2, user.getFirstName());
 			updateUserStatement.setString(3, user.getSecondName());
-			// updateUserStatement.setInt(4, user.getRole().getId());
 			updateUserStatement.setInt(4, user.getTariff().getId());
 			updateUserStatement.setBoolean(5, user.isBlocked());
 			updateUserStatement.setInt(6, user.getId());
@@ -398,6 +390,14 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		}
 	}
 
+	/**
+	 * Fill in current user.
+	 *
+	 * @param rs the rs
+	 * @return the user
+	 * @throws DAOException the DAO exception
+	 * @throws SQLException the SQL exception
+	 */
 	private User fillInCurrentUser(ResultSet rs) throws DAOException, SQLException {
 		User user = new User();
 		user.setId(rs.getInt(UsersTable.ID));
@@ -412,7 +412,6 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		user.setDraft(rs.getBoolean(UsersTable.DRAFT));
 		user.setFirstName(rs.getString(UsersTable.FIRST_NAME));
 		user.setSecondName(rs.getString(UsersTable.SECOND_NAME));
-		// mb use get tariff dao method?
 		if (rs.getString(UsersTable.TARIFF) != null) {
 			Tariff tariff = new Tariff();
 			tariff.setId(Integer.valueOf(rs.getString(TariffsTable.ID)));
@@ -420,13 +419,20 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 			tariff.setPrice(new BigDecimal(rs.getString(TariffsTable.PRICE)));
 			tariff.setSpeed(Integer.valueOf(rs.getString(TariffsTable.SPEED)));
 			tariff.setTraffic(Integer.valueOf(rs.getString(TariffsTable.TRAFFIC)));
-			// boolean ok here? values 1 or 0
 			tariff.setInactive(Boolean.valueOf(rs.getString(TariffsTable.INACTIVE)));
 			user.setTariff(tariff);
 		}
 		return user;
 	}
 
+	/**
+	 * Save password.
+	 *
+	 * @param connection the connection
+	 * @param userId the user id
+	 * @param hashPassword the hash password
+	 * @throws DAOException the DAO exception
+	 */
 	private void savePassword(Connection connection, int userId, int hashPassword)
 	        throws DAOException {
 		PreparedStatement statement = null;
@@ -440,6 +446,15 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 		}
 	}
 
+	/**
+	 * Save contacts.
+	 *
+	 * @param connection the connection
+	 * @param userId the user id
+	 * @param phone the phone
+	 * @param email the email
+	 * @throws DAOException the DAO exception
+	 */
 	private void saveContacts(Connection connection, int userId, String phone, String email)
 	        throws DAOException {
 		PreparedStatement statement = null;

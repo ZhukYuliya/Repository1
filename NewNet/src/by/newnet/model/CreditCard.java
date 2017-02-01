@@ -3,6 +3,9 @@ package by.newnet.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * The Class CreditCard.
+ */
 public class CreditCard implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -14,45 +17,128 @@ public class CreditCard implements Serializable{
 	private String secondName;
 	private BigDecimal balance;
 
+	/**
+	 * Gets the balance.
+	 *
+	 * @return the balance
+	 */
 	public BigDecimal getBalance() {
 		return balance;
 	}
+	
+	/**
+	 * Sets the balance.
+	 *
+	 * @param balance the new balance
+	 */
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
+	
+	/**
+	 * Gets the number.
+	 *
+	 * @return the number
+	 */
 	public String getNumber() {
 		return number;
 	}
+	
+	/**
+	 * Sets the number.
+	 *
+	 * @param number the new number
+	 */
 	public void setNumber(String number) {
 		this.number = number;
 	}
+	
+	/**
+	 * Gets the expiration month.
+	 *
+	 * @return the expiration month
+	 */
 	public String getExpirationMonth() {
 		return expirationMonth;
 	}
+	
+	/**
+	 * Sets the expiration month.
+	 *
+	 * @param expirationMonth the new expiration month
+	 */
 	public void setExpirationMonth(String expirationMonth) {
 		this.expirationMonth = expirationMonth;
 	}
+	
+	/**
+	 * Gets the expiration year.
+	 *
+	 * @return the expiration year
+	 */
 	public String getExpirationYear() {
 		return expirationYear;
 	}
+	
+	/**
+	 * Sets the expiration year.
+	 *
+	 * @param expirationYear the new expiration year
+	 */
 	public void setExpirationYear(String expirationYear) {
 		this.expirationYear = expirationYear;
 	}
+	
+	/**
+	 * Gets the security code.
+	 *
+	 * @return the security code
+	 */
 	public String getSecurityCode() {
 		return securityCode;
 	}
+	
+	/**
+	 * Sets the security code.
+	 *
+	 * @param securityCode the new security code
+	 */
 	public void setSecurityCode(String securityCode) {
 		this.securityCode = securityCode;
 	}
+	
+	/**
+	 * Gets the first name.
+	 *
+	 * @return the first name
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
+	
+	/**
+	 * Sets the first name.
+	 *
+	 * @param firstName the new first name
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	
+	/**
+	 * Gets the second name.
+	 *
+	 * @return the second name
+	 */
 	public String getSecondName() {
 		return secondName;
 	}
+	
+	/**
+	 * Sets the second name.
+	 *
+	 * @param secondName the new second name
+	 */
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
@@ -61,7 +147,6 @@ public class CreditCard implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		//result = prime * result + ((balance == null) ? 0 : balance.hashCode());
 		result = prime * result + ((expirationMonth == null) ? 0 : expirationMonth.hashCode());
 		result = prime * result + ((expirationYear == null) ? 0 : expirationYear.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
@@ -70,6 +155,10 @@ public class CreditCard implements Serializable{
 		result = prime * result + ((securityCode == null) ? 0 : securityCode.hashCode());
 		return result;
 	}
+	
+	/**
+	 * Compares by all the fields except for balance as the purpose is to compare the permanent card details.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -111,6 +200,7 @@ public class CreditCard implements Serializable{
 			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
 		return "CreditCard [number=" + number + ", expirationMonth=" + expirationMonth

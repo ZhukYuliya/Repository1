@@ -16,6 +16,9 @@ import by.newnet.service.RequestService;
 import by.newnet.service.ServiceFactory;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ShowRequestsCommand. Shows the list of all the requests with different statuses to operator.
+ */
 public class ShowRequestsCommand implements Command {
 
 	@Override

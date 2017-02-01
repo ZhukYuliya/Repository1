@@ -1,5 +1,8 @@
 package by.newnet.dao.jdbc.constant;
 
+/**
+ * The Class TariffsTable. Contains constants for the columns of table "tariffs".
+ */
 public class TariffsTable {
 	public static final String TARIFFS = "tariffs";
 	public static final String ID = "tariff_id";

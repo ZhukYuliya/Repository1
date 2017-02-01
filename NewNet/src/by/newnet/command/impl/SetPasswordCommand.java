@@ -16,20 +16,18 @@ import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceAuthorizationException;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SetPasswordCommand. Updates the password of a user
+ */
 public class SetPasswordCommand implements Command {
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		String oldPassword;
-		String newPassword;
-		String reenterNewPassword;
-
-		oldPassword = request.getParameter(RequestConstants.OLD_PASSWORD);
-		newPassword = request.getParameter(RequestConstants.NEW_PASSWORD);
-		reenterNewPassword = request.getParameter(RequestConstants.REENTER_NEW_PASSWORD);
-
+		String oldPassword = request.getParameter(RequestConstants.OLD_PASSWORD);
+		String newPassword = request.getParameter(RequestConstants.NEW_PASSWORD);
+		String reenterNewPassword = request.getParameter(RequestConstants.REENTER_NEW_PASSWORD);
 		int userId = ((User) request.getSession().getAttribute(RequestConstants.USER)).getId();
 
 		String message = Validator.validatePasswordUpdate(oldPassword, newPassword, reenterNewPassword);
@@ -38,14 +36,17 @@ public class SetPasswordCommand implements Command {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
 				userService.setPassword(userId, oldPassword, newPassword);
-				message = "password_changed";
-				// other exception with wrong password
+				message = RequestConstants.PASSWORD_CHANGED;
 			} catch (ServiceAuthorizationException e) {
-				message = "wrong_password";
+				message = RequestConstants.WRONG_PASSWORD;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
+		/**
+		 * Redirects the user to the same page saying either that the password was updated
+		 * or that the password is wrong.
+		 */
 		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
 				+ "&" + RequestConstants.SET_PASSWORD_MESSAGE + "=" + message);
 	}

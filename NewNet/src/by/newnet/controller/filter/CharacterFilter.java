@@ -11,8 +11,14 @@ import javax.servlet.ServletResponse;
 
 import by.newnet.command.constant.RequestConstants;
 
+/**
+ * The Class CharacterFilter. Sets request and response endocing to UTF-8.
+ */
 public class CharacterFilter implements Filter {
 
+	/**
+	 * Instantiates a new character filter.
+	 */
 	public CharacterFilter() {
 
 	}

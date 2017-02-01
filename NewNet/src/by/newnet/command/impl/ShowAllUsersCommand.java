@@ -18,14 +18,17 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ShowAllUsersCommand. Shows the paginated list with all the users of NewNet.
+ */
 public class ShowAllUsersCommand implements Command {
 	public static final int SIZE = 10;
 
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		int page = 1;
-		if (request.getParameter("page") != null){
-			page = Integer.valueOf(request.getParameter("page"));
+		if (request.getParameter(RequestConstants.PAGE) != null){
+			page = Integer.valueOf(request.getParameter(RequestConstants.PAGE));
 		}
 		int size = SIZE;
 		int count = 0;

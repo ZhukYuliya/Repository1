@@ -16,8 +16,10 @@ import by.newnet.command.constant.PageNames;
 import by.newnet.command.constant.RequestConstants;
 import by.newnet.command.exception.CommandException;
 import by.newnet.command.exception.IllegalCommandException;
-import by.newnet.dao.jdbc.pool.ConnectionPool;
 
+/**
+ * The Class Controller. A unique conroller of the application
+ */
 public class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +28,9 @@ public class Controller extends HttpServlet {
 
 	private final CommandHelper commandHelper = new CommandHelper();
 
+	/**
+	 * Instantiates a new controller.
+	 */
 	public Controller() {
 		super();
 	}
@@ -54,6 +59,9 @@ public class Controller extends HttpServlet {
 			logger.error("Exception was thrown when trying to execute command " + command, e);
 		}
 		String url = controllerAction.getUrl();
+		/**
+		 * Using forward or redirect depending on the class of controllerAction that has come from command.
+		 */
 		if (controllerAction instanceof ControllerForward) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			dispatcher.forward(request, response);

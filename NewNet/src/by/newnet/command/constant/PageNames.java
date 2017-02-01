@@ -2,6 +2,9 @@ package by.newnet.command.constant;
 
 import by.newnet.command.CommandName;
 
+/**
+ * The Class PageNames containing constants for referring to pages in commands.
+ */
 public class PageNames {
 	public static final String INDEX = "/public_jsp/index.jsp";
 	public static final String HOME = "/WEB-INF/jsp/customer/home.jsp";
@@ -28,6 +31,10 @@ public class PageNames {
 	public static final String ERROR_404_PAGE = "/public_jsp/error404.jsp";
 	public static final String ERROR_PAGE = "/public_jsp/error.jsp";
 	public static final String JS_MESSAGES = "resources/js/js_messages.jsp";
+	
+	/**
+	 * Instantiates a new page names.
+	 */
 	private PageNames(){}
 	
 

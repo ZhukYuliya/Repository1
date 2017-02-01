@@ -11,6 +11,9 @@ import by.newnet.model.RequestStatus;
 import by.newnet.service.RequestService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class RequestServiceImpl.
+ */
 public class RequestServiceImpl implements RequestService {
 
 	@Override
@@ -19,15 +22,10 @@ public class RequestServiceImpl implements RequestService {
 		RequestDAO requestDAO = daoFactory.getRequestDAO();
 
 		try {
-			boolean isPosted = requestDAO.postRequest(clientRequest);
-			if (!isPosted) {
-				// check on existing user AND existing order
-				// throw new UserAlreadyExistingException();
-			}
+			requestDAO.postRequest(clientRequest);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
-
 	}
 
 	@Override
@@ -37,6 +35,9 @@ public class RequestServiceImpl implements RequestService {
 
 		try {
 			List<Request> requestsList = requestDAO.showRequests();
+			/**
+			 * Sorts requests by their status so that the new requests appear first in the list.
+			 */
 			Collections.sort(requestsList);
 			return requestsList;
 		} catch (DAOException e) {

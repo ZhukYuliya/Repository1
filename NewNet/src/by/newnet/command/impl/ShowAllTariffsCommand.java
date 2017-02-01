@@ -16,6 +16,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.TariffService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ShowAllTariffsCommand. Shows the list of all the tariffs of NewNet. 
+ */
 public class ShowAllTariffsCommand implements Command {
 
 	@Override

@@ -9,6 +9,9 @@ import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
 
+/**
+ * The Class ToIndexCommand. Redirects a user to index page.
+ */
 public class ToIndexCommand implements Command {
 
 	@Override

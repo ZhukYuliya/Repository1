@@ -10,16 +10,30 @@ import by.newnet.dao.jdbc.pool.ConnectionPool;
 import by.newnet.dao.jdbc.pool.ConnectionPoolException;
 import by.newnet.timer.DailyFeeScheduler;
 
+/**
+ * The listener interface for receiving servletInit events. The class that is
+ * interested in processing a servletInit event implements this interface, and
+ * the object created with that class is registered with a component using the
+ * component's <code>addServletInitListener<code> method. When the servletInit
+ * event occurs, that object's appropriate method is invoked.
+ *
+ * @see ServletInitEvent
+ */
 public class ServletInitListener implements ServletContextListener {
 	private static final Logger logger = Logger.getLogger(ServletInitListener.class);
 
+	/**
+	 * Instantiates a new servlet init listener.
+	 */
 	public ServletInitListener() {
 	}
 
-	// can a field be in listener
 	DailyFeeScheduler scheduler;
 
 	public void contextInitialized(ServletContextEvent event) {
+		/**
+		 * Instantiates connection pool.
+		 */
 		try {
 			ConnectionPool.getInstance().initPoolData();
 
@@ -27,21 +41,32 @@ public class ServletInitListener implements ServletContextListener {
 			logger.error("Exception was thrown when trying to initialize connection pool", e);
 			throw new RuntimeException(e);
 		}
-		//comment
+		/**
+		 * Starts the scheduler that applies subscription fees to users' accounts
+		 * balances on a daily basis.
+		 */
 		scheduler = new DailyFeeScheduler();
 		scheduler.startTask();
-//comment
+		/**
+		 * Sets a context property for the use in log4j properties.
+		 */
 		ServletContext context = event.getServletContext();
 		System.setProperty("rootPath", context.getRealPath("/"));
 	}
 
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public void contextDestroyed(ServletContextEvent event) {
+		/**
+		 * Disposes connection pool.
+		 */
 		try {
 			ConnectionPool.getInstance().dispose();
 		} catch (ConnectionPoolException e) {
 			logger.error("Exception was thrown when trying to dispose connection pool", e);
 		}
-		// close scheduler
+		/**
+		 * Stops the scheduler that applies subscription fees to users' accounts
+		 * balances on a daily basis.
+		 */
 		scheduler.stopTask();
 	}
 

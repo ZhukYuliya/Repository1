@@ -14,6 +14,10 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ToPaymentCommand. Refreshes the information about user in session and
+ * forwardes him to the page with a form payment.
+ */
 public class ToPaymentCommand implements Command {
 
 	@Override

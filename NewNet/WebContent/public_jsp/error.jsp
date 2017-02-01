@@ -4,12 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
-<title>NewNet: <fmt:message key="error" /></title>
+	<%@include file="/WEB-INF/jspf/head_tag.jspf"%>
+	<title>NewNet: <fmt:message key="error" /></title>
 </head>
 <body>
 	<%@include file="/WEB-INF/jspf/header.jspf"%>
-	<main> <fmt:message key="error_message" /> </main>
+	<main> 
+		<fmt:message key="error_message" /> 
+	</main>
 	<%@include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>

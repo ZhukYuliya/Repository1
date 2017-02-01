@@ -1,5 +1,8 @@
 package by.newnet.command.constant;
 
+/**
+ * The Class RequestConstants containing String constants used in commands.
+ */
 public class RequestConstants {
 	public static final String CONTROLLER = "/controller";
 	public static final String PREVIOUS_GET_REQUEST_URL = "lastRequestUrl";
@@ -59,9 +62,23 @@ public class RequestConstants {
 	public static final String COMMAND = "command";
 	public static final String ENCODING = "utf-8";
 	public static final String TOTAL_PAGES = "totalPages";
+	public static final String WRONG_CREDENTIALS = "wrong_credentials";
+	public static final String ACCOUNT_EXISTS = "account_exists";
+	public static final String SUCCESSFUL_PAYMENT = "successful_payment";
+	public static final String REQUEST_POSTED = "request_posted";
+	public static final String SUCCESSFUL_REGISTRATION = "successful_registration";
+	public static final String CONTRACT_SAVED = "contract_saved";
+	public static final String INCORRECT_INPUT = "incorrect input";
+	public static final String TARIFF_SAVED = "tariff_saved";
+	public static final String DUPLICATE_TARIFF_NAME = "duplicate_tariff_name";
+	public static final String SUCCESSFUL_USER_EDITING = "successful_user_editing";
+	public static final String CONTACTS_UPDATED = "contacts_updated";
+	public static final String PASSWORD_CHANGED = "password_changed";
+	public static final String WRONG_PASSWORD = "wrong_password";
+	public static final String REQUEST_PROCESSED = "request_processed";
+	public static final String PAGE = "page";
+	public static final String SUCCESSFUL_SUBSCRIPTION = "successfull_subscription";
 
-
-	
 
 	
 

@@ -4,6 +4,9 @@ import by.newnet.dao.jdbc.RequestJdbcDAO;
 import by.newnet.dao.jdbc.TariffJdbcDAO;
 import by.newnet.dao.jdbc.UserJdbcDAO;
 
+/**
+ * A factory for creating DAO objects.
+ */
 public class DAOFactory {
 	private static final DAOFactory instance = new DAOFactory();
 	
@@ -12,19 +15,43 @@ public class DAOFactory {
 	private final RequestDAO requestDAO = new RequestJdbcDAO();
 
 	
+	/**
+	 * Instantiates a new DAO factory.
+	 */
 	private DAOFactory(){}
 	
+	/**
+	 * Gets the user DAO.
+	 *
+	 * @return the user DAO
+	 */
 	public UserDAO getUserDAO(){
 		return userDAO;
 	}
 	
+	/**
+	 * Gets the tariff DAO.
+	 *
+	 * @return the tariff DAO
+	 */
 	public TariffDAO getTariffDAO(){
 		return tariffDAO;
 	}
+	
+	/**
+	 * Gets the request DAO.
+	 *
+	 * @return the request DAO
+	 */
 	public RequestDAO getRequestDAO(){
 		return requestDAO;
 	}
 	
+	/**
+	 * Gets the single instance of DAOFactory.
+	 *
+	 * @return single instance of DAOFactory
+	 */
 	public static DAOFactory getInstance(){
 		return instance;
 	}

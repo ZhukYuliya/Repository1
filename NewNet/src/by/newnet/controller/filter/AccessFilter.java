@@ -18,9 +18,11 @@ import org.apache.log4j.Logger;
 import by.newnet.command.CommandName;
 import by.newnet.command.constant.PageNames;
 import by.newnet.command.constant.RequestConstants;
-import by.newnet.controller.Controller;
 import by.newnet.model.User;
 
+/**
+ * The Class AccessFilter. Authorizated users to invoke different command.
+ */
 public class AccessFilter implements Filter {
 
 	private static final Logger logger = Logger.getLogger(AccessFilter.class);
@@ -31,6 +33,9 @@ public class AccessFilter implements Filter {
 	private final Set<String> operatorCommands;
 	private final Set<String> adminCommands;
 
+	/**
+	 * Instantiates a new access filter.
+	 */
 	public AccessFilter() {
 		guestCommands = new HashSet<String>();
 		guestCommands.add(CommandName.AUTHENTICATION.toString());
@@ -84,6 +89,9 @@ public class AccessFilter implements Filter {
 			command = command.toUpperCase();
 			User user = (User) httpRequest.getSession().getAttribute(RequestConstants.USER);
 			if (user == null) {
+				/**
+				 * Checks if a not logged in user can invoke a certain command.
+				 */
 				if (guestCommands.contains(command)) {
 					chain.doFilter(request, response);
 				} else {
@@ -92,6 +100,10 @@ public class AccessFilter implements Filter {
 					        + "and was redirected to index.jsp");
 				}
 			} else {
+				/**
+				 * Checks if a logged in user can invoke a certain command taking into consideration 
+				 * his role.
+				 */
 				if (user.isAdmin() && adminCommands.contains(command)
 				        || user.isOperator() && operatorCommands.contains(command)
 				        || user.isCustomer() && customerCommands.contains(command)) {
@@ -107,6 +119,14 @@ public class AccessFilter implements Filter {
 		}
 	}
 
+	/**
+	 * Redirect to index. It is used to redirect users to index page after they have tried to invoke 
+	 * a command they are not authorized for.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void redirectToIndex(ServletRequest request, ServletResponse response)
 	        throws IOException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -116,9 +136,6 @@ public class AccessFilter implements Filter {
 
 	}
 
-	/*
-	 * if (uri.startsWith("/index.jsp") || ( &&
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 
 	}

@@ -14,6 +14,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SaveNewContractCommand. Inserts a new user's contract number and name.
+ */
 public class SaveNewContractCommand implements Command {
 
 	@Override
@@ -29,7 +32,7 @@ public class SaveNewContractCommand implements Command {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
 				userService.saveContract(contract, firstName, secondName);
-				message = "contract_saved";
+				message = RequestConstants.CONTRACT_SAVED;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}

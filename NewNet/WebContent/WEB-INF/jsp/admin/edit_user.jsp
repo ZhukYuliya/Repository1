@@ -92,11 +92,9 @@
 			<input type="hidden" name="command" value="show_users" /> <input
 				type="submit" value='<fmt:message key="back_to_users"/>' />
 		</form>
-
-
 	</section>
-	<%@include file="/WEB-INF/jspf/footer.jspf"%> </main>
-
+	<%@include file="/WEB-INF/jspf/footer.jspf"%> 
+	</main>
 </body>
 </html>
 

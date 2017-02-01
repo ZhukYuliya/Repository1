@@ -14,6 +14,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SubscriptionCommand. Saves a newly chosen out of tariffs list tariff for a user. 
+ */
 public class SubscriptionCommand implements Command {
 
 	@Override
@@ -28,8 +31,7 @@ public class SubscriptionCommand implements Command {
 		String message = null;
 		try {
 			userService.subscribeTariff(userId, newTariffId);
-			message = "successfull_subscription";
-			// some other excepion
+			message = RequestConstants.SUCCESSFUL_SUBSCRIPTION;
 		} catch (ServiceException e) {
 			throw new CommandException(e);
 		}

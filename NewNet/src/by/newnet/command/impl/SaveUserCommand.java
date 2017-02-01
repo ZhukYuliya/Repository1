@@ -17,6 +17,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SaveUserCommand. Saves the updates an admin made to a customer's or an operator's profile.
+ */
 public class SaveUserCommand implements Command {
 
 	@Override
@@ -46,16 +49,22 @@ public class SaveUserCommand implements Command {
 			user.setTariff(tariff);
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
+				/**
+				 * Redirects the admin to the page with users list and notifies him that user
+				 * was updated.
+				 */
 				userService.saveUser(user);
-				message = "successful_user_editing";
+				message = RequestConstants.SUCCESSFUL_USER_EDITING;
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_USERS_COMMAND + "&"
 				        + RequestConstants.USER_EDITING_MESSAGE + "=" + message);
 			} catch (ServiceException e) {
-				// exception?message needed? message registration failed
-				message = "??";
 				throw new CommandException(e);
 			}
 		} else {
+			/**
+			 * If the user's fields validation failed, leaves the admin at the same page saying
+			 * what is wrong with the input.
+			 */
 			request.setAttribute(RequestConstants.USER_EDITING_MESSAGE, message);
 			controllerAction = new ControllerForward(PageNames.EDIT_USER);
 		}

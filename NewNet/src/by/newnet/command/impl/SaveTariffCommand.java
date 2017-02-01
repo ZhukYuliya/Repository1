@@ -19,22 +19,24 @@ import by.newnet.service.TariffService;
 import by.newnet.service.exception.DuplicateTariffServiceException;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SaveTariffCommand. Saves the updates to already existing tariffs and saves newly 
+ * added tariffs, differentiating between them by a boolean field "newlyAdded".
+ */
 public class SaveTariffCommand implements Command {
 
-	// TODO: change to set tariff and use both for adding and changing tariff?
 	@Override
 	public ControllerAction execute(HttpServletRequest request, HttpServletResponse response)
 	        throws CommandException {
 
-		String idParameter;
-		String name;
-		String priceParameter;
-		String speedParameter;
-		String trafficParameter;
-
 		boolean newlyAdded;
 
-		idParameter = request.getParameter(RequestConstants.ID);
+		String idParameter = request.getParameter(RequestConstants.ID);
+		/**
+		 * Learning if the tariff is new or already existing by estimating the idParameter
+		 * which has come as request parameter if the tariff exists and has not come if the tariff
+		 * is newly added.
+		 */
 		int id = 0;
 		if (idParameter == null) {
 			newlyAdded = true;
@@ -42,28 +44,20 @@ public class SaveTariffCommand implements Command {
 			id = Integer.valueOf(idParameter);
 			newlyAdded = false;
 		}
-		name = request.getParameter(RequestConstants.NAME);
-		priceParameter = request.getParameter(RequestConstants.PRICE);
-		speedParameter = request.getParameter(RequestConstants.SPEED);
-		trafficParameter = request.getParameter(RequestConstants.TRAFFIC);
-		
+		String name = request.getParameter(RequestConstants.NAME);
+		String priceParameter = request.getParameter(RequestConstants.PRICE);
+		String speedParameter = request.getParameter(RequestConstants.SPEED);
+		String trafficParameter = request.getParameter(RequestConstants.TRAFFIC);
+
 		ControllerAction controllerAction = null;
 		String message =
 		        Validator.validateTariff(name, priceParameter, speedParameter, trafficParameter);
 		if (message == null) {
-			BigDecimal price = null;
-			int speed = 0;
-			int traffic = 0;
-			boolean inactive = false;
-			try {
-				price = new BigDecimal(request.getParameter(RequestConstants.PRICE));
-				speed = Integer.valueOf(request.getParameter(RequestConstants.SPEED));
-				traffic = Integer.valueOf(request.getParameter(RequestConstants.TRAFFIC));
-				inactive = Boolean.valueOf(request.getParameter(RequestConstants.INACTIVE));
-			} catch (NumberFormatException e) {
-				// needed? its already validated
-				message = "incorrect input";
-			}
+			BigDecimal price = new BigDecimal(request.getParameter(RequestConstants.PRICE));
+			int speed = Integer.valueOf(request.getParameter(RequestConstants.SPEED));
+			int traffic = Integer.valueOf(request.getParameter(RequestConstants.TRAFFIC));
+			boolean inactive = Boolean.valueOf(request.getParameter(RequestConstants.INACTIVE));
+			
 			Tariff tariff = new Tariff();
 			tariff.setId(id);
 			tariff.setName(name);
@@ -73,18 +67,30 @@ public class SaveTariffCommand implements Command {
 			tariff.setInactive(inactive);
 			TariffService TariffService = ServiceFactory.getInstance().getTariffService();
 			try {
+				/**
+				 * Redirects the user to the page with tariffs list and notifies him that tariff
+				 * was saved.
+				 */
 				TariffService.saveTariff(tariff, newlyAdded);
-				message = "tariff_saved";
+				message = RequestConstants.TARIFF_SAVED;
 				controllerAction = new ControllerSendRedirect(PageNames.SHOW_TARIFFS_COMMAND + "&"
 				        + RequestConstants.SAVE_TARIFF_MESSAGE + "=" + message);
 			} catch (DuplicateTariffServiceException e) {
-				message = "duplicate_tariff_name";
+				/**
+				 * If the tariff with such a name already exists, leaves the user at the same page saying
+				 * the reason.
+				 */
+				message = RequestConstants.DUPLICATE_TARIFF_NAME;
 				request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
 				controllerAction = new ControllerForward(PageNames.EDIT_TARIFF);
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		} else {
+			/**
+			 * If the tariff's fields validation failed, leaves the user at the same page saying
+			 * what is wrong with the input.
+			 */
 			request.setAttribute(RequestConstants.SAVE_TARIFF_MESSAGE, message);
 			controllerAction = new ControllerForward(PageNames.EDIT_TARIFF);
 		}

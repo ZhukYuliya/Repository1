@@ -30,9 +30,15 @@ import by.newnet.command.impl.ToIndexCommand;
 import by.newnet.command.impl.ToPaymentCommand;
 import by.newnet.command.impl.ToRegistrationCommand;
 
+/**
+ * The Class CommandHelper.
+ */
 public class CommandHelper {
 	private final Map<CommandName, Command> commands = new HashMap<>();
 
+	/**
+	 * Instantiates a new command helper.
+	 */
 	public CommandHelper() {
 		commands.put(CommandName.AUTHENTICATION, new AuthenticationCommand());
 		commands.put(CommandName.TO_REGISTRATION, new ToRegistrationCommand());
@@ -61,6 +67,13 @@ public class CommandHelper {
 		commands.put(CommandName.SAVE_TARIFF, new SaveTariffCommand());
 	}
 
+	/**
+	 * Gets the command.
+	 *
+	 * @param name the name
+	 * @return the command
+	 * @throws IllegalCommandException the illegal command exception
+	 */
 	public Command getCommand(String name) throws IllegalCommandException {
 		try {
 			CommandName commandName = CommandName.valueOf(name.toUpperCase());

@@ -11,6 +11,10 @@ import by.newnet.command.exception.CommandException;
 import by.newnet.controller.ControllerAction;
 import by.newnet.controller.ControllerSendRedirect;
 
+/**
+ * The Class ChangeLocaleCommand. Changes the locale in user's session and redirects him to the last
+ * GET request he made (only GET to avoid problems caused with POST non-idempotence)  
+ */
 public class ChangeLocaleCommand implements Command{
 
 	@Override

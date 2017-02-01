@@ -1,5 +1,8 @@
 package by.newnet.model;
 
+/**
+ * The Enum Role.
+ */
 public enum Role {
 		
 
@@ -7,22 +10,43 @@ public enum Role {
 	
 	private int roleCoef;
 
+	/**
+	 * Instantiates a new role.
+	 */
 	Role() {
 	}
 
+	/**
+	 * Instantiates a new role.
+	 *
+	 * @param roleCoef the role coef
+	 */
 	Role(int roleCoef) {
 		this.roleCoef = roleCoef;
 	}
 
+	/**
+	 * Gets the role coef.
+	 *
+	 * @return the role coef
+	 */
 	public int getRoleCoef() {
 		return roleCoef;
 	}
 
+	/**
+	 * Sets the role coef.
+	 *
+	 * @param roleCoef the new role coef
+	 */
 	// public?
 	public void setRoleCoef(int roleCoef) {
 		this.roleCoef = roleCoef;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString() {
 		return name();

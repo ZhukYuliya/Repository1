@@ -14,8 +14,15 @@ import javax.servlet.http.HttpSession;
 import by.newnet.command.constant.PageNames;
 import by.newnet.command.constant.RequestConstants;
 
+/**
+ * The Class PreviousRequestFilter. Saves in session the last GET request that was made by a user 
+ * for localization purposes.
+ */
 public class PreviousRequestFilter implements Filter {
 
+	/**
+	 * Instantiates a new previous request filter.
+	 */
 	public PreviousRequestFilter() {
 	}
 

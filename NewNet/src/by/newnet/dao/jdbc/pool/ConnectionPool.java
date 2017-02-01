@@ -8,10 +8,13 @@ import java.util.concurrent.BlockingQueue;
 
 import org.apache.log4j.Logger;
 
+/**
+ * The Class ConnectionPool. 
+ */
 public class ConnectionPool {
 	
 	private static final Logger logger = Logger.getLogger(ConnectionPool.class);
-// log only exc or info too?
+
 	private static final ConnectionPool instance = new ConnectionPool();
 
 	private BlockingQueue<Connection> connectionQueue;
@@ -23,10 +26,18 @@ public class ConnectionPool {
 	private String password;
 	private int poolSize;
 
+	/**
+	 * Gets the single instance of ConnectionPool.
+	 *
+	 * @return single instance of ConnectionPool
+	 */
 	public static ConnectionPool getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Instantiates a new connection pool.
+	 */
 	private ConnectionPool() {
 		DBResourceManager dbResourseManager = DBResourceManager.getInstance();
 		this.driverName = dbResourseManager.getValue(DBParameter.DB_DRIVER);
@@ -39,11 +50,18 @@ public class ConnectionPool {
 		} catch (NumberFormatException e) {
 			poolSize = 5;
 		}
-		//to prevent null pointer exc
+		/**
+		 * The queues are created in ConnectionPool constructor to prevent NullPointerException.
+		 */
 		givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
 		connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
 	}
 
+	/**
+	 * Inits the pool data.
+	 *
+	 * @throws ConnectionPoolException the connection pool exception
+	 */
 	public void initPoolData() throws ConnectionPoolException {
 		logger.debug("Trying to initialized connection pool");
 		try {
@@ -57,11 +75,21 @@ public class ConnectionPool {
 		}
 		logger.debug("Connection pool is initialized");
 	}
-//logged in listener
+
+/**
+ * Dispose.
+ *
+ * @throws ConnectionPoolException the connection pool exception
+ */
 	public void dispose() throws ConnectionPoolException {
 		clearConnectionQueue();
 	}
 
+	/**
+	 * Clear connection queue.
+	 *
+	 * @throws ConnectionPoolException the connection pool exception
+	 */
 	private void clearConnectionQueue() throws ConnectionPoolException {
 
 		closeConnectionsQueue(givenAwayConQueue);
@@ -69,6 +97,12 @@ public class ConnectionPool {
 
 	}
 
+	/**
+	 * Close connections queue.
+	 *
+	 * @param queue the queue
+	 * @throws ConnectionPoolException the connection pool exception
+	 */
 	private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws ConnectionPoolException {
 		for (Connection con : queue) {
 			try {
@@ -79,6 +113,12 @@ public class ConnectionPool {
 		}
 	}
 
+	/**
+	 * Take connection.
+	 *
+	 * @return the connection
+	 * @throws ConnectionPoolException the connection pool exception
+	 */
 	public Connection takeConnection() throws ConnectionPoolException {
 		Connection connection;
 		try {
@@ -90,6 +130,12 @@ public class ConnectionPool {
 		return connection;
 	}
 
+	/**
+	 * Release connection.
+	 *
+	 * @param connection the connection
+	 * @throws ConnectionPoolException the connection pool exception
+	 */
 	public void releaseConnection(Connection connection) throws ConnectionPoolException {
 		if (connection == null) {
 			throw new ConnectionPoolException();

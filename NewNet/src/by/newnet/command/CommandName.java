@@ -1,5 +1,8 @@
 package by.newnet.command;
 
+/**
+ * The Enum CommandName.
+ */
 public enum CommandName {
 	AUTHENTICATION,
 	TO_REGISTRATION,

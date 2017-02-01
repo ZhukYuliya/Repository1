@@ -12,6 +12,9 @@ import by.newnet.dao.exception.DAOException;
 import by.newnet.dao.jdbc.constant.TariffsTable;
 import by.newnet.model.Tariff;
 
+/**
+ * The Class TariffJdbcDAO.
+ */
 public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 	public static final String SHOW_TARIFFS = "SELECT * FROM " + TariffsTable.TARIFFS;
 	public static final String UPDATE_TARIFF = "UPDATE " + TariffsTable.TARIFFS + " SET "
@@ -79,7 +82,6 @@ public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 			statement.setBigDecimal(2, tariff.getPrice());
 			statement.setInt(3, tariff.getSpeed());
 			statement.setInt(4, tariff.getTraffic());
-			// bit boolean?
 			statement.setBoolean(5, tariff.isInactive());
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -101,7 +103,6 @@ public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 			statement.setBigDecimal(2, tariff.getPrice());
 			statement.setInt(3, tariff.getSpeed());
 			statement.setInt(4, tariff.getTraffic());
-			// bit boolean?
 			statement.setBoolean(5, tariff.isInactive());
 			statement.setInt(6, tariff.getId());
 			statement.executeUpdate();
@@ -134,6 +135,14 @@ public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 		return tariff;
 	}
 
+	/**
+	 * Fill in current tariff.
+	 *
+	 * @param rs the rs
+	 * @return the tariff
+	 * @throws DAOException the DAO exception
+	 * @throws SQLException the SQL exception
+	 */
 	private Tariff fillInCurrentTariff(ResultSet rs) throws DAOException, SQLException {
 		Tariff tariff = new Tariff();
 		tariff.setId(rs.getInt(TariffsTable.ID));

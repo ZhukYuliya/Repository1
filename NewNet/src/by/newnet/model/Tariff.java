@@ -3,6 +3,9 @@ package by.newnet.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * The Class Tariff.
+ */
 public class Tariff implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -12,42 +15,115 @@ public class Tariff implements Serializable{
 	private int speed;
 	private int traffic;
 	private boolean inactive;
+	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+	
+	/**
+	 * Gets the speed.
+	 *
+	 * @return the speed
+	 */
 	public int getSpeed() {
 		return speed;
 	}
+	
+	/**
+	 * Sets the speed.
+	 *
+	 * @param speed the new speed
+	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	/**
+	 * Gets the traffic.
+	 *
+	 * @return the traffic
+	 */
 	public int getTraffic() {
 		return traffic;
 	}
+	
+	/**
+	 * Sets the traffic.
+	 *
+	 * @param traffic the new traffic
+	 */
 	public void setTraffic(int traffic) {
 		this.traffic = traffic;
 	}
+	
+	/**
+	 * Checks if is inactive.
+	 *
+	 * @return true, if is inactive
+	 */
 	public boolean isInactive() {
 		return inactive;
 	}
+	
+	/**
+	 * Sets the inactive.
+	 *
+	 * @param inactive the new inactive
+	 */
 	public void setInactive(boolean inactive) {
 		this.inactive = inactive;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -60,6 +136,7 @@ public class Tariff implements Serializable{
 		result = prime * result + traffic;
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,6 +166,7 @@ public class Tariff implements Serializable{
 			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
 		return "Tariff [id=" + id + ", name=" + name + ", price=" + price + ", speed=" + speed

@@ -15,6 +15,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class SetContactsCommand. Updates the email and phone of a user
+ */
 public class SetContactsCommand implements Command {
 
 	@Override
@@ -30,11 +33,15 @@ public class SetContactsCommand implements Command {
 			UserService userService = ServiceFactory.getInstance().getUserService();
 			try {
 				userService.setContacts(userId, phone, email);
-				message = "contacts_updated";
+				message = RequestConstants.CONTACTS_UPDATED;
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
 		}
+		/**
+		 * Redirects the user to the same page saying either that the contacts were updated
+		 * or that the contacts validation failed.
+		 */
 		request.setAttribute(RequestConstants.SET_CONTACTS_MESSAGE, message);
 		return new ControllerSendRedirect(PageNames.CHANGE_PERSONAL_DETAILS_COMMAND 
 				+ "&" + RequestConstants.SET_CONTACTS_MESSAGE + "=" + message);

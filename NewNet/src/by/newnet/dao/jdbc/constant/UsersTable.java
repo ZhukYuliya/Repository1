@@ -1,5 +1,8 @@
 package by.newnet.dao.jdbc.constant;
 
+/**
+ * The Class UsersTable. Contains constants for the columns of table "users".
+ */
 public class UsersTable {
 	public static final String USERS = "users";
 	public static final String ID = "id";

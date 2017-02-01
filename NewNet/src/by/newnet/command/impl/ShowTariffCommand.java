@@ -14,6 +14,9 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.TariffService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ShowTariffCommand. Forwards admin to the page with a form for tariff editing/adding.
+ */
 public class ShowTariffCommand implements Command {
 
 	@Override

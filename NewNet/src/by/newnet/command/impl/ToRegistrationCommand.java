@@ -14,6 +14,10 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ToRegistrationCommand. Forwardes a guest to registration page after extracting his 
+ * personal data.
+ */
 public class ToRegistrationCommand implements Command {
 
 	@Override

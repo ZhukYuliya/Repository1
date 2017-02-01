@@ -14,6 +14,10 @@ import by.newnet.service.ServiceFactory;
 import by.newnet.service.UserService;
 import by.newnet.service.exception.ServiceException;
 
+/**
+ * The Class ShowAccountCommand. Shows the home page with account details and 
+ * options to do for each user depending on his role.
+ */
 public class ShowAccountCommand implements Command {
 
 	@Override

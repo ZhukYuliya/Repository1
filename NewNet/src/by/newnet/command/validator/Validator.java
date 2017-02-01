@@ -8,15 +8,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * The Class Validator. Validates all the needed request parameters for commands.
+ */
 public class Validator {
-	/*
-	 * private static final String CONTRACT = "contract"; private static final
-	 * String NAME = "name"; private static final String TARIFF_NAME =
-	 * "tariffName"; private static final String BYN_AMOUNT = "bynAmount";
-	 * private static final String PASSWORD = "password"; private static final
-	 * String EMAIL = "email"; private static final String PHONE = "phone";
-	 */
-
+	
 	public static final Pattern CONTRACT_PATTERN = Pattern.compile("[1-9]\\d{11}");
 	public static final Pattern NAME_PATTERN = Pattern.compile("[À-ß¨][à-ÿ¸]{1,40}");
 	public static final Pattern CARDHOLDER_NAME_PATTERN = Pattern.compile("[A-z]{1,40}");
@@ -28,7 +24,6 @@ public class Validator {
 	        .compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,}");
 	public static final Pattern TARIFF_NAME_PATTERN =
 	        Pattern.compile("[A-ZÀ-ß¨]([A-zÀ-ÿ¨¸\\d ]){1,40}");
-	//check byn pattern
 	public static final Pattern BYN_AMOUNT_PATTERN = Pattern.compile("([1-9]{1}\\d*)|([1-9]\\d*)(\\.\\d{0,2})?");
 	public static final Pattern SPEED_MBPR_PATTERN = Pattern.compile("[1-9]\\d?");
 	public static final Pattern TRAFFIC_PATTERN = Pattern.compile("0|([1-9]\\d?)");
@@ -37,6 +32,12 @@ public class Validator {
 	public static final Pattern MONTH_PATTERN = Pattern.compile("0[1-9]|1[012]");
 	public static final Pattern YEAR_PATTERN = Pattern.compile("[1-2][0-9]");
 
+	/**
+	 * Check empty fields.
+	 *
+	 * @param parameters the parameters
+	 * @return the string
+	 */
 	public static String checkEmptyFields(String... parameters) {
 		String message = null;
 		for (String parameter : parameters) {
@@ -48,6 +49,12 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate contract.
+	 *
+	 * @param contract the contract
+	 * @return the string
+	 */
 	public static String validateContract(String contract) {
 		Matcher contractMatcher = CONTRACT_PATTERN.matcher(contract);
 		if (!contractMatcher.matches()) {
@@ -56,6 +63,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate name.
+	 *
+	 * @param name the name
+	 * @return the string
+	 */
 	public static String validateName(String name) {
 		Matcher nameMatcher = NAME_PATTERN.matcher(name);
 		if (!nameMatcher.matches()) {
@@ -64,6 +77,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate phone.
+	 *
+	 * @param phone the phone
+	 * @return the string
+	 */
 	public static String validatePhone(String phone) {
 		Matcher phoneMatcher = PHONE_PATTERN.matcher(phone);
 		if (!phoneMatcher.matches()) {
@@ -72,6 +91,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate email.
+	 *
+	 * @param email the email
+	 * @return the string
+	 */
 	public static String validateEmail(String email) {
 		Matcher emailMatcher = EMAIL_PATTERN.matcher(email);
 		if (!emailMatcher.matches()) {
@@ -80,6 +105,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate tariff name.
+	 *
+	 * @param tariffName the tariff name
+	 * @return the string
+	 */
 	public static String validateTariffName(String tariffName) {
 		Matcher tariffNameMatcher = TARIFF_NAME_PATTERN.matcher(tariffName);
 		if (!tariffNameMatcher.matches()) {
@@ -88,6 +119,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate byn amount.
+	 *
+	 * @param bynAmount the byn amount
+	 * @return the string
+	 */
 	public static String validateBynAmount(String bynAmount) {
 		Matcher bynMatcher = BYN_AMOUNT_PATTERN.matcher(bynAmount);
 		if (!bynMatcher.matches()) {
@@ -96,6 +133,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate password.
+	 *
+	 * @param password the password
+	 * @return the string
+	 */
 	public static String validatePassword(String password) {
 		Matcher passwordMatcher = PASSWORD_PATTERN.matcher(password);
 		if (!passwordMatcher.matches()) {
@@ -104,6 +147,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate speed.
+	 *
+	 * @param speed the speed
+	 * @return the string
+	 */
 	public static String validateSpeed(String speed) {
 		Matcher speedMatcher = SPEED_MBPR_PATTERN.matcher(speed);
 		if (!speedMatcher.matches()) {
@@ -112,6 +161,12 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate traffic.
+	 *
+	 * @param traffic the traffic
+	 * @return the string
+	 */
 	public static String validateTraffic(String traffic) {
 		Matcher trafficMatcher = TRAFFIC_PATTERN.matcher(traffic);
 		if (!trafficMatcher.matches()) {
@@ -120,6 +175,13 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Compare new passwords.
+	 *
+	 * @param password the password
+	 * @param reenterPassword the reenter password
+	 * @return the string
+	 */
 	public static String compareNewPasswords(String password, String reenterPassword) {
 		if (!password.equals(reenterPassword)) {
 			return "different_passwords";
@@ -127,6 +189,13 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Compare old new passwords.
+	 *
+	 * @param oldpassword the oldpassword
+	 * @param newPassword the new password
+	 * @return the string
+	 */
 	public static String compareOldNewPasswords(String oldpassword, String newPassword) {
 		if (oldpassword.equals(newPassword)) {
 			return "old_new_passwords_must_be_different";
@@ -134,6 +203,15 @@ public class Validator {
 		return null;
 	}
 
+	/**
+	 * Validate registration.
+	 *
+	 * @param password the password
+	 * @param reenterPassword the reenter password
+	 * @param phone the phone
+	 * @param email the email
+	 * @return the string
+	 */
 	public static String validateRegistration(String password, String reenterPassword, String phone,
 	        String email) {
 		String message = checkEmptyFields(password, reenterPassword, phone, email);
@@ -152,6 +230,14 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate new contract.
+	 *
+	 * @param contract the contract
+	 * @param firstName the first name
+	 * @param secondName the second name
+	 * @return the string
+	 */
 	public static String validateNewContract(String contract, String firstName, String secondName) {
 		String message = checkEmptyFields(contract, firstName, secondName);
 		if (message == null) {
@@ -166,6 +252,16 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate save user.
+	 *
+	 * @param account the account
+	 * @param firstName the first name
+	 * @param secondName the second name
+	 * @param phone the phone
+	 * @param email the email
+	 * @return the string
+	 */
 	public static String validateSaveUser(String account, String firstName, String secondName,
 	        String phone, String email) {
 		String message = checkEmptyFields(account, firstName, secondName, phone, email);
@@ -187,6 +283,15 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate request.
+	 *
+	 * @param firstName the first name
+	 * @param email the email
+	 * @param phone the phone
+	 * @param address the address
+	 * @return the string
+	 */
 	public static String validateRequest(String firstName, String email, String phone,
 	        String address) {
 		String message = checkEmptyFields(firstName, email, phone, address);
@@ -202,6 +307,15 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate tariff.
+	 *
+	 * @param name the name
+	 * @param priceParameter the price parameter
+	 * @param speedParameter the speed parameter
+	 * @param trafficParameter the traffic parameter
+	 * @return the string
+	 */
 	public static String validateTariff(String name, String priceParameter, String speedParameter,
 	        String trafficParameter) {
 		String message = checkEmptyFields(name, priceParameter, speedParameter, trafficParameter);
@@ -220,6 +334,13 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate contacts.
+	 *
+	 * @param phone the phone
+	 * @param email the email
+	 * @return the string
+	 */
 	public static String validateContacts(String phone, String email) {
 		String message = checkEmptyFields(phone, email);
 		if (message == null) {
@@ -231,6 +352,14 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate password update.
+	 *
+	 * @param oldPassword the old password
+	 * @param newPassword the new password
+	 * @param reenterNewPassword the reenter new password
+	 * @return the string
+	 */
 	public static String validatePasswordUpdate(String oldPassword, String newPassword,
 	        String reenterNewPassword) {
 		String message = checkEmptyFields(oldPassword, newPassword, reenterNewPassword);
@@ -246,6 +375,18 @@ public class Validator {
 		return message;
 	}
 
+	/**
+	 * Validate card details.
+	 *
+	 * @param number the number
+	 * @param expirationMonth the expiration month
+	 * @param expirationYear the expiration year
+	 * @param securityCode the security code
+	 * @param firstName the first name
+	 * @param secondName the second name
+	 * @param amount the amount
+	 * @return the string
+	 */
 	public static String validateCardDetails(String number, String expirationMonth,
 	        String expirationYear, String securityCode, String firstName, String secondName,
 	        String amount) {
