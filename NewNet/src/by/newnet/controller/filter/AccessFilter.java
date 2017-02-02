@@ -48,7 +48,9 @@ public class AccessFilter implements Filter {
 		guestCommands.add(CommandName.TO_REGISTRATION.toString());
 
 		loggedUserCommands = new HashSet<String>();
-		loggedUserCommands.addAll(guestCommands);
+		loggedUserCommands.add(CommandName.TO_INDEX.toString());
+		loggedUserCommands.add(CommandName.CHANGE_LOCALE.toString());
+		loggedUserCommands.add(CommandName.SHOW_TARIFFS.toString());
 		loggedUserCommands.add(CommandName.TO_PERSONAL_DETAILS.toString());
 		loggedUserCommands.add(CommandName.LOG_OUT.toString());
 		loggedUserCommands.add(CommandName.SET_CONTACTS.toString());

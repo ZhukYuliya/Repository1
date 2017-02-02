@@ -68,7 +68,7 @@
 				</form>
 			</c:if>
 			<c:if test="${not empty param.saveTariffMessage}">
-				<span><fmt:message key="${param.saveTariffMessage}" /></span>
+				<p><fmt:message key="${param.saveTariffMessage}" /></p>
 			</c:if>
 			<br>
 			<c:if test="${not empty sessionScope.user}"><br>
@@ -78,7 +78,7 @@
 					<select name="newTariff">
 						<c:forEach var="tariff" items="${tariffsList}">
 							<c:if
-								test="${user.isAdmin()&& tariff.inactive || !tariff.inactive}">
+								test="${user.isAdmin()&&tariff.inactive || !tariff.inactive}">
 								<option value="${tariff.id}">${tariff.name}</option>
 							</c:if>
 						</c:forEach>

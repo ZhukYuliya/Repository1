@@ -25,6 +25,11 @@
 				<input type="hidden" name="command" value="show_tariffs" /> <input
 					type="submit" value='<fmt:message key="show_tariffs"/> ' />
 			</form>
+			<form action="${contextPath}/controller" method="get">
+				<input type="hidden" name="command" value="to_personal_details" />
+				<input type="submit"
+				value='<fmt:message key="change_contacts_password"/> ' />
+			</form>
 		</div>
 	</section>
 	<%@include file="/WEB-INF/jspf/account.jspf"%>

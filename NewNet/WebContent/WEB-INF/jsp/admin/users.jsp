@@ -17,7 +17,9 @@
 			<fmt:message key="admin_ineditable" />
 		</h1>
 		<c:if test="${not empty param.userEditingMessage}">
+			<br>
 			<span><fmt:message key="${param.userEditingMessage}" /></span>
+			<br>
 		</c:if>
 		<table>
 			<tr>

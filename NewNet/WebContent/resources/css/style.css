@@ -357,6 +357,9 @@ body .wrapper{
 	margin: 30px;
 	width: 300px;
 }
+#view .options{
+	margin-bottom:130px;
+}
 #home .options input[type=submit]{
 	display:block;
 	margin: 10px;
@@ -410,8 +413,8 @@ body .wrapper{
     border: 3px solid #226494;
     background: #BCD0E4;
 	border-radius: 20px;
-	padding: 20px;
-	margin: 30px;  
+	padding: 10px;
+	margin: 10px;  
 }
 footer{ 
     width:100%; 

@@ -66,7 +66,8 @@
 			<br /> <span class="small"><fmt:message key="slogan_small" /></span>
 		</div>
 	</div>
-	</section></c:if> <a name="about-company"></a> <section id="internettop">
+	</section></c:if>
+	<section id="internettop">
 	<div class="wrapper">
 		<div class="img">
 			<img src="${contextPath}/resources/img/globe.jpg" />
@@ -84,7 +85,8 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
-	</section> <a name="advantages"></a> <section id="advantages">
+	</section>
+	<section id="advantages">
 	<div class="wrapper">
 		<div class="top_title">
 			<fmt:message key="advantages" />
@@ -103,7 +105,8 @@
 			</table>
 		</div>
 	</div>
-	</section> <a name="order"></a><section id="order">
+	</section> 
+	<section id="order">
 	<div class="wrapper">
 		<div class="top_title">
 			<fmt:message key="place_order" />
@@ -125,7 +128,8 @@
 				value='<fmt:message key="post_request_button"/> ' />
 		</form>
 	</div>
-	</section> <a name="tariffs"></a> <section id="tariffs">
+	</section> 
+	<section id="tariffs">
 	<div class="wrapper">
 		<div class="top_title">
 			<fmt:message key="tariffs"/>
@@ -171,7 +175,8 @@
 		<a href="${contextPath}/controller?command=show_tariffs"><br>
 		<fmt:message key="click_for_tariffs" /> </a>
 	</div>
-	</section> <a name="subscribe"></a> <section id="scheme">
+	</section> 
+	<section id="scheme">
 	<div class="wrapper">
 		<div class="top_title">
 			<fmt:message key="procedure" />
@@ -190,7 +195,8 @@
 			</table>
 		</div>
 	</div>
-	</section> <a name="contacts"></a> <section id="contacts" class="map">
+	</section> 
+	<section id="contacts" class="map">
 	<div class="wrapper">
 		<div class="img">
 			<img src="${contextPath}/resources/img/map.png" />

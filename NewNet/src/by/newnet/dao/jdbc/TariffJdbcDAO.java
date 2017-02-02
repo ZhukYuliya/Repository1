@@ -19,7 +19,7 @@ public class TariffJdbcDAO extends BaseJdbcDAO implements TariffDAO {
 	public static final String SHOW_TARIFFS = "SELECT * FROM " + TariffsTable.TARIFFS;
 	public static final String UPDATE_TARIFF = "UPDATE " + TariffsTable.TARIFFS + " SET "
 	        + TariffsTable.NAME + "=?, " + TariffsTable.PRICE + "=?, " + TariffsTable.SPEED + "=?, "
-	        + TariffsTable.TRAFFIC + "=?, " + TariffsTable.INACTIVE + "=?, WHERE" + TariffsTable.ID
+	        + TariffsTable.TRAFFIC + "=?, " + TariffsTable.INACTIVE + "=? WHERE " + TariffsTable.ID
 	        + "=?";
 	public static final String ADD_TARIFF = "INSERT INTO " + TariffsTable.TARIFFS + " (" + TariffsTable.NAME + ","
 	        + TariffsTable.PRICE + "," + TariffsTable.SPEED + "," + TariffsTable.TRAFFIC + ","

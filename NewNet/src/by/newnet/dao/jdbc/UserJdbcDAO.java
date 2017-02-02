@@ -64,7 +64,7 @@ public class UserJdbcDAO extends BaseJdbcDAO implements UserDAO {
 	public static final String COUNT_USERS = "SELECT COUNT(*)  FROM " + UsersTable.USERS;
 	public static final String SHOW_USERS_PAGINATED = "SELECT *  FROM " + UsersTable.USERS
 	        + " JOIN " + RolesTable.ROLES + " ON " + UsersTable.USERS + "." + UsersTable.ROLE
-	        + " = " + RolesTable.ROLES + "." + RolesTable.ID + " JOIN " + TariffsTable.TARIFFS
+	        + " = " + RolesTable.ROLES + "." + RolesTable.ID + " LEFT JOIN " + TariffsTable.TARIFFS
 	        + " ON " + UsersTable.USERS + "." + UsersTable.TARIFF + " = " + TariffsTable.TARIFFS
 	        + "." + TariffsTable.ID + " ORDER BY " + UsersTable.ID + " LIMIT ?,?";
 	public static final String SHOW_USERS = "SELECT *  FROM " + UsersTable.USERS + " JOIN "
