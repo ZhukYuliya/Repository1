@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc.constant;
+package dao.jdbc.constant;
 
 /**
  * The Class CardsTable. Contains constants for the columns of table "cards".

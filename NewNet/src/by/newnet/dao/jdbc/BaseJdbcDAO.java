@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,9 +6,9 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.pool.ConnectionPool;
-import by.newnet.dao.jdbc.pool.ConnectionPoolException;
+import dao.exception.DAOException;
+import dao.jdbc.pool.ConnectionPool;
+import dao.jdbc.pool.ConnectionPoolException;
 
 /**
  * The Class BaseJdbcDAO. The parent class to RequestJdbcDAO, TariffJdbcDAO, UserJdbcDAO. 

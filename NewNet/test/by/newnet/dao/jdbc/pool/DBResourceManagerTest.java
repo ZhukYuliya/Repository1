@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc.pool;
+package dao.jdbc.pool;
 
 import org.junit.Assert;
 import org.junit.Test;

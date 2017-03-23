@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.newnet.dao.TariffDAO;
-import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.constant.TariffsTable;
-import by.newnet.model.Tariff;
+import dao.TariffDAO;
+import dao.exception.DAOException;
+import dao.jdbc.constant.TariffsTable;
+import model.Tariff;
 
 /**
  * The Class TariffJdbcDAO.

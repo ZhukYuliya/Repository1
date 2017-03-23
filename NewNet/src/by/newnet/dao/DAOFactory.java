@@ -1,8 +1,8 @@
-package by.newnet.dao;
+package dao;
 
-import by.newnet.dao.jdbc.RequestJdbcDAO;
-import by.newnet.dao.jdbc.TariffJdbcDAO;
-import by.newnet.dao.jdbc.UserJdbcDAO;
+import dao.jdbc.RequestJdbcDAO;
+import dao.jdbc.TariffJdbcDAO;
+import dao.jdbc.UserJdbcDAO;
 
 /**
  * A factory for creating DAO objects.

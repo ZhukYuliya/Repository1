@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc.pool;
+package dao.jdbc.pool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc.pool;
+package dao.jdbc.pool;
 
 /**
  * The Class DBParameter.

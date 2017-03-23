@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc;
+package dao.jdbc;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,18 +12,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import by.newnet.command.constant.RequestConstants;
-import by.newnet.dao.UserDAO;
-import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.exception.FailedPaymentDAOException;
-import by.newnet.dao.jdbc.constant.CardsTable;
-import by.newnet.dao.jdbc.constant.RolesTable;
-import by.newnet.dao.jdbc.constant.TariffsTable;
-import by.newnet.dao.jdbc.constant.UsersTable;
-import by.newnet.model.CreditCard;
-import by.newnet.model.Role;
-import by.newnet.model.Tariff;
-import by.newnet.model.User;
+import command.constant.RequestConstants;
+import dao.UserDAO;
+import dao.exception.DAOException;
+import dao.exception.FailedPaymentDAOException;
+import dao.jdbc.constant.CardsTable;
+import dao.jdbc.constant.RolesTable;
+import dao.jdbc.constant.TariffsTable;
+import dao.jdbc.constant.UsersTable;
+import model.CreditCard;
+import model.Role;
+import model.Tariff;
+import model.User;
 
 /**
  * The Class UserJdbcDAO.

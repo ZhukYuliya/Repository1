@@ -1,0 +1,450 @@
+@font-face {
+    font-family: ExoRegular;
+    src: url(../fonts/Exo2.0-Regular.otf);
+    font-style: normal;
+}
+html{
+	height: 100%; 
+ 	position:relative; 
+}
+body,input{
+    font-family: ExoRegular; 
+    color:#262626;
+}
+body { 
+    width:auto; 
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+    padding: 0px;
+	margin: 0px;
+}
+main { 
+	top:80px;
+	position:relative;
+} 
+body .wrapper{
+    position:relative;
+}
+
+.top_title{ text-align:center; font-size:32px; line-height:36px;}
+
+
+#wrappertop{
+    text-align:center; padding:100px; 
+}
+
+#wrappertop .logo {
+    text-align: left;
+    width:100%;
+    transition: width 2s ease-in-out;
+}
+
+#wrappertop .logo:hover {
+    width:200%;
+}
+
+#wrappertop .contact {
+    position: absolute;
+    top: 100px;
+    left: 368px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+}
+
+#wrappertop .contact .phone {
+    font-size: 22px;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+#wrappertop .contact .text {
+    font-size: 12px;
+}
+
+#wrappertop .login {
+    position: absolute;
+    left: 350px;
+    top: 56px;
+    font-size: 16px;
+    color: #0f75bc;
+    line-height: 26px;
+    padding-left: 17px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#wrappertop .register {
+    position: absolute;
+    right: 0px;
+    top: 38px;
+    font-size: 16px;
+    color: #0f75bc;
+    line-height: 26px;
+    padding-left: 1px;
+    cursor: pointer;
+}
+
+#wrappertop form input[type="submit"] {
+    display: block;
+    width: 100px;
+    height: 40px;
+    border: 0px;
+    font-size: 10px;
+    font-weight: 200;
+    color: #fff;
+    background: #226494;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-left: 100px;
+    margin-top: 14px;
+}
+
+#wrappertop .slogan {
+    text-align: center;
+    font-size: 30px;
+    line-height: 42px;
+    margin-top: 70px;
+    font-weight: 600;
+}
+
+#internettop{
+    text-align:center; padding-left:100px; 
+}
+#internettop .img{
+    float:left;
+}
+
+ 
+#internettop .text{
+    margin-right: 100px;
+    font-size: 17px;
+    line-height: 28px;
+    padding-top: 23px;
+}
+
+#internettop .text .p {
+    display: block;
+}
+#internettop .clearfix::after {
+    content:"";
+    display: block;
+    clear:both;
+}
+
+#advantages{ 
+    text-align:center; 
+    padding-top:22px; 
+    padding-bottom:66px;
+}
+#advantages .top_title{ 
+    margin-top:70px; 
+    margin-bottom:17px;
+}
+#advantages .img{ 
+    margin-bottom:10px; 
+    text-align:center;
+}
+#advantages table{ 
+    width:80%; 
+    text-align:center; 
+    margin-left:150px; 
+}
+#advantages table td{ 
+    font-size:15px; 
+    line-height:26px;
+    text-align:center;
+}
+
+#order {    
+    height: 300px;
+    width: 100%; 
+    padding-top:55px; 
+    text-align:right; 
+    margin-bottom:30px; 
+    background:url(../img/typing.png) no-repeat center; 
+}
+#order .top_title{ 
+    margin-bottom:50px; 
+    margin-right:80px; 
+    text-align:right;
+}
+
+#order .small {
+    font-size: 20px;
+    line-height: 40px;
+    margin-bottom: 31px;
+    margin-right:50px; 
+
+}
+#order form input.text {
+    width: 257px;
+    height: 46px;
+    padding: 0px 18px;
+    border-radius: 5px;
+    border: 1px solid #cee1ee;
+    margin-right: 14px;
+    margin-bottom: 9px;
+    outline: none;
+}
+#order form input.text, textarea {
+    font-family: inherit;
+    border: 1px solid #abaea2;
+    border-radius: 2px;
+    background: #FFF;
+    height: 23px;
+    padding: 0 5px;
+    margin: 3px 0;
+}
+
+#order form input[type="submit"] {
+    display: block;
+    width: 150px;
+    height: 50px;
+    border: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: #226494;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-left: 200px;
+    margin-top: 14px;
+}
+
+#tariffs{ 
+    padding-top:55px; 
+    text-align:center; 
+    margin-bottom:30px; 
+}
+#tariffs .top_title{ 
+    margin-bottom:48px;
+}
+#tariffs .item{ 
+    display:inline-block; 
+    width:280px; 
+    border:1px solid #c9d7e3; 
+    border-radius:6px; 
+    vertical-align:top; 
+    padding:25px 0px 28px;
+}
+#tariffs .item .title{ 
+    font-size:22px; 
+    line-height:30px; 
+    font-weight:600; 
+    text-transform:uppercase; 
+    padding-bottom:25px;
+}
+#tariffs .item .price{ 
+    color:#138de1; 
+    padding-bottom:23px;
+}
+#tariffs .item .price .num{ 
+    font-size:38px; 
+    line-height:26px; 
+    font-weight:600;
+}
+#tariffs .item .price .small{ 
+    font-size:14px; 
+    line-height:26px;
+}
+#tariffs .item .descr{ 
+    font-size:13px; 
+    line-height:24px; 
+    margin-bottom:22px;
+}
+#tariffs a{ 
+    width:236px; 
+    height:47px; 
+    border:0px;
+    font-size:20px; 
+    font-weight:600; 
+    color:#fff; 
+    background:#226494; 
+    cursor:pointer; 
+    text-transform:uppercase;
+}
+#tariffs a:hover{
+    background:#d94535; 
+}
+
+#scheme{ 
+    text-align:center; 
+    padding-top:22px; 
+    padding-bottom:66px;
+}
+#scheme .top_title{ 
+    margin-top:70px; 
+    margin-bottom:17px;
+}
+#scheme .img{
+    margin-bottom:10px; 
+    text-align:center;
+}
+#scheme table{ 
+    width:77%; 
+    text-align:center; 
+    margin-left:150px;
+}
+#scheme table td{ 
+    vertical-align:top; 
+    font-size:13px; 
+    line-height:26px; 
+    text-align:center;
+}
+
+#contacts { 
+    width:100%; 
+    height:100%; 
+    left:0px; 
+    top:0px; 
+    z-index:2; 
+    background:#F3F3F3;
+}
+#contacts .img {
+    float:right;
+}
+#contacts .wrapper .block{ 
+    color:#fff; 
+    font-size:13px; 
+    line-height:24px; 
+    background: #226494; 
+    width:310px; 
+    margin-left:130px; 
+    padding:5px 0px 5px 33px; 
+    position:absolute;
+}
+#contacts .wrapper .block strong{ 
+    font-size:14px; 
+    font-weight:600;
+}
+#contacts .wrapper .block p{ 
+    margin:5px 0; 
+}
+#contacts .clearfix::after {
+    content:"";
+    display: block;
+    clear:both;
+}
+
+#account, #home, #edit, #view  { 
+    width:100%; 
+    height:100%; 
+    left:0px; 
+    top:0px; 
+    z-index:2;
+    margin:50px; 
+}
+#edit span{
+	margin-left:50px;
+}
+#home h1, #view h1, #edit h1{
+	font-size: 22px;
+	width:auto;
+    color:black;
+    margin-left:30px;
+    padding-bottom: 20px;
+	display: inline-block;
+}
+#home .options, #view .options{
+	background: #BCD0E4;
+	border-radius: 20px;
+	padding: 20px;
+	margin: 30px;
+	width: 300px;
+}
+#view .options{
+	margin-bottom:130px;
+}
+#home .options input[type=submit]{
+	display:block;
+	margin: 10px;
+}
+
+#account span{
+	width:auto;
+    color:black;
+    margin-left:30px;
+    padding-bottom: 20px;
+	display: inline-block;
+}
+
+#account table {
+    border-collapse: collapse;
+}
+#account table, #account th, #account td { 
+    width:50%; 
+    text-align:center; 
+    margin-left:30px;
+    margin-bottom:20px;
+    border: 3px solid #226494;  
+}
+#view table, #view td{
+	width:90%; 
+    text-align:left; 
+    margin-left:30px;
+    margin-bottom:20px;
+    border: 3px solid #226494;
+    border-collapse: collapse; 
+    font-size: 12px;  
+}
+#view td{
+	width:auto;
+}
+#view th{
+	text-align:center; 
+}
+#view tr:nth-child(even) {background-color: #BCD0E4}
+}
+
+#view .pagination {
+	display:inline;
+	margin:30px;
+}
+
+#edit table{
+	width: auto;
+    text-align: left;
+    margin-left: 50px;
+    border: 3px solid #226494;
+    background: #BCD0E4;
+	border-radius: 20px;
+	padding: 10px;
+	margin: 10px;  
+}
+footer{ 
+    width:100%; 
+    height: 37px; 
+    margin: auto; 
+    padding: 0px; 
+    font-size:12px; 
+    background:url(../img/footer.png) no-repeat center; 
+    color:#fff;
+    position:absolute; 
+    bottom:0;
+    position:fixed;  
+}
+
+footer .copy{ 
+    position:absolute; 
+    top:7px; 
+    left:10px;  
+}
+footer .social{
+	padding-right:10px;  
+    float: right;
+    }
+
+footer .social img{
+	height:30px;
+	margin-left:4px;
+	margin-top:3px;
+    }
+footer a{ 
+    color:#fff;
+}
+

@@ -1,13 +1,13 @@
-package by.newnet.controller.listener;
+package controller.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 
-import by.newnet.dao.jdbc.pool.ConnectionPool;
-import by.newnet.dao.jdbc.pool.ConnectionPoolException;
-import by.newnet.timer.DailyFeeScheduler;
+import dao.jdbc.pool.ConnectionPool;
+import dao.jdbc.pool.ConnectionPoolException;
+import timer.DailyFeeScheduler;
 
 /**
  * The listener interface for receiving servletInit events. The class that is

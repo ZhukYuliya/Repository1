@@ -1,4 +1,4 @@
-package by.newnet.dao.jdbc;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.newnet.dao.RequestDAO;
-import by.newnet.dao.exception.DAOException;
-import by.newnet.dao.jdbc.constant.RequestsTable;
-import by.newnet.model.Request;
-import by.newnet.model.RequestStatus;
+import dao.RequestDAO;
+import dao.exception.DAOException;
+import dao.jdbc.constant.RequestsTable;
+import model.Request;
+import model.RequestStatus;
 
 /**
  * The Class RequestJdbcDAO.
