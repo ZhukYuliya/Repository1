@@ -7,7 +7,9 @@
 
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-		<param-value>resources.localization</param-value>
+		<param-value>localization</param-value>
+			<!-- 	<param-value>resources.localization</param-value> -->
+		
 	</context-param>
 
 	<servlet>

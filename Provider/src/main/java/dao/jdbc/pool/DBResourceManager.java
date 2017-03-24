@@ -14,7 +14,7 @@ public class DBResourceManager {
 	 * Instantiates a new DB resource manager.
 	 */
 	private DBResourceManager() {
-		bundle = ResourceBundle.getBundle("resources.db");
+		bundle = ResourceBundle.getBundle("db");
 	}
 
 	/**
